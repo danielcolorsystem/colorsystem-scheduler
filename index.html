@@ -1,0 +1,1278 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Colorsystem Scheduler v4</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:13px;color:#1a1a1a;background:#f0efe9;}
+:root{
+  --bg:#fff;--bg2:#f0efe9;--bg3:#e8e7e1;
+  --bgi:#e6f1fb;--bgs:#eaf3de;--bgw:#faeeda;--bgd:#fcebeb;--bgp:#eeedfe;
+  --tx:#1a1a1a;--tx2:#555;--tx3:#999;
+  --txi:#185fa5;--txs:#3b6d11;--txw:#854f0b;--txd:#a32d2d;--txp:#534ab7;
+  --bd:#d0d0c8;--bd2:#b0b0a8;
+  --bdi:#85b7eb;--bds:#97c459;--bdw:#fac775;--bdd:#f09595;--bdp:#afa9ec;
+  --r:8px;--rl:12px;
+}
+.topbar{background:var(--bg);border-bottom:1px solid var(--bd);padding:10px 20px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:200;box-shadow:0 1px 4px rgba(0,0,0,.07);}
+.logo{font-size:16px;font-weight:700;letter-spacing:-.4px;}.logo span{color:var(--txi);}
+.topbar-title{font-size:12px;color:var(--tx2);}
+.tabs{display:flex;gap:6px;margin-left:auto;}
+.tab{padding:6px 16px;border-radius:var(--r);font-size:12px;cursor:pointer;border:1px solid transparent;color:var(--tx2);transition:all .15s;}
+.tab.active{background:var(--bgi);color:var(--txi);border-color:var(--bdi);}
+.tab:not(.active):hover{background:var(--bg2);}
+.screen{display:none;}.screen.active{display:block;}
+.section{background:var(--bg);border-bottom:1px solid var(--bd);padding:12px 20px;}
+.slabel{font-size:10px;font-weight:700;color:var(--tx3);text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;}
+.section-actions{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
+.frow{display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
+.finput{height:34px;font-size:12px;padding:0 10px;border:1px solid var(--bd);border-radius:var(--r);background:var(--bg);color:var(--tx);font-family:inherit;}
+.finput:focus{border-color:var(--bdi);outline:none;box-shadow:0 0 0 3px rgba(24,95,165,.1);}
+.btn{height:32px;padding:0 12px;border-radius:var(--r);font-size:12px;cursor:pointer;border:1px solid var(--bd);background:var(--bg);color:var(--tx);display:inline-flex;align-items:center;gap:5px;transition:all .15s;white-space:nowrap;font-family:inherit;}
+.btn:hover{background:var(--bg2);border-color:var(--bd2);}
+.btn:active{transform:scale(.98);}
+.btn:disabled{opacity:.35;cursor:not-allowed;pointer-events:none;}
+.btn.primary{background:var(--bgi);color:var(--txi);border-color:var(--bdi);}
+.btn.success{background:var(--bgs);color:var(--txs);border-color:var(--bds);}
+.btn.warning{background:var(--bgw);color:var(--txw);border-color:var(--bdw);}
+.btn.danger{color:var(--txd);border-color:var(--bdd);}
+.btn.danger:hover{background:var(--bgd);}
+.btn.purple{background:var(--bgp);color:var(--txp);border-color:var(--bdp);}
+.btn.sm{height:26px;padding:0 8px;font-size:11px;}
+.badge{display:inline-block;padding:2px 7px;border-radius:100px;font-size:10px;font-weight:700;}
+.bdg-pending{background:#faeeda;color:#854f0b;}
+.bdg-partial{background:#e6f1fb;color:#185fa5;}
+.bdg-urgent{background:#fcebeb;color:#a32d2d;}
+.bdg-new{background:#eaf3de;color:#3b6d11;}
+.bdg-edited{background:#faeeda;color:#854f0b;cursor:pointer;}
+.bdg-split{background:#eeedfe;color:#534ab7;}
+
+/* OP LIST */
+.op-list{padding:16px 20px;}
+.op-table{width:100%;border-collapse:collapse;background:var(--bg);border-radius:var(--rl);overflow:hidden;border:1px solid var(--bd);}
+.op-table th{font-size:11px;font-weight:700;color:var(--tx2);text-align:left;padding:9px 12px;background:var(--bg2);border-bottom:1px solid var(--bd);}
+.op-table td{padding:9px 12px;border-bottom:1px solid var(--bd);font-size:12px;vertical-align:middle;}
+.op-table tr:last-child td{border-bottom:none;}
+.op-table tr:hover td{background:var(--bg2);cursor:pointer;}
+
+/* OP HEADER */
+.op-hdr{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;}
+.op-fld{background:var(--bg2);border-radius:var(--r);padding:8px 10px;}
+.op-fld-l{font-size:10px;color:var(--tx3);text-transform:uppercase;letter-spacing:.4px;font-weight:700;margin-bottom:2px;}
+.op-fld-v{font-size:13px;font-weight:700;}.op-fld-v.danger{color:var(--txd);}
+
+/* TIME FIELDS */
+.tw{display:inline-flex;align-items:center;gap:1px;border:1px solid transparent;border-radius:5px;background:transparent;padding:0 2px;}
+.tw:focus-within{border-color:var(--bdi);background:var(--bg);}
+.th,.tm{height:26px;border:none;background:transparent;text-align:center;font-size:11px;color:var(--tx);font-family:inherit;outline:none;padding:0;-moz-appearance:textfield;appearance:textfield;}
+.th::-webkit-outer-spin-button,.th::-webkit-inner-spin-button,.tm::-webkit-outer-spin-button,.tm::-webkit-inner-spin-button{-webkit-appearance:none;margin:0;}
+.th{width:30px;}.tm{width:26px;}
+.tsep{font-size:11px;color:var(--tx3);user-select:none;line-height:26px;}
+
+/* ACTIVITY TABLE */
+.act-wrap{overflow-x:auto;}
+.act-tbl{width:100%;border-collapse:collapse;min-width:1300px;}
+.act-tbl th{font-size:10px;font-weight:700;color:var(--tx2);text-align:left;padding:7px 6px;background:var(--bg2);border-bottom:1px solid var(--bd);border-top:1px solid var(--bd);white-space:nowrap;}
+.act-tbl th.grp-co{background:#f5f0e8;border-left:2px solid #e5d9c0;}
+.act-tbl th.grp-su{background:#eef5e8;border-left:2px solid #c8ddb5;}
+.act-tbl th.grp-pr{background:#e8eef5;border-left:2px solid #b5c8dd;}
+.act-tbl td{padding:4px 6px;border-bottom:1px solid var(--bd);font-size:12px;vertical-align:middle;}
+.act-tbl td.grp-co{background:#fdf9f2;border-left:2px solid #e5d9c0;}
+.act-tbl td.grp-su{background:#f5faf0;border-left:2px solid #c8ddb5;}
+.act-tbl td.grp-pr{background:#f0f5fa;border-left:2px solid #b5c8dd;}
+.act-tbl tr.deleted td{opacity:.35;}
+.act-tbl tr.deleted td *{text-decoration:line-through;}
+.act-tbl tr.highlighted{background:#fffbf0!important;}
+.act-tbl tr:hover td{filter:brightness(.97);}
+.act-tbl tr.deleted:hover td{filter:none;}
+.act-tbl tr.dragging{opacity:.3;}
+.act-tbl tr.drag-over td{border-top:2px solid var(--txi);}
+.act-tbl input,.act-tbl select{width:100%;height:26px;font-size:11px;padding:0 5px;border:1px solid transparent;border-radius:4px;background:transparent;color:var(--tx);font-family:inherit;}
+.act-tbl input:focus,.act-tbl select:focus{border-color:var(--bdi);background:var(--bg);outline:none;}
+.seq-num{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;background:var(--bgi);color:var(--txi);font-size:10px;font-weight:700;}
+.seq-num.ns{background:var(--bgs);color:var(--txs);}
+.seq-num.ss{background:var(--bgp);color:var(--txp);}
+.drag-handle{cursor:grab;color:var(--tx3);font-size:15px;padding:0 3px;}
+.act-badges{display:flex;gap:3px;margin-top:1px;}
+.act-btns{display:flex;gap:2px;align-items:center;flex-wrap:wrap;}
+.dep-chip{font-size:10px;color:var(--txi);cursor:pointer;display:inline-flex;align-items:center;gap:2px;padding:2px 5px;border-radius:4px;border:1px solid transparent;}
+.dep-chip:hover{border-color:var(--bdi);background:var(--bgi);}
+.dep-chip.empty{color:var(--tx3);}
+
+/* COMPONENT GROUP ROW */
+.comp-row td{background:var(--bg2);font-size:10px;font-weight:700;color:var(--tx3);text-transform:uppercase;letter-spacing:.5px;padding:4px 8px;border-bottom:1px solid var(--bd);}
+.comp-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:5px;vertical-align:middle;}
+
+/* ADD ROW */
+.add-row{display:flex;gap:6px;align-items:flex-end;flex-wrap:wrap;padding:8px 0 2px;}
+.add-field{display:flex;flex-direction:column;gap:3px;}
+.add-field label{font-size:10px;color:var(--tx3);font-weight:700;text-transform:uppercase;letter-spacing:.4px;}
+.tw-box{display:flex;align-items:center;height:32px;border:1px solid var(--bd);border-radius:var(--r);padding:0 6px;gap:1px;background:var(--bg);}
+.tw-box .th{width:34px;height:24px;}
+.tw-box .tm{width:28px;height:24px;}
+
+/* BANNERS */
+.banner{border-radius:var(--r);padding:9px 12px;display:flex;align-items:center;gap:9px;font-size:12px;margin-bottom:8px;}
+.banner.info{background:var(--bgi);border:1px solid var(--bdi);color:var(--txi);}
+.banner.success{background:var(--bgs);border:1px solid var(--bds);color:var(--txs);}
+.banner.warning{background:var(--bgw);border:1px solid var(--bdw);color:var(--txw);}
+.banner.danger{background:var(--bgd);border:1px solid var(--bdd);color:var(--txd);}
+.delivery-bar{display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:var(--r);font-size:12px;margin-bottom:8px;border:1px solid;}
+
+/* GANTT */
+.gantt-outer{overflow-x:auto;overflow-y:clip;position:relative;user-select:none;}
+.gantt-hdr-row{display:flex;margin-left:200px;border-bottom:1px solid var(--bd);}
+.gantt-col-hdr{text-align:center;font-size:10px;color:var(--tx2);padding:4px 0;border-right:1px solid var(--bd);background:var(--bg2);font-weight:700;flex-shrink:0;}
+.gantt-row{display:flex;border-bottom:1px solid var(--bd);position:relative;}
+.gantt-wc-col{width:200px;min-width:200px;font-size:11px;color:var(--tx2);padding:0 10px;display:flex;align-items:center;gap:6px;border-right:1px solid var(--bd);font-weight:600;}
+.gantt-canvas{position:relative;flex:1;overflow:visible;}
+.gb{position:absolute;border-radius:5px;display:flex;align-items:center;padding:0 6px;font-size:10px;font-weight:700;overflow:hidden;white-space:nowrap;border-width:1.5px;border-style:solid;cursor:grab;}
+.gb.dragging-gb{cursor:grabbing;box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:100;opacity:.9;}
+.gb.bg-gb{opacity:.3;cursor:default;}
+.gb.conflict-gb{outline:2px solid #e24b4a;outline-offset:1px;}
+.gb.hi-gb{box-shadow:0 0 0 3px rgba(24,95,165,.5)!important;z-index:30;}
+.gb-co{height:100%;border-radius:3px 0 0 3px;background:repeating-linear-gradient(45deg,rgba(0,0,0,.12),rgba(0,0,0,.12) 3px,transparent 3px,transparent 7px);flex-shrink:0;}
+.gb-su{height:100%;background:rgba(0,0,0,.12);flex-shrink:0;}
+.gb-drop-line{position:absolute;top:0;width:2px;background:var(--txi);pointer-events:none;display:none;z-index:50;}
+.gantt-svg{position:absolute;top:0;left:0;pointer-events:none;overflow:visible;z-index:20;}
+.gantt-legend{display:flex;gap:14px;flex-wrap:wrap;padding:8px 0 0;font-size:11px;color:var(--tx2);}
+.ldot{width:12px;height:12px;border-radius:3px;display:inline-block;vertical-align:middle;margin-right:4px;}
+
+/* FLOW */
+.flow-outer{overflow:auto;padding:8px 0;background:#fff;}
+#flow-section{background:#fff!important;color-scheme:light;}
+#flow-area{background:#fff!important;color-scheme:light;}
+
+/* POPUP */
+.pop-ov{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:600;display:flex;align-items:center;justify-content:center;}
+.pop-box{background:var(--bg);border-radius:var(--rl);border:1px solid var(--bd);padding:20px;max-width:520px;width:92vw;max-height:85vh;overflow-y:auto;box-shadow:0 8px 32px rgba(0,0,0,.2);}
+.pop-title{font-size:14px;font-weight:700;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;}
+.log-row{display:grid;grid-template-columns:100px 1fr 1fr;gap:8px;padding:6px 0;border-bottom:1px solid var(--bd);font-size:11px;}
+.log-row:last-child{border-bottom:none;}
+.log-orig{color:var(--txd);background:var(--bgd);padding:2px 5px;border-radius:3px;}
+.log-curr{color:var(--txs);background:var(--bgs);padding:2px 5px;border-radius:3px;}
+.dep-radio-row{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--bd);cursor:pointer;}
+.dep-radio-row:hover{background:var(--bg2);}
+.dep-radio-row:last-child{border-bottom:none;}
+.dep-seq{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;background:var(--bgi);color:var(--txi);font-size:10px;font-weight:700;flex-shrink:0;}
+
+/* MISC */
+.back-btn{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--tx2);cursor:pointer;}
+.back-btn:hover{color:var(--tx);}
+.toolbar{display:flex;gap:6px;align-items:center;flex-wrap:wrap;}
+.tsep2{width:1px;height:20px;background:var(--bd);margin:0 2px;}
+.empty-state{padding:32px;text-align:center;color:var(--tx3);font-size:13px;}
+.empty-state i{font-size:32px;display:block;margin:0 auto 8px;}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="logo">Color<span>system</span></div>
+  <span style="color:var(--bd);font-size:18px;">|</span>
+  <div class="topbar-title">Scheduler — Programação Manual</div>
+  <div class="tabs">
+    <div class="tab active" id="tab-list" onclick="showScreen('list')">Seleção de OP</div>
+    <div class="tab" id="tab-prog" style="opacity:.4;cursor:not-allowed">Programação</div>
+  </div>
+</div>
+
+<!-- LIST -->
+<div id="screen-list" class="screen active">
+  <div class="section">
+    <div class="slabel" style="cursor:default;">Filtrar ordens de produção</div>
+    <div class="frow">
+      <input class="finput" style="width:130px" placeholder="Número da OP" id="f-op" oninput="filterOPs()">
+      <input class="finput" style="width:155px" placeholder="Cliente" id="f-cli" oninput="filterOPs()">
+      <input class="finput" style="width:195px" placeholder="Trabalho" id="f-trab" oninput="filterOPs()">
+      <select class="finput" style="width:175px" id="f-tipo" onchange="filterOPs()">
+        <option value="">Todos os tipos</option>
+        <option>Livro Digital</option><option>Livro Offset</option><option>Cartucho</option>
+      </select>
+      <select class="finput" style="width:165px" id="f-st" onchange="filterOPs()">
+        <option value="">Todos os status</option>
+        <option value="pending">Pendente</option><option value="partial">Parcial</option><option value="urgent">Urgente</option>
+      </select>
+      <button class="btn" onclick="clearFilter()"><i class="ti ti-refresh"></i> Limpar</button>
+    </div>
+  </div>
+  <div class="op-list">
+    <table class="op-table">
+      <thead><tr><th>OP</th><th>Tipo</th><th>Cliente</th><th>Trabalho</th><th>Produto</th><th>Qtd</th><th>Entrega</th><th>Vendedor</th><th>Status</th><th></th></tr></thead>
+      <tbody id="op-tbody"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- PROG -->
+<div id="screen-prog" class="screen">
+  <div class="section">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px;">
+      <span class="back-btn" onclick="goBack()"><i class="ti ti-arrow-left"></i> Voltar</span>
+      <span style="color:var(--bd);">|</span>
+      <span style="font-size:14px;font-weight:700;" id="prog-title"></span>
+      <span id="prog-badge" class="badge"></span>
+      <span id="prog-tipo" style="font-size:11px;color:var(--tx3);margin-left:4px;"></span>
+    </div>
+    <div class="op-hdr" id="op-hdr"></div>
+  </div>
+
+  <div class="section">
+    <div class="slabel" onclick="toggleSec('add-body','add-chev')" style="cursor:pointer;">
+      <span><i class="ti ti-plus" style="margin-right:4px;font-size:12px;"></i>Incluir nova atividade</span>
+      <i class="ti ti-chevron-down" id="add-chev" style="font-size:14px;transition:transform .2s;"></i>
+    </div>
+    <div id="add-body" style="overflow:hidden;max-height:200px;transition:max-height .25s;">
+      <div class="add-row">
+        <div class="add-field"><label>Posição</label>
+          <select class="finput" id="new-pos" style="width:110px;height:32px;font-size:12px;"></select>
+        </div>
+        <div class="add-field" style="width:130px;"><label>Componente</label>
+          <select class="finput" id="new-comp" style="width:130px;height:32px;font-size:12px;"></select>
+        </div>
+        <div class="add-field" style="flex:1;min-width:160px;"><label>Descrição *</label>
+          <input class="finput" id="new-desc" style="width:100%;height:32px;font-size:12px;" placeholder="Ex: Impressão 4×0, offset 90gr">
+        </div>
+        <div class="add-field" style="min-width:165px;"><label>Workcenter *</label>
+          <select class="finput" id="new-wc" style="width:100%;height:32px;font-size:12px;"><option value="">— Selecione —</option></select>
+        </div>
+        <div class="add-field" style="width:68px;"><label>Qtd</label>
+          <input class="finput" type="number" id="new-qty" style="height:32px;font-size:12px;width:82px;"></div>
+        <div class="add-field" style="width:55px;"><label>Unid.</label>
+          <select class="finput" id="new-unit" style="height:32px;font-size:12px;"><option>ex</option><option>fl</option><option>un</option><option>cad</option><option>m²</option></select>
+        </div>
+        <div class="add-field" style="width:90px;"><label>Produtividade</label>
+          <input class="finput" type="number" id="new-prod-rate" style="height:32px;font-size:12px;" placeholder="ex/h" oninput="calcNewProd()">
+        </div>
+        <div class="add-field" style="width:78px;"><label style="background:#f5f0e8;padding:1px 4px;border-radius:3px;">CO h:mm</label>
+          <div class="tw-box"><input class="th" type="number" id="new-co-h" min="0" max="999" placeholder="0" onkeydown="tnext(event,this)"><span class="tsep">:</span><input class="tm" type="number" id="new-co-m" min="0" max="59" placeholder="00"></div>
+        </div>
+        <div class="add-field" style="width:78px;"><label style="background:#eef5e8;padding:1px 4px;border-radius:3px;">Acerto h:mm</label>
+          <div class="tw-box"><input class="th" type="number" id="new-su-h" min="0" max="999" placeholder="0" onkeydown="tnext(event,this)"><span class="tsep">:</span><input class="tm" type="number" id="new-su-m" min="0" max="59" placeholder="30"></div>
+        </div>
+        <div class="add-field" style="width:78px;"><label style="background:#e8eef5;padding:1px 4px;border-radius:3px;">Produção h:mm</label>
+          <div class="tw-box"><input class="th" type="number" id="new-pr-h" min="0" max="999" placeholder="1" onkeydown="tnext(event,this)" oninput="calcNewRate()"><span class="tsep">:</span><input class="tm" type="number" id="new-pr-m" min="0" max="59" placeholder="00" oninput="calcNewRate()"></div>
+        </div>
+        <div class="add-field" style="padding-top:18px;">
+          <button class="btn success" onclick="addAct()"><i class="ti ti-plus"></i> Add</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-actions">
+      <div class="slabel" style="margin-bottom:0;">Atividades <span id="act-count" style="font-weight:400;color:var(--tx3);font-size:11px;"></span></div>
+      <div class="toolbar">
+        <button class="btn sm success" onclick="saveActs()"><i class="ti ti-device-floppy"></i> Salvar</button>
+      </div>
+    </div>
+    <div id="save-banner" class="banner success" style="display:none;"><i class="ti ti-circle-check"></i><span id="save-msg"></span></div>
+    <div class="act-wrap">
+      <table class="act-tbl">
+        <thead><tr>
+          <th style="width:22px;"></th>
+          <th style="width:28px;">#</th>
+          <th style="width:100px;">Componente</th>
+          <th>Descrição / Detalhes</th>
+          <th style="width:155px;">Workcenter</th>
+          <th style="width:82px;">Qtd</th>
+          <th style="width:48px;">Unid.</th>
+          <th style="width:72px;">Produtiv.</th>
+          <th class="grp-co" style="width:76px;">CO h:mm</th>
+          <th class="grp-su" style="width:76px;">Acerto h:mm</th>
+          <th class="grp-pr" style="width:76px;">Produção h:mm</th>
+          <th style="width:100px;">Dependência</th>
+          <th style="width:152px;">Ações</th>
+        </tr></thead>
+        <tbody id="act-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-actions">
+      <div class="slabel" style="margin-bottom:0;">Gantt — simulação de alocação</div>
+      <div class="toolbar">
+        <button class="btn primary sm" onclick="simGantt()"><i class="ti ti-player-play"></i> Simular</button>
+        <span id="stale-inline" style="display:none;font-size:11px;color:var(--txw);font-weight:600;display:none;align-items:center;gap:4px;"><i class="ti ti-alert-triangle" style="font-size:13px;"></i> Desatualizado — simule para atualizar</span>
+        <button class="btn warning sm" id="btn-fix" style="display:none;" onclick="fixConflicts()"><i class="ti ti-wand"></i> Resolver conflitos</button>
+        <button class="btn sm" id="btn-free" onclick="toggleFree()"><i class="ti ti-lock-open"></i> Ignorar regras</button>
+        <div class="tsep2"></div>
+        <button class="btn sm" onclick="zoomGantt(-1)" title="Zoom out"><i class="ti ti-zoom-out"></i></button>
+        <span id="zoom-label" style="font-size:11px;color:var(--tx2);min-width:52px;text-align:center;">auto</span>
+        <button class="btn sm" onclick="zoomGantt(+1)" title="Zoom in"><i class="ti ti-zoom-in"></i></button>
+      </div>
+    </div>
+    <div id="stale-banner" class="banner warning" style="display:none;">
+      <i class="ti ti-refresh-alert"></i>
+      <strong>Atividades alteradas</strong> — o Gantt e o Fluxo ainda não refletem as últimas edições.
+      <button class="btn sm primary" style="margin-left:auto;" onclick="simGantt()"><i class="ti ti-player-play"></i> Simular agora</button>
+    </div>
+    <div id="delivery-bar" style="display:none;"></div>
+    <div id="conflict-banner" class="banner danger" style="display:none;"><i class="ti ti-alert-triangle"></i><span id="conflict-msg"></span><button class="btn sm danger" style="margin-left:auto;" onclick="fixConflicts()">Resolver</button></div>
+    <div id="free-banner" class="banner info" style="display:none;"><i class="ti ti-lock-open"></i><strong>Modo livre</strong> — dependências ignoradas.<button class="btn sm" style="margin-left:auto;" onclick="toggleFree()">Desativar</button></div>
+    <div id="gantt-area"><div class="empty-state"><i class="ti ti-calendar-event"></i>Clique em "Simular" para visualizar o Gantt.</div></div>
+    <div class="gantt-legend" id="gantt-legend" style="display:none;">
+      <span><span class="ldot" style="background:#d0d0c8;opacity:.5;border:1px solid #b0b0a8;"></span>Outros trabalhos</span>
+      <span><span style="display:inline-block;width:12px;height:10px;background:repeating-linear-gradient(45deg,#999,#999 2px,transparent 2px,transparent 5px);border-radius:2px;vertical-align:middle;margin-right:4px;"></span>Changeover</span>
+      <span><span style="display:inline-block;width:12px;height:10px;background:rgba(0,0,0,.18);border-radius:2px;vertical-align:middle;margin-right:4px;"></span>Acerto</span>
+    </div>
+  </div>
+
+  <div class="section" id="flow-section" style="border-bottom:none;">
+    <div class="section-actions">
+      <div class="slabel" style="margin-bottom:0;">Fluxo de produção</div>
+      <div class="toolbar">
+        <button class="btn sm" onclick="toggleFlowDates()" id="btn-fdates"><i class="ti ti-eye"></i> Datas</button>
+        <button class="btn sm" onclick="window.print()"><i class="ti ti-printer"></i> Imprimir</button>
+      </div>
+    </div>
+    <div id="stale-banner-flow" class="banner warning" style="display:none;">
+      <i class="ti ti-refresh-alert"></i>
+      <strong>Fluxo desatualizado</strong> — clique em Simular para atualizar.
+      <button class="btn sm primary" style="margin-left:auto;" onclick="simGantt()"><i class="ti ti-player-play"></i> Simular agora</button>
+    </div>
+    <div id="flow-area"><div class="empty-state"><i class="ti ti-arrows-right"></i>Fluxo disponível após simulação.</div></div>
+  </div>
+</div>
+
+<div id="pop-root"></div>
+
+<script>
+// ══════════════════════════════════════════════════════════
+// CONSTANTS & DATA
+// ══════════════════════════════════════════════════════════
+// PX (px per hour) is now dynamic via ganttPxPerHour, set in simGantt
+const DAYS=['Seg 09/06','Ter 10/06','Qua 11/06','Qui 12/06','Sex 13/06','Seg 16/06','Ter 17/06','Qua 18/06'];
+
+const WCS=[
+  {id:'R9200',n:'Ricoh 9200',ic:'🖨️',col:'#185fa5',bg:'#ddeeff'},
+  {id:'R7200',n:'Ricoh 7200',ic:'🖨️',col:'#0f6e56',bg:'#d5f0e6'},
+  {id:'VP440',n:'Vegapress 440M',ic:'🖨️',col:'#534ab7',bg:'#e8e6fa'},
+  {id:'PH440',n:'Phenix 440C',ic:'🖨️',col:'#993c1d',bg:'#fae0d5'},
+  {id:'MR306',n:'Manroland 306PLV',ic:'🖨️',col:'#854f0b',bg:'#f5e8d0'},
+  {id:'MR706',n:'Manroland 706PLV',ic:'🖨️',col:'#3b6d11',bg:'#dff0ce'},
+  {id:'MR704',n:'Manroland 704P',ic:'🖨️',col:'#a32d2d',bg:'#fad5d5'},
+  {id:'STAHL',n:'Stahl (Dobradeira)',ic:'📄',col:'#534ab7',bg:'#e8e6fa'},
+  {id:'MM',n:'Müller Martini',ic:'📚',col:'#185fa5',bg:'#ddeeff'},
+  {id:'MM1509',n:'Grampeadeira MM1509',ic:'📎',col:'#0f6e56',bg:'#d5f0e6'},
+  {id:'GUIL',n:'Guilhotina Linear',ic:'✂️',col:'#5f5e5a',bg:'#ebebeb'},
+  {id:'TRIL',n:'Guilhotina Trilateral',ic:'✂️',col:'#854f0b',bg:'#f5e8d0'},
+  {id:'BQ500',n:'Horizon BQ500 (PUR)',ic:'📖',col:'#534ab7',bg:'#e8e6fa'},
+  {id:'SHRINK',n:'Shrink',ic:'📦',col:'#3b6d11',bg:'#dff0ce'},
+  {id:'SBL',n:'Corte-vinco SBL',ic:'⚙️',col:'#a32d2d',bg:'#fad5d5'},
+  {id:'CVM',n:'Corte-vinco Manual',ic:'⚙️',col:'#854f0b',bg:'#f5e8d0'},
+  {id:'AUTOBOX',n:'Autobox (Coladeira)',ic:'📦',col:'#185fa5',bg:'#ddeeff'},
+  {id:'DEST',n:'Destaque',ic:'👥',col:'#5f5e5a',bg:'#ebebeb'},
+  {id:'SEPL',n:'Separação Livros',ic:'👥',col:'#534ab7',bg:'#e8e6fa'},
+  {id:'DOROR',n:'Dobra Orelha',ic:'👐',col:'#0f6e56',bg:'#d5f0e6'},
+  {id:'LAM',n:'Laminadora',ic:'🎞️',col:'#993c1d',bg:'#fae0d5'},
+  {id:'MAN1',n:'Manuseio (1p)',ic:'🤲',col:'#5f5e5a',bg:'#ebebeb'},
+  {id:'MAN2',n:'Manuseio (2p)',ic:'🤲',col:'#5f5e5a',bg:'#ebebeb'},
+  {id:'MAN4',n:'Manuseio (4p)',ic:'🤲',col:'#3b6d11',bg:'#dff0ce'},
+];
+const wcById=id=>WCS.find(w=>w.id===id)||{id,n:id,ic:'⚙️',col:'#888',bg:'#f0f0f0'};
+
+const BG={
+  R9200:[{l:'OP-2990',s:0,d:1.8},{l:'OP-2991',s:2.5,d:1.2}],
+  VP440:[{l:'OP-2980',s:0,d:3.5},{l:'OP-2982',s:4.2,d:2.0}],
+  PH440:[{l:'OP-2985',s:1.0,d:2.5}],
+  MR706:[{l:'OP-2970',s:0,d:4.0},{l:'OP-2972',s:5.2,d:3.0}],
+  MR306:[{l:'OP-2975',s:0,d:2.5},{l:'OP-2976',s:3.2,d:1.5}],
+  MR704:[{l:'OP-2960',s:0,d:5.0},{l:'OP-2961',s:6.2,d:4.0}],
+  LAM:[{l:'OP-2990',s:2.0,d:1.5},{l:'OP-2975',s:3.8,d:1.0}],
+  BQ500:[{l:'OP-2980',s:1.0,d:2.5},{l:'OP-2985',s:4.5,d:1.5}],
+  GUIL:[{l:'OP-2990',s:2.5,d:0.8},{l:'OP-2991',s:4.0,d:0.6}],
+  SBL:[{l:'OP-2970',s:4.5,d:2.5},{l:'OP-2972',s:8.5,d:1.5}],
+  DEST:[{l:'OP-2970',s:7.5,d:2.0}],
+  AUTOBOX:[{l:'OP-2970',s:10.0,d:3.0}],
+  TRIL:[{l:'OP-2980',s:4.5,d:1.0}],
+  STAHL:[{l:'OP-2960',s:5.5,d:3.0}],
+  MM:[{l:'OP-2960',s:9.0,d:2.0}],
+};
+
+// Components per OP type
+const COMP_COLORS={'Capa':'#185fa5','Miolo':'#534ab7','Livro':'#3b6d11','Montagem':'#854f0b','Destaque':'#993c1d','Colagem':'#185fa5'};
+
+const OPS=[
+  {id:'OP-3001',tipo:'Livro Digital',cliente:'Editora Saraiva',trabalho:'Matemática 7º Ano — EF II',produto:'Livro 200pp plastificado',qtd:3000,unit:'ex',entrega:'2026-06-14',vendedor:'Ricardo M.',status:'urgent',
+   componentes:['Capa','Miolo','Livro'],
+   atividades:[
+    {seq:1,comp:'Capa',desc:'Impressão capa 4×0 — Couchê 250gr — 320×460mm',wc:'R9200',qty:3000,unit:'fl',prodRate:1200,co:'0min',setup:'45min',prod:'2h30',dep:[],depType:'fim',depDelay:''},
+    {seq:2,comp:'Capa',desc:'Laminação BOPP brilho — capa',wc:'LAM',qty:3000,unit:'fl',prodRate:2400,co:'0min',setup:'20min',prod:'1h15',dep:[1],depType:'fim',depDelay:''},
+    {seq:3,comp:'Capa',desc:'Corte capa — 320×460mm → 160×230mm',wc:'GUIL',qty:3000,unit:'fl',prodRate:4000,co:'0min',setup:'15min',prod:'45min',dep:[2],depType:'fim',depDelay:''},
+    {seq:4,comp:'Miolo',desc:'Impressão miolo 1×1 — Offset 75gr — 440×630mm',wc:'VP440',qty:3000,unit:'ex',prodRate:700,co:'0min',setup:'1h00',prod:'4h20',dep:[],depType:'fim',depDelay:''},
+    {seq:5,comp:'Miolo',desc:'Corte miolo — sheeter',wc:'GUIL',qty:3000,unit:'ex',prodRate:3000,co:'0min',setup:'15min',prod:'1h00',dep:[4],depType:'fim',depDelay:''},
+    {seq:6,comp:'Miolo',desc:'Separação livros — 2 operadores',wc:'SEPL',qty:3000,unit:'ex',prodRate:1500,co:'0min',setup:'10min',prod:'2h00',dep:[5],depType:'fim',depDelay:''},
+    {seq:7,comp:'Livro',desc:'Lombada PUR — 160×230mm / 14mm / sem orelha',wc:'BQ500',qty:3000,unit:'ex',prodRate:857,co:'0min',setup:'1h00',prod:'3h30',dep:[3,6],depType:'fim',depDelay:''},
+    {seq:8,comp:'Livro',desc:'Corte trilateral — 160×230mm final',wc:'TRIL',qty:3000,unit:'ex',prodRate:2000,co:'0min',setup:'15min',prod:'1h30',dep:[7],depType:'fim',depDelay:''},
+    {seq:9,comp:'Livro',desc:'Shrink — embalagem final',wc:'SHRINK',qty:3000,unit:'ex',prodRate:3000,co:'0min',setup:'10min',prod:'1h00',dep:[8],depType:'fim',depDelay:''},
+  ]},
+  {id:'OP-3010',tipo:'Livro Offset',cliente:'Editora FTD',trabalho:'Literatura Brasileira Vol.3 — EM',produto:'Livro 320pp capa dura c/ orelha',qtd:8000,unit:'ex',entrega:'2026-06-22',vendedor:'Ricardo M.',status:'pending',
+   componentes:['Capa','Miolo','Livro'],
+   atividades:[
+    {seq:1,comp:'Capa',desc:'Impressão capa 6×0+V — Couchê 300gr — 640×480mm',wc:'MR306',qty:8000,unit:'fl',prodRate:2286,co:'1h30',setup:'2h00',prod:'3h30',dep:[],depType:'fim',depDelay:''},
+    {seq:2,comp:'Capa',desc:'Laminação BOPP brilho — capa offset',wc:'LAM',qty:8000,unit:'fl',prodRate:4000,co:'0min',setup:'20min',prod:'2h00',dep:[1],depType:'fim',depDelay:''},
+    {seq:3,comp:'Capa',desc:'Corte capa + orelha — guilhotina',wc:'GUIL',qty:8000,unit:'fl',prodRate:5333,co:'0min',setup:'15min',prod:'1h30',dep:[2],depType:'fim',depDelay:''},
+    {seq:4,comp:'Miolo',desc:'Impressão miolo 1×1 — Offset 75gr — 8 cads 64pp',wc:'MR704',qty:64000,unit:'fl',prodRate:10667,co:'1h00',setup:'1h30',prod:'6h00',dep:[],depType:'fim',depDelay:''},
+    {seq:5,comp:'Miolo',desc:'Dobra cadernos — 8 cadernos Stahl',wc:'STAHL',qty:64000,unit:'cad',prodRate:16000,co:'0min',setup:'30min',prod:'4h00',dep:[4],depType:'fim',depDelay:''},
+    {seq:6,comp:'Miolo',desc:'Alceamento — cadernos dobrados',wc:'MM',qty:8000,unit:'ex',prodRate:3200,co:'0min',setup:'30min',prod:'2h30',dep:[5],depType:'fim',depDelay:''},
+    {seq:7,comp:'Livro',desc:'Lombada PUR — 160×230mm / 22mm / orelha 75mm',wc:'BQ500',qty:8000,unit:'ex',prodRate:2000,co:'0min',setup:'1h00',prod:'4h00',dep:[3,6],depType:'fim',depDelay:''},
+    {seq:8,comp:'Livro',desc:'Dobra orelhas — 2 operadores',wc:'DOROR',qty:8000,unit:'ex',prodRate:2667,co:'0min',setup:'15min',prod:'3h00',dep:[7],depType:'fim',depDelay:''},
+    {seq:9,comp:'Livro',desc:'Corte trilateral — 160×230mm final',wc:'TRIL',qty:8000,unit:'ex',prodRate:3200,co:'0min',setup:'15min',prod:'2h30',dep:[8],depType:'fim',depDelay:''},
+    {seq:10,comp:'Livro',desc:'Shrink — embalagem final',wc:'SHRINK',qty:8000,unit:'ex',prodRate:5333,co:'0min',setup:'10min',prod:'1h30',dep:[9],depType:'fim',depDelay:''},
+  ]},
+  {id:'OP-3020',tipo:'Cartucho',cliente:'NovaNutri Farmacêutica',trabalho:'Cartucho Omega-3 + D3 / 30 cáps',produto:'Cartucho 100×60×120mm fundo auto',qtd:50000,unit:'un',entrega:'2026-06-12',vendedor:'Carlos T.',status:'urgent',
+   componentes:['Produção'],
+   atividades:[
+    {seq:1,comp:'Produção',desc:'Impressão 6×0+V — Cartão FBB 300gr — 740×1040mm — 9 bocas F017',wc:'MR706',qty:5556,unit:'fl',prodRate:1111,co:'2h00',setup:'2h30',prod:'5h00',dep:[],depType:'fim',depDelay:''},
+    {seq:2,comp:'Produção',desc:'Laminação BOPP brilho — cartuchos',wc:'LAM',qty:5556,unit:'fl',prodRate:2778,co:'0min',setup:'20min',prod:'2h00',dep:[1],depType:'fim',depDelay:''},
+    {seq:3,comp:'Produção',desc:'Corte-vinco — 740×1040mm, 9 bocas, faca F017',wc:'SBL',qty:5556,unit:'fl',prodRate:1852,co:'0min',setup:'1h30',prod:'3h00',dep:[2],depType:'fim',depDelay:''},
+    {seq:4,comp:'Produção',desc:'Destaque — 9 bocas × 5.556 fl = 50.000 un — 4 op.',wc:'DEST',qty:50000,unit:'un',prodRate:12500,co:'0min',setup:'15min',prod:'4h00',dep:[3],depType:'fim',depDelay:''},
+    {seq:5,comp:'Produção',desc:'Colagem — 100×60×120mm, fundo automático, cola PUR',wc:'AUTOBOX',qty:50000,unit:'un',prodRate:8333,co:'0min',setup:'1h00',prod:'6h00',dep:[4],depType:'fim',depDelay:''},
+  ]},
+  {id:'OP-3021',tipo:'Cartucho',cliente:'VitaMax Nutrition',trabalho:'Cartucho Mix Vitaminas — 2 SKUs',produto:'Cartucho 80×50×100mm (Vit.C 20.000 + Vit.D 10.000)',qtd:30000,unit:'un',entrega:'2026-06-18',vendedor:'Ricardo M.',status:'partial',
+   componentes:['Produção'],
+   atividades:[
+    {seq:1,comp:'Produção',desc:'Impressão 6×0+V — Cartão SBS 280gr — 480×640mm — 6 bocas F009',wc:'MR306',qty:5000,unit:'fl',prodRate:1429,co:'1h00',setup:'2h00',prod:'3h30',dep:[],depType:'fim',depDelay:''},
+    {seq:2,comp:'Produção',desc:'Laminação BOPP fosco',wc:'LAM',qty:5000,unit:'fl',prodRate:3333,co:'0min',setup:'20min',prod:'1h30',dep:[1],depType:'fim',depDelay:''},
+    {seq:3,comp:'Produção',desc:'Corte-vinco — 480×640mm, 6 bocas, faca F009',wc:'SBL',qty:5000,unit:'fl',prodRate:2500,co:'0min',setup:'1h00',prod:'2h00',dep:[2],depType:'fim',depDelay:''},
+    {seq:4,comp:'Produção',desc:'Destaque — 6 bocas, 4 operadores — 30.000 un',wc:'DEST',qty:30000,unit:'un',prodRate:7500,co:'0min',setup:'15min',prod:'4h00',dep:[3],depType:'fim',depDelay:''},
+    {seq:5,comp:'Produção',desc:'Colagem Vitamina C — 80×50×100mm, fundo auto — 4 bocas',wc:'AUTOBOX',qty:20000,unit:'un',prodRate:10000,co:'0min',setup:'45min',prod:'2h00',dep:[4],depType:'fim',depDelay:''},
+    {seq:6,comp:'Produção',desc:'Colagem Vitamina D — 80×50×100mm, fundo auto — 2 bocas',wc:'AUTOBOX',qty:10000,unit:'un',prodRate:10000,co:'0min',setup:'45min',prod:'1h00',dep:[4],depType:'fim',depDelay:''},
+  ]},
+];
+
+// ══════════════════════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════════════════════
+let curOP=null,acts=[],ganttDone=false,freeMode=false,showFlowDates=true,everSimulated=false;
+let ganttPxPerHour=90; // dynamic zoom: pixels per hour
+let ganttScheduled={},ganttUsedWcs=[];
+let dragRowIdx=null;
+// Gantt mouse drag state
+let gbDrag={active:false,seq:null,startX:0,origLeft:0,el:null,wcId:null,rowEl:null};
+
+// ══════════════════════════════════════════════════════════
+// HELPERS
+// ══════════════════════════════════════════════════════════
+const ph=s=>{if(!s||s==='0min')return 0;const h=s.match(/(\d+)h/);const m=s.match(/(\d+)min/);return(h?+h[1]:0)+(m?+m[1]/60:0);};
+const phH=s=>Math.floor(ph(s));
+const phM=s=>Math.round((ph(s)-Math.floor(ph(s)))*60);
+const fmtT=(h,m)=>{h=+h||0;m=+m||0;if(!h&&!m)return'0min';return(h?h+'h':'')+(m?(h&&m<10?'0'+m:m)+'min':'');};
+const fmtDate=d=>{const[y,mo,di]=d.split('-');return`${di}/${mo}/${y}`;};
+const fmtHTime=h=>{const di=Math.floor(h/8);const hr=(h%8)+7;const hh=Math.floor(hr);const mm=Math.round((hr-hh)*60);return`${DAYS[Math.min(di,DAYS.length-1)]||'D'+(di+1)} ${String(hh).padStart(2,'0')}:${String(mm).padStart(2,'0')}`;};
+const calcProd=(qty,rate)=>rate>0?qty/rate:0; // hours
+const calcRate=(qty,hours)=>hours>0?Math.round(qty/hours):0;
+
+// ══════════════════════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════════════════════
+function init(){
+  WCS.forEach(w=>{const o=document.createElement('option');o.value=w.id;o.textContent=w.n;document.getElementById('new-wc').appendChild(o);});
+  filterOPs();
+}
+
+// ══════════════════════════════════════════════════════════
+// OP LIST
+// ══════════════════════════════════════════════════════════
+function filterOPs(){
+  const op=(document.getElementById('f-op').value||'').toLowerCase();
+  const cli=(document.getElementById('f-cli').value||'').toLowerCase();
+  const trab=(document.getElementById('f-trab').value||'').toLowerCase();
+  const tipo=document.getElementById('f-tipo').value;
+  const st=document.getElementById('f-st').value;
+  const list=OPS.filter(o=>(!op||o.id.toLowerCase().includes(op))&&(!cli||o.cliente.toLowerCase().includes(cli))&&(!trab||o.trabalho.toLowerCase().includes(trab))&&(!tipo||o.tipo===tipo)&&(!st||o.status===st));
+  const tb=document.getElementById('op-tbody');
+  tb.innerHTML=list.length?list.map(o=>`<tr onclick="openOP('${o.id}')">
+    <td><strong>${o.id}</strong></td><td><span style="font-size:11px;color:var(--tx2);">${o.tipo}</span></td>
+    <td>${o.cliente}</td><td>${o.trabalho}</td><td>${o.produto}</td>
+    <td>${o.qtd.toLocaleString('pt-BR')} ${o.unit}</td>
+    <td style="font-weight:700;${o.status==='urgent'?'color:var(--txd)':''}">${fmtDate(o.entrega)}</td>
+    <td>${o.vendedor}</td>
+    <td><span class="badge bdg-${o.status}">${{urgent:'Urgente',partial:'Parcial',pending:'Pendente'}[o.status]}</span></td>
+    <td><button class="btn primary sm" onclick="event.stopPropagation();openOP('${o.id}')">Programar <i class="ti ti-arrow-right"></i></button></td>
+  </tr>`).join(''):'<tr><td colspan="10" style="text-align:center;padding:24px;color:var(--tx3);">Nenhuma OP encontrada.</td></tr>';
+}
+function clearFilter(){['f-op','f-cli','f-trab'].forEach(id=>document.getElementById(id).value='');['f-tipo','f-st'].forEach(id=>document.getElementById(id).value='');filterOPs();}
+
+// ══════════════════════════════════════════════════════════
+// OPEN OP
+// ══════════════════════════════════════════════════════════
+function openOP(id){
+  curOP=OPS.find(o=>o.id===id);
+  acts=curOP.atividades.map(a=>({...a,dep:[...(a.dep||[])],_del:false,_new:false,_edited:false,_snap:null,_log:[]}));
+  ganttDone=false;freeMode=false;everSimulated=false;ganttPxPerHour=90;ganttScheduled={};ganttUsedWcs=[];
+  document.getElementById('prog-title').textContent=curOP.id+' — '+curOP.trabalho;
+  const sb=document.getElementById('prog-badge');sb.className='badge bdg-'+curOP.status;sb.textContent={urgent:'Urgente',partial:'Parcial',pending:'Pendente'}[curOP.status];
+  document.getElementById('prog-tipo').textContent=curOP.tipo;
+  document.getElementById('op-hdr').innerHTML=[
+    {l:'OP',v:curOP.id},{l:'Cliente',v:curOP.cliente},{l:'Produto',v:curOP.produto},
+    {l:'Quantidade',v:curOP.qtd.toLocaleString('pt-BR')+' '+curOP.unit},
+    {l:'Vendedor',v:curOP.vendedor},{l:'Data de entrega',v:fmtDate(curOP.entrega),d:curOP.status==='urgent'},{l:'Tipo',v:curOP.tipo},
+  ].map(f=>`<div class="op-fld"><div class="op-fld-l">${f.l}</div><div class="op-fld-v${f.d?' danger':''}">${f.v}</div></div>`).join('');
+  updatePosSelect();updateCompSelect();
+  showScreen('prog');renderActs();resetGantt();
+  ['conflict-banner','free-banner','delivery-bar','save-banner'].forEach(id=>document.getElementById(id).style.display='none');
+  hideStaleBanner();
+  document.getElementById('btn-fix').style.display='none';
+  document.getElementById('gantt-legend').style.display='none';
+}
+function updatePosSelect(){
+  const sel=document.getElementById('new-pos');sel.innerHTML='<option value="end">No final</option>';
+  acts.filter(a=>!a._del).forEach((a,i)=>{const o=document.createElement('option');o.value=i;o.textContent='Após seq. '+a.seq;sel.appendChild(o);});
+}
+function updateCompSelect(){
+  const sel=document.getElementById('new-comp');sel.innerHTML='';
+  (curOP.componentes||['Geral']).forEach(c=>{const o=document.createElement('option');o.value=c;o.textContent=c;sel.appendChild(o);});
+}
+function goBack(){showScreen('list');curOP=null;}
+function resetGantt(){
+  document.getElementById('gantt-area').innerHTML='<div class="empty-state"><i class="ti ti-calendar-event"></i>Clique em "Simular" para visualizar o Gantt.</div>';
+  document.getElementById('flow-area').innerHTML='<div class="empty-state"><i class="ti ti-arrows-right"></i>Fluxo disponível após simulação.</div>';
+  document.getElementById('delivery-bar').style.display='none';document.getElementById('gantt-legend').style.display='none';
+  ganttDone=false;
+}
+
+// ══════════════════════════════════════════════════════════
+// RENDER ACTIVITIES
+// ══════════════════════════════════════════════════════════
+function renderActs(){
+  updatePosSelect();
+  const active=acts.filter(a=>!a._del);
+  document.getElementById('act-count').textContent=`(${active.length} ativas${acts.filter(a=>a._del).length?' · '+acts.filter(a=>a._del).length+' excluídas':''})`;
+  let html='';
+  let lastComp=null;
+  acts.forEach((a,i)=>{
+    if(a.comp!==lastComp&&!a._del){
+      lastComp=a.comp;
+      const col=COMP_COLORS[a.comp]||COMP_COLORS[Object.keys(COMP_COLORS).find(k=>a.comp.includes(k))]||'#888';
+      html+=`<tr class="comp-row"><td colspan="13"><span class="comp-dot" style="background:${col};"></span>${a.comp}</td></tr>`;
+    }
+    const dis=a._del?'disabled':'';
+    const wcOpts=WCS.map(w=>`<option value="${w.id}"${a.wc===w.id?' selected':''}>${w.n}</option>`).join('');
+    const unitOpts=['ex','fl','un','cad','m²'].map(u=>`<option${a.unit===u?' selected':''}>${u}</option>`).join('');
+    const compOpts=(curOP.componentes||['Geral']).map(c=>`<option${a.comp===c?' selected':''}>${c}</option>`).join('');
+    const depArr=a.dep||[];
+    const depLabel=depArr.length===0?'sem dep.':depArr.length===1?'após '+depArr[0]:depArr.length+' deps';
+    const badges=[];
+    if(a._new)badges.push('<span class="badge bdg-new">novo</span>');
+    if(a._edited&&!a._new)badges.push(`<span class="badge bdg-edited" onclick="showLog(${i})">editado ↗</span>`);
+    if(a._splitOf)badges.push('<span class="badge bdg-split">split</span>');
+    const tw=(fld,val,idx)=>`<div class="tw"><input class="th" type="number" min="0" max="999" value="${phH(val)}" ${dis} onchange="editTime(${idx},'${fld}','h',this.value)" onkeydown="tnext(event,this)"><span class="tsep">:</span><input class="tm" type="number" min="0" max="59" value="${phM(val)}" ${dis} onchange="editTime(${idx},'${fld}','m',this.value)"></div>`;
+    html+=`<tr id="ar-${i}" class="${a._del?'deleted':a._edited||a._new?'highlighted':''}" draggable="${a._del?'false':'true'}"
+      ondragstart="dS(event,${i})" ondragover="dO(event,${i})" ondrop="dD(event,${i})" ondragend="dE(event)">
+      <td><span class="drag-handle"><i class="ti ti-grip-vertical"></i></span></td>
+      <td><span class="seq-num${a._new?' ns':a._splitOf?' ss':''}">${a.seq}</span></td>
+      <td><select ${dis} onchange="editA(${i},'comp',this.value)" style="font-size:10px;">${compOpts}</select></td>
+      <td style="max-width:200px;"><input type="text" value="${a.desc.replace(/"/g,'&quot;')}" ${dis} onchange="editA(${i},'desc',this.value)" style="font-size:11px;"/>
+        ${badges.length?`<div class="act-badges">${badges.join('')}</div>`:''}</td>
+      <td><select ${dis} onchange="editA(${i},'wc',this.value)">${wcOpts}</select></td>
+      <td><input type="text" value="${a.qty.toLocaleString('pt-BR')}" ${dis} onchange="editQty(${i},this.value.replace(/\\./g,'').replace(',','.'))" style="text-align:right;"/></td>
+      <td><select ${dis} onchange="editA(${i},'unit',this.value)">${unitOpts}</select></td>
+      <td><input type="number" value="${a.prodRate||0}" ${dis} onchange="editRate(${i},this.value)" title="Qtd / hora" placeholder="ex/h"/></td>
+      <td class="grp-co">${tw('co',a.co,i)}</td>
+      <td class="grp-su">${tw('setup',a.setup,i)}</td>
+      <td class="grp-pr">${tw('prod',a.prod,i)}</td>
+      <td>
+        <span class="dep-chip${depArr.length===0?' empty':''}" onclick="openDepPop(${i})">
+          <i class="ti ti-git-branch" style="font-size:11px;"></i>${depLabel}
+        </span>
+        ${depArr.length?`<div style="font-size:9px;color:var(--tx3);">${a.depType}${a.depDelay?' +'+a.depDelay:''}</div>`:''}
+      </td>
+      <td><div class="act-btns">
+        ${a._del?`<button class="btn sm" onclick="restA(${i})"><i class="ti ti-restore"></i></button>`
+                :`<button class="btn sm danger" onclick="delA(${i})"><i class="ti ti-trash"></i></button>`}
+        <button class="btn sm purple" onclick="splitA(${i})" ${a._del?'disabled':''}><i class="ti ti-scissors"></i></button>
+        <button class="btn sm success" onclick="dupA(${i})" ${a._del?'disabled':''}><i class="ti ti-copy"></i></button>
+        ${(a._edited&&!a._new)?`<button class="btn sm warning" onclick="revertA(${i})"><i class="ti ti-arrow-back-up"></i></button>`:''}
+      </div></td>
+    </tr>`;
+  });
+  document.getElementById('act-tbody').innerHTML=html;
+}
+
+// ══════════════════════════════════════════════════════════
+// EDITS
+// ══════════════════════════════════════════════════════════
+function deepClone(a){return JSON.parse(JSON.stringify(a));}
+function snapIt(i){if(!acts[i]._new&&!acts[i]._edited)acts[i]._snap=deepClone(acts[i]);} 
+function addLog(i,f,ov,nv){if(String(ov)===String(nv))return;if(!acts[i]._log)acts[i]._log=[];acts[i]._log.push({field:f,oldVal:ov,newVal:nv,ts:new Date().toLocaleString('pt-BR'),user:'Programador'});}
+function editA(i,f,v){snapIt(i);addLog(i,f,acts[i][f],v);acts[i][f]=v;acts[i]._edited=true;ganttDone=false;showStaleBanner();renderActs();}
+function editQty(i,v){
+  snapIt(i);const old=acts[i].qty;acts[i].qty=+v||0;acts[i]._edited=true;ganttDone=false;
+  // recalc prod from rate
+  if(acts[i].prodRate>0){const h=calcProd(acts[i].qty,acts[i].prodRate);acts[i].prod=fmtT(Math.floor(h),Math.round((h%1)*60));}
+  addLog(i,'qty',old,acts[i].qty);showStaleBanner();renderActs();
+}
+function editRate(i,v){
+  snapIt(i);const old=acts[i].prodRate;acts[i].prodRate=+v||0;acts[i]._edited=true;ganttDone=false;
+  if(acts[i].prodRate>0&&acts[i].qty>0){const h=calcProd(acts[i].qty,acts[i].prodRate);acts[i].prod=fmtT(Math.floor(h),Math.round((h%1)*60));}
+  addLog(i,'prodRate',old,acts[i].prodRate);showStaleBanner();renderActs();
+}
+function editTime(i,fld,part,v){
+  snapIt(i);const old=acts[i][fld];
+  const ch=phH(acts[i][fld]),cm=phM(acts[i][fld]);
+  const nh=part==='h'?+v||0:ch,nm=part==='m'?+v||0:cm;
+  acts[i][fld]=fmtT(nh,nm);acts[i]._edited=true;ganttDone=false;
+  if(fld==='prod'&&acts[i].qty>0){acts[i].prodRate=calcRate(acts[i].qty,nh+nm/60);}
+  addLog(i,fld,old,acts[i][fld]);
+  showStaleBanner();
+  // update prodRate display without full re-render
+  const row=document.getElementById('ar-'+i);
+  if(row){const prInput=row.querySelectorAll('td')[7]?.querySelector('input');if(prInput)prInput.value=acts[i].prodRate||0;}
+}
+function delA(i){
+  const a=acts[i];
+  if(a._new||a._splitOf){
+    // New/duplicated/split: remove from list entirely
+    if(a._splitOf){
+      // Find the original split source and revert it to its snapshot
+      const srcIdx=acts.findIndex(x=>x.seq===a._splitOf&&!x._splitOf);
+      if(srcIdx>=0&&acts[srcIdx]._snap){
+        // Revert source block to pre-split state
+        Object.assign(acts[srcIdx],acts[srcIdx]._snap,{_snap:null,_edited:false});
+      }
+    }
+    acts.splice(i,1);
+    acts.forEach((a,k)=>a.seq=k+1);
+  } else {
+    // Original activity: keep in list, mark deleted (grey strikethrough)
+    a._del=true;
+  }
+  ganttDone=false;showStaleBanner();renderActs();
+}
+function restA(i){acts[i]._del=false;renderActs();}
+function revertA(i){if(!acts[i]._snap)return;Object.assign(acts[i],acts[i]._snap,{_snap:null,_edited:false,_log:[]});ganttDone=false;showStaleBanner();renderActs();}
+function splitA(i){
+  const a=acts[i];if(a._del)return;
+  const ph2=ph(a.prod)/2;const hH=Math.floor(ph2),hM=Math.round((ph2%1)*60);const halfProd=fmtT(hH,hM);
+  const halfQty=Math.ceil(a.qty/2);
+  const origDep=[...(a.dep||[])];
+  const s1={...a,dep:origDep,qty:halfQty,prod:halfProd,_edited:true,_snap:{...a,dep:[...(a.dep||[])]}};
+  // s2 gets same deps as original — both halves depend on the same predecessor
+  const s2={...a,dep:[...origDep],depType:a.depType,depDelay:a.depDelay,qty:Math.floor(a.qty/2),prod:halfProd,_new:true,_edited:false,_snap:null,_log:[],_splitOf:a.seq,comp:a.comp};
+  acts.splice(i,1,s1,s2);acts.forEach((a,k)=>a.seq=k+1);
+  renderActs();ganttDone=false;showStaleBanner();
+}
+function dupA(i){
+  const a={...acts[i],dep:[...(acts[i].dep||[])],_new:true,_edited:false,_del:false,_snap:null,_log:[],_splitOf:null};
+  acts.splice(i+1,0,a);acts.forEach((a,k)=>a.seq=k+1);renderActs();ganttDone=false;showStaleBanner();
+}
+function addAct(){
+  const desc=document.getElementById('new-desc').value.trim();
+  const wcv=document.getElementById('new-wc').value;
+  if(!desc||!wcv){alert('Informe descrição e workcenter.');return;}
+  const qty=+document.getElementById('new-qty').value||0;
+  const unit=document.getElementById('new-unit').value;
+  const comp=document.getElementById('new-comp').value||'Geral';
+  const rate=+document.getElementById('new-prod-rate').value||0;
+  const co=fmtT(+document.getElementById('new-co-h').value||0,+document.getElementById('new-co-m').value||0);
+  const setup=fmtT(+document.getElementById('new-su-h').value||0,+document.getElementById('new-su-m').value||30);
+  const prH=+document.getElementById('new-pr-h').value||1;
+  const prM=+document.getElementById('new-pr-m').value||0;
+  const prod=fmtT(prH,prM);
+  const finalRate=rate>0?rate:(qty>0&&(prH||prM)?calcRate(qty,prH+prM/60):0);
+  const posVal=document.getElementById('new-pos').value;
+  const na={seq:0,comp,desc,wc:wcv,qty,unit,prodRate:finalRate,co,setup,prod,dep:[],depType:'fim',depDelay:'',_del:false,_new:true,_edited:false,_snap:null,_log:[],_splitOf:null};
+  if(posVal==='end')acts.push(na);else acts.splice(+posVal+1,0,na);
+  acts.forEach((a,k)=>a.seq=k+1);
+  ['new-desc','new-qty','new-prod-rate','new-co-h','new-co-m','new-su-h','new-su-m','new-pr-h','new-pr-m'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  renderActs();ganttDone=false;showStaleBanner();
+}
+function saveActs(){
+  const n=acts.filter(a=>!a._del).length,d=acts.filter(a=>a._del).length,e=acts.filter(a=>a._edited&&!a._del).length;
+  document.getElementById('save-msg').textContent=`${n} ativas salvas · ${e} editadas · ${d} excluídas (mantidas no histórico)`;
+  const b=document.getElementById('save-banner');b.style.display='flex';setTimeout(()=>b.style.display='none',4000);
+}
+// New row produtividade <-> produção sync
+function calcNewProd(){
+  const qty=+document.getElementById('new-qty').value||0;
+  const rate=+document.getElementById('new-prod-rate').value||0;
+  if(qty>0&&rate>0){const h=calcProd(qty,rate);document.getElementById('new-pr-h').value=Math.floor(h)||'';document.getElementById('new-pr-m').value=Math.round((h%1)*60)||'';}
+}
+function calcNewRate(){
+  const qty=+document.getElementById('new-qty').value||0;
+  const prH=+document.getElementById('new-pr-h').value||0;const prM=+document.getElementById('new-pr-m').value||0;
+  if(qty>0&&(prH||prM)){document.getElementById('new-prod-rate').value=calcRate(qty,prH+prM/60);}
+}
+
+// ══════════════════════════════════════════════════════════
+// DRAG REORDER (rows)
+// ══════════════════════════════════════════════════════════
+function dS(e,i){dragRowIdx=i;e.currentTarget.classList.add('dragging');}
+function dO(e,i){e.preventDefault();if(i!==dragRowIdx){document.querySelectorAll('.act-tbl tr').forEach(r=>r.classList.remove('drag-over'));e.currentTarget.classList.add('drag-over');}}
+function dD(e,i){e.preventDefault();if(dragRowIdx===null||dragRowIdx===i)return;const m=acts.splice(dragRowIdx,1)[0];acts.splice(i,0,m);acts.forEach((a,k)=>a.seq=k+1);dragRowIdx=null;renderActs();ganttDone=false;showStaleBanner();}
+function dE(e){e.currentTarget.classList.remove('dragging');document.querySelectorAll('.act-tbl tr').forEach(r=>r.classList.remove('drag-over'));dragRowIdx=null;}
+function tnext(e,el){if(e.key==='Tab'&&!e.shiftKey){e.preventDefault();const nx=el.nextElementSibling?.nextElementSibling;if(nx&&nx.tagName==='INPUT'){nx.focus();nx.select();}else{const ntd=el.closest('td')?.nextElementSibling;const ni=ntd?.querySelector('input,select');if(ni){ni.focus();if(ni.tagName==='INPUT')ni.select();}}}}
+
+// ══════════════════════════════════════════════════════════
+// DEP POPUP (multi-select checkboxes)
+// ══════════════════════════════════════════════════════════
+let depPopIdx=null;
+function openDepPop(i){
+  depPopIdx=i;const a=acts[i];
+  const depArr=a.dep||[];
+  const others=acts.filter((_,j)=>j!==i&&!acts[j]._del);
+  const depTypeOpts=['fim','parcial','simultâneo'].map(t=>`<option${a.depType===t?' selected':''}>${t}</option>`).join('');
+  let rows=others.map(o=>`<div class="dep-radio-row" onclick="toggleDepChk(${o.seq})">
+    <input type="checkbox" id="dchk-${o.seq}" ${depArr.includes(o.seq)?'checked':''} onclick="event.stopPropagation();toggleDepChk(${o.seq})">
+    <span class="dep-seq">${o.seq}</span>
+    <span style="font-size:10px;color:var(--tx3);margin-right:4px;">[${o.comp}]</span>
+    <span style="font-size:12px;">${o.desc.substring(0,40)}${o.desc.length>40?'…':''}</span>
+  </div>`).join('');
+  document.getElementById('pop-root').innerHTML=`<div class="pop-ov" id="dep-pop" onclick="closeDepPop(event)">
+    <div class="pop-box" onclick="event.stopPropagation()" style="width:500px;">
+      <div class="pop-title">Dependências — seq.${a.seq} [${a.comp}]<button class="btn sm" onclick="closeDepPop()"><i class="ti ti-x"></i></button></div>
+      <div style="font-size:11px;color:var(--tx3);margin-bottom:8px;">Selecione as atividades predecessoras (pode ser múltipla entre componentes):</div>
+      ${rows}
+      <div style="border-top:1px solid var(--bd);margin-top:12px;padding-top:12px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+        <label style="font-size:11px;font-weight:700;color:var(--tx3);">TIPO</label>
+        <select id="dep-type" class="finput" style="height:28px;font-size:11px;width:120px;">${depTypeOpts}</select>
+        <label style="font-size:11px;font-weight:700;color:var(--tx3);margin-left:8px;">INTERVALO</label>
+        <div class="tw-box"><input class="th" type="number" id="dep-int-h" min="0" max="999" value="${phH(a.depDelay)}" onkeydown="tnext(event,this)"><span class="tsep">:</span><input class="tm" type="number" id="dep-int-m" min="0" max="59" value="${phM(a.depDelay)}"></div>
+      </div>
+      <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:14px;">
+        <button class="btn sm" onclick="closeDepPop()">Cancelar</button>
+        <button class="btn sm primary" onclick="saveDepPop()"><i class="ti ti-check"></i> Aplicar</button>
+      </div>
+    </div>
+  </div>`;
+}
+function toggleDepChk(seq){const cb=document.getElementById('dchk-'+seq);if(cb)cb.checked=!cb.checked;}
+function saveDepPop(){
+  if(depPopIdx===null)return;const i=depPopIdx;
+  snapIt(i);const oldDep=[...(acts[i].dep||[])];
+  const others=acts.filter((_,j)=>j!==i&&!acts[j]._del);
+  acts[i].dep=others.filter(o=>document.getElementById('dchk-'+o.seq)?.checked).map(o=>o.seq);
+  acts[i].depType=document.getElementById('dep-type').value;
+  const dh=+document.getElementById('dep-int-h').value||0,dm=+document.getElementById('dep-int-m').value||0;
+  acts[i].depDelay=dh||dm?fmtT(dh,dm):'';
+  acts[i]._edited=true;ganttDone=false;addLog(i,'dep',oldDep,acts[i].dep);
+  showStaleBanner();closeDepPop();renderActs();
+}
+function closeDepPop(e){if(!e||e.target===document.getElementById('dep-pop'))document.getElementById('pop-root').innerHTML='';}
+
+// ══════════════════════════════════════════════════════════
+// LOG POPUP
+// ══════════════════════════════════════════════════════════
+function showLog(i){
+  const a=acts[i];const log=a._log||[];
+  const fLbl={desc:'Descrição',wc:'Workcenter',qty:'Quantidade',unit:'Unidade',co:'Changeover',setup:'Acerto',prod:'Produção',prodRate:'Produtividade',dep:'Dependência',depType:'Tipo dep.',depDelay:'Intervalo',comp:'Componente'};
+  let html='';
+  if(a._snap){
+    html+=`<div style="display:grid;grid-template-columns:100px 1fr 1fr;gap:6px;padding:4px 0 6px;border-bottom:1px solid var(--bd);margin-bottom:6px;font-size:10px;font-weight:700;color:var(--tx3);"><span>CAMPO</span><span style="color:var(--txd);">ANTES</span><span style="color:var(--txs);">DEPOIS</span></div>`;
+    ['desc','wc','qty','unit','co','setup','prod','prodRate','dep','depType','depDelay','comp'].forEach(f=>{
+      const ov=a._snap[f],nv=a[f];if(String(ov)===String(nv))return;
+      const olvL=f==='wc'?wcById(ov).n:(ov===null||ov===undefined?'—':String(ov));
+      const nvL=f==='wc'?wcById(nv).n:(nv===null||nv===undefined?'—':String(nv));
+      html+=`<div class="log-row"><span style="font-weight:700;color:var(--tx3);">${fLbl[f]||f}</span><span class="log-orig">${olvL}</span><span class="log-curr">${nvL}</span></div>`;
+    });
+  }
+  if(log.length){
+    html+=`<div style="margin-top:14px;font-size:10px;font-weight:700;color:var(--tx3);padding-bottom:6px;border-bottom:1px solid var(--bd);">HISTÓRICO</div>`;
+    html+=log.slice().reverse().map(l=>`<div style="padding:5px 0;border-bottom:1px solid var(--bd);display:grid;grid-template-columns:100px 1fr 1fr;gap:6px;font-size:11px;"><span style="font-weight:700;color:var(--tx3);">${fLbl[l.field]||l.field}</span><span class="log-orig">${l.oldVal===null?'—':l.oldVal}</span><span class="log-curr">${l.newVal===null?'—':l.newVal}</span></div><div style="font-size:10px;color:var(--tx3);padding:2px 0 5px;">${l.ts} · ${l.user}</div>`).join('');
+  }
+  if(!html){html='<p style="color:var(--tx3);font-size:12px;">Sem alterações registradas.</p>';}
+  openPop(`Log — Seq.${a.seq}: ${a.desc.substring(0,30)}`,html);
+}
+function openPop(title,body){document.getElementById('pop-root').innerHTML=`<div class="pop-ov" id="main-pop" onclick="closePop(event)"><div class="pop-box" onclick="event.stopPropagation()"><div class="pop-title">${title}<button class="btn sm" onclick="closePop()"><i class="ti ti-x"></i></button></div>${body}</div></div>`;}
+function closePop(e){if(!e||e.target===document.getElementById('main-pop'))document.getElementById('pop-root').innerHTML='';}
+
+// ══════════════════════════════════════════════════════════
+// SCHEDULE ENGINE
+// ══════════════════════════════════════════════════════════
+function schedule(){
+  const active=acts.filter(a=>!a._del);
+  const sched={};let iter=0;
+  while(Object.keys(sched).length<active.length&&iter<80){iter++;
+    active.forEach(a=>{
+      if(sched[a.seq]!==undefined)return;
+      const deps=a.dep||[];
+      if(!freeMode&&deps.length>0){
+        const allReady=deps.every(d=>sched[d]!==undefined);if(!allReady)return;
+        let earliest=0;
+        deps.forEach(d=>{
+          const depA=active.find(x=>x.seq===d);if(!depA)return;
+          const depEnd=(sched[d]||0)+ph(depA.co)+ph(depA.setup)+ph(depA.prod);
+          const interval=ph(a.depDelay||'0');
+          const e2=a.depType==='simultâneo'?(sched[d]||0):depEnd+interval;
+          if(e2>earliest)earliest=e2;
+        });
+        // manual override
+        if(a._manualStart!==undefined&&a._manualStart>earliest)earliest=a._manualStart;
+        // push past bg
+        (BG[a.wc]||[]).forEach(b=>{if(b.s<=earliest&&b.s+b.d>earliest)earliest=b.s+b.d;});
+        // push past other acts on same wc
+        active.forEach(oa=>{if(oa.seq===a.seq||sched[oa.seq]===undefined)return;if(oa.wc!==a.wc)return;const oe=sched[oa.seq]+ph(oa.co)+ph(oa.setup)+ph(oa.prod);if(sched[oa.seq]<=earliest&&oe>earliest)earliest=oe;});
+        sched[a.seq]=earliest;
+      }else{
+        let earliest=a._manualStart!==undefined?a._manualStart:0;
+        (BG[a.wc]||[]).forEach(b=>{if(b.s<=earliest&&b.s+b.d>earliest)earliest=b.s+b.d;});
+        active.forEach(oa=>{if(oa.seq===a.seq||sched[oa.seq]===undefined)return;if(oa.wc!==a.wc)return;const oe=sched[oa.seq]+ph(oa.co)+ph(oa.setup)+ph(oa.prod);if(sched[oa.seq]<=earliest&&oe>earliest)earliest=oe;});
+        sched[a.seq]=earliest;
+      }
+    });
+  }
+  return sched;
+}
+
+// ══════════════════════════════════════════════════════════
+// GANTT
+// ══════════════════════════════════════════════════════════
+function simGantt(){
+  ganttDone=true;
+  everSimulated=true;
+  hideStaleBanner();
+  // Auto-fit: if ganttPxPerHour is still default (90), compute fit-to-width
+  if(ganttPxPerHour===90||ganttPxPerHour===0){
+    const ganttAreaW=(document.getElementById('gantt-area')?.offsetWidth||900)-220; // subtract wc label col
+    const active2=acts.filter(a=>!a._del);
+    const sched2=schedule();
+    const maxH2=active2.reduce((m,a)=>{const s=sched2[a.seq]||0;return Math.max(m,s+ph(a.co)+ph(a.setup)+ph(a.prod));},0);
+    if(maxH2>0) ganttPxPerHour=Math.max(20,Math.min(120,Math.floor(ganttAreaW/maxH2)));
+  }
+  const PX=ganttPxPerHour;
+  updateZoomLabel();
+  const active=acts.filter(a=>!a._del);
+  const sched=schedule();
+  ganttScheduled={...sched};
+  const usedIds=[...new Set(active.map(a=>a.wc))];
+  ganttUsedWcs=usedIds;
+  const maxEnd=active.reduce((m,a)=>{const s=sched[a.seq]||0;return Math.max(m,s+ph(a.co)+ph(a.setup)+ph(a.prod));},0);
+  const totalH=Math.max(maxEnd+2,12);const totalPx=Math.ceil(totalH*PX);
+
+  // Delivery
+  const delivDate=new Date(curOP.entrega);
+  const simEnd=new Date('2026-06-09');simEnd.setDate(simEnd.getDate()+Math.ceil(maxEnd/8));
+  const onTime=simEnd<=delivDate;const diff=Math.round((simEnd-delivDate)/864e5);
+  const db=document.getElementById('delivery-bar');db.style.display='flex';
+  db.style.cssText=`display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:var(--r);font-size:12px;margin-bottom:8px;border:1px solid;background:${onTime?'var(--bgs)':'var(--bgd)'};border-color:${onTime?'var(--bds)':'var(--bdd)'};color:${onTime?'var(--txs)':'var(--txd)'};`;
+  db.innerHTML=onTime?`<i class="ti ti-circle-check"></i><strong>Previsão: ${fmtHTime(maxEnd)}</strong> — dentro do prazo (${Math.abs(diff)} dias de folga)`:
+    `<i class="ti ti-alert-triangle"></i><strong>Previsão: ${fmtHTime(maxEnd)}</strong> — <strong>ATRASO DE ${Math.abs(diff)} DIAS</strong> (entrega: ${fmtDate(curOP.entrega)})`;
+
+  // Conflict
+  let conflict=false;
+  active.forEach(a=>{if(!a.dep||!a.dep.length||freeMode)return;a.dep.forEach(d=>{const depA=active.find(x=>x.seq===d);if(!depA)return;const depEnd=(sched[d]||0)+ph(depA.co)+ph(depA.setup)+ph(depA.prod);if(a.depType!=='simultâneo'&&(sched[a.seq]||0)<depEnd)conflict=true;});});
+  document.getElementById('conflict-banner').style.display=conflict?'flex':'none';
+  document.getElementById('conflict-msg').textContent='Conflito de dependência detectado.';
+  document.getElementById('btn-fix').style.display=conflict?'inline-flex':'none';
+
+  // Build HTML
+  const rowH=52;
+  const wrapW=totalPx+220;
+  let html=`<div class="gantt-outer" id="gantt-outer"><div style="position:relative;width:${wrapW}px;">`;
+  // Header
+  const hours=Math.ceil(totalH);
+  html+=`<div class="gantt-hdr-row">`;
+  const dayMap={};for(let h=0;h<hours;h++){const di=Math.floor(h/8);dayMap[di]=(dayMap[di]||0)+1;}
+  Object.entries(dayMap).forEach(([di,cnt])=>html+=`<div class="gantt-col-hdr" style="width:${cnt*PX}px;">${DAYS[Math.min(+di,DAYS.length-1)]||'Dia '+(+di+1)}</div>`);
+  html+=`</div>`;
+
+  // SVG layer
+  html+=`<svg id="dep-svg" style="position:absolute;top:${30}px;left:200px;width:${totalPx}px;height:${usedIds.length*rowH}px;pointer-events:none;overflow:visible;z-index:20;"></svg>`;
+
+  usedIds.forEach(wcId=>{
+    const wcO=wcById(wcId);
+    const wcActs=active.filter(a=>a.wc===wcId);
+    const bgActs=BG[wcId]||[];
+    html+=`<div class="gantt-row" style="height:${rowH}px;" id="grow-${wcId}">
+      <div class="gantt-wc-col" style="height:${rowH}px;"><span style="font-size:17px;">${wcO.ic}</span><span>${wcO.n}</span></div>
+      <div class="gantt-canvas" id="gcanvas-${wcId}" style="position:relative;flex:1;height:${rowH}px;width:${totalPx}px;">
+        <div id="dropline-${wcId}" style="position:absolute;top:0;width:2px;height:${rowH}px;background:var(--txi);display:none;z-index:50;pointer-events:none;"></div>`;
+    bgActs.forEach(b=>{const lx=Math.round(b.s*PX);const bw=Math.max(Math.round(b.d*PX),20);
+      html+=`<div class="gb bg-gb" style="left:${lx}px;width:${bw}px;height:${rowH-12}px;top:6px;background:#e0e0d8;border-color:#b8b8b0;color:#888;">${b.l}</div>`;});
+    wcActs.forEach(a=>{
+      const s=sched[a.seq]||0;
+      const coPx=Math.round(ph(a.co)*PX);const suPx=Math.round(ph(a.setup)*PX);const prPx=Math.max(Math.round(ph(a.prod)*PX),20);
+      const totalPxA=coPx+suPx+prPx;const lx=Math.round(s*PX);
+      const isConfl=!freeMode&&(a.dep||[]).some(d=>{const depA=active.find(x=>x.seq===d);if(!depA)return false;return a.depType!=='simultâneo'&&(sched[a.seq]||0)<(sched[d]||0)+ph(depA.co)+ph(depA.setup)+ph(depA.prod);});
+      html+=`<div class="gb${isConfl?' conflict-gb':''}" id="gb-${a.seq}"
+        data-seq="${a.seq}" data-wcid="${wcId}"
+        style="left:${lx}px;width:${totalPxA}px;height:${rowH-12}px;top:6px;background:${wcO.bg};border-color:${wcO.col};color:${wcO.col};"
+        title="Seq.${a.seq} [${a.comp}] — ${a.desc}&#10;Início: ${fmtHTime(s)} | Fim: ${fmtHTime(s+ph(a.co)+ph(a.setup)+ph(a.prod))}&#10;CO: ${a.co} | Acerto: ${a.setup} | Prod: ${a.prod}">`;
+      if(coPx>2)html+=`<div class="gb-co" style="width:${coPx}px;height:${rowH-18}px;" title="CO"></div>`;
+      if(suPx>2)html+=`<div class="gb-su" style="width:${suPx}px;height:${rowH-18}px;" title="Acerto"></div>`;
+      html+=`<span style="overflow:hidden;white-space:nowrap;min-width:0;"><strong>${a.seq}</strong> ${a.desc.split('—')[0].trim().substring(0,20)}</span></div>`;
+    });
+    html+=`</div></div>`;
+  });
+  html+=`</div></div>`;
+  document.getElementById('gantt-area').innerHTML=html;
+
+  document.getElementById('gantt-legend').style.display='flex';
+
+  // Attach mouse drag after DOM ready
+  const PX_snap=ganttPxPerHour;
+  requestAnimationFrame(()=>{attachGanttDrag(PX_snap);drawDepLines(active,sched,usedIds,rowH,PX_snap);});
+  renderFlow(active,sched,usedIds);
+}
+
+// ── MOUSE-BASED GANTT DRAG ────────────────────────────────
+function attachGanttDrag(PX=90){
+  document.querySelectorAll('.gb:not(.bg-gb)').forEach(el=>{
+    el.addEventListener('mousedown',gbMouseDown);
+  });
+  const outer=document.getElementById('gantt-outer');
+  if(outer){
+    outer.addEventListener('mousemove',gbMouseMove);
+    outer.addEventListener('mouseup',gbMouseUp);
+    outer.addEventListener('mouseleave',gbMouseUp);
+  }
+}
+
+function gbMouseDown(e){
+  if(e.button!==0)return;
+  const el=e.currentTarget;
+  const seq=+el.dataset.seq;
+  const wcId=el.dataset.wcid;
+  const rect=el.getBoundingClientRect();
+  gbDrag={active:true,seq,wcId,el,startX:e.clientX,origLeft:parseInt(el.style.left)||0,offX:e.clientX-rect.left};
+  el.classList.add('dragging-gb');
+  e.preventDefault();
+}
+
+function gbMouseMove(e){
+  if(!gbDrag.active)return;
+  const canvas=document.getElementById('gcanvas-'+gbDrag.wcId);
+  if(!canvas)return;
+  const canvasRect=canvas.getBoundingClientRect();
+  const rawX=e.clientX-canvasRect.left-gbDrag.offX;
+  const _PX=ganttPxPerHour;
+  const snapped=Math.max(0,Math.round(rawX/(_PX*0.5))*_PX*0.5); // snap 30min
+  gbDrag.el.style.left=snapped+'px'; // snapped in screen px
+  // Show drop line
+  const dl=document.getElementById('dropline-'+gbDrag.wcId);
+  if(dl){dl.style.display='block';dl.style.left=snapped+'px';}
+}
+
+function gbMouseUp(e){
+  if(!gbDrag.active)return;
+  const canvas=document.getElementById('gcanvas-'+gbDrag.wcId);
+  if(canvas){
+    const canvasRect=canvas.getBoundingClientRect();
+    const rawX=e.clientX-canvasRect.left-gbDrag.offX;
+    const _PX2=ganttPxPerHour;
+    const snapped=Math.max(0,Math.round(rawX/(_PX2*0.5))*_PX2*0.5);
+    const newStart=snapped/_PX2;
+    const a=acts.find(x=>x.seq===gbDrag.seq);
+    if(a){snapIt(acts.indexOf(a));a._manualStart=newStart;a._edited=true;ganttDone=false;}
+  }
+  gbDrag.el?.classList.remove('dragging-gb');
+  const dl=document.getElementById('dropline-'+gbDrag.wcId);
+  if(dl)dl.style.display='none';
+  gbDrag={active:false,seq:null,wcId:null,el:null,startX:0,origLeft:0,offX:0};
+  simGantt();
+}
+
+function gbClick(e,seq){
+  if(gbDrag.active)return;
+  document.querySelectorAll('.gb').forEach(b=>{b.classList.remove('hi-gb');});
+  const svg=document.getElementById('dep-svg');if(!svg)return;
+  document.getElementById('gb-'+seq)?.classList.add('hi-gb');
+  svg.querySelectorAll('[data-from],[data-to]').forEach(p=>{
+    const conn=p.dataset.from==seq||p.dataset.to==seq;
+    p.style.opacity=conn?'1':'0.12';
+    if(conn){const other=p.dataset.from==seq?p.dataset.to:p.dataset.from;document.getElementById('gb-'+other)?.classList.add('hi-gb');}
+  });
+}
+
+function drawDepLines(active,sched,usedIds,rowH,PX=90){
+  const svg=document.getElementById('dep-svg');if(!svg)return;
+  let p='';
+  active.forEach(a=>{
+    (a.dep||[]).forEach(d=>{
+      const depA=active.find(x=>x.seq===d);if(!depA)return;
+      const fi=usedIds.indexOf(depA.wc),ti=usedIds.indexOf(a.wc);if(fi<0||ti<0)return;
+      const fromEnd=(sched[d]||0)+ph(depA.co)+ph(depA.setup)+ph(depA.prod);
+      const toS=sched[a.seq]||0;
+      const x1=Math.round(fromEnd*PX),y1=Math.round(fi*rowH+rowH/2);
+      const x2=Math.round(toS*PX),y2=Math.round(ti*rowH+rowH/2);
+      const cx=(x1+x2)/2;
+      const col=wcById(a.wc).col;
+      p+=`<path d="M${x1},${y1} C${cx},${y1} ${cx},${y2} ${x2},${y2}" fill="none" stroke="${col}" stroke-width="1.5" stroke-dasharray="5 3" opacity=".65" data-from="${d}" data-to="${a.seq}"/>`;
+      const ang=Math.atan2(y2-y1,x2-x1);
+      const ax=x2-8*Math.cos(ang),ay=y2-8*Math.sin(ang);
+      p+=`<polygon points="${x2},${y2} ${ax-4*Math.sin(ang)},${ay+4*Math.cos(ang)} ${ax+4*Math.sin(ang)},${ay-4*Math.cos(ang)}" fill="${col}" opacity=".65" data-from="${d}" data-to="${a.seq}"/>`;
+    });
+  });
+  svg.innerHTML=p;
+  // re-attach click on blocks (SVG drawn after)
+  document.querySelectorAll('.gb:not(.bg-gb)').forEach(el=>{el.onclick=e=>gbClick(e,+el.dataset.seq);});
+}
+
+function zoomGantt(dir){
+  // dir: +1 = zoom in (more px/h), -1 = zoom out (fewer px/h)
+  const steps=[20,30,40,55,70,90,110,140,180,240];
+  const cur=ganttPxPerHour;
+  let idx=steps.findIndex(s=>s>=cur);
+  if(idx<0)idx=steps.length-1;
+  idx=Math.max(0,Math.min(steps.length-1,idx+dir));
+  ganttPxPerHour=steps[idx];
+  updateZoomLabel();
+  if(ganttDone)simGantt();
+}
+function updateZoomLabel(){
+  const el=document.getElementById('zoom-label');
+  if(!el)return;
+  // Express as relative %: 90px = 100%
+  const pct=Math.round(ganttPxPerHour/90*100);
+  el.textContent=pct+'%';
+}
+function fixConflicts(){document.getElementById('conflict-banner').style.display='none';document.getElementById('btn-fix').style.display='none';freeMode=false;simGantt();}
+function toggleFree(){freeMode=!freeMode;document.getElementById('free-banner').style.display=freeMode?'flex':'none';document.getElementById('btn-free').innerHTML=freeMode?'<i class="ti ti-lock"></i> Ativar regras':'<i class="ti ti-lock-open"></i> Ignorar regras';if(ganttDone)simGantt();}
+
+// ══════════════════════════════════════════════════════════
+// FLOW — parallel component lanes (SVG)
+// ══════════════════════════════════════════════════════════
+function renderFlow(active,sched,usedIds){
+  if(!active||!active.length)return;
+
+  const nodeW=120,nodeH=112,hgap=36,padX=20,padY=36;
+  const rowGap=18; // vertical gap between rows
+  const rowH=nodeH+rowGap;
+
+  const sorted=[...active].sort((a,b)=>a.seq-b.seq);
+
+  // ── Step 1: assign global topological column (X) ─────
+  // Each node's column = max(col of predecessors)+1, or 0.
+  const col={};
+  sorted.forEach(a=>{if(!(a.dep&&a.dep.length))col[a.seq]=0;});
+  let iter=0;
+  while(sorted.some(a=>col[a.seq]===undefined)&&iter<80){iter++;
+    sorted.forEach(a=>{
+      if(col[a.seq]!==undefined)return;
+      const deps=a.dep||[];
+      if(deps.every(d=>col[d]!==undefined))
+        col[a.seq]=Math.max(...deps.map(d=>col[d]||0))+1;
+    });
+  }
+  sorted.forEach(a=>{if(col[a.seq]===undefined)col[a.seq]=0;});
+
+  // ── Step 2: assign row (Y) per node ──────────────────
+  // Rules:
+  //  a) Nodes in the same component with the SAME column get different rows (branching/split)
+  //  b) Components that are "parallel" to each other get different base rows
+  //  c) Components that converge from parallel components get a row centered between them
+  //
+  // Algorithm:
+  //  1. Group nodes by column. Within each column, if multiple nodes share a comp, 
+  //     spread them into sub-rows.
+  //  2. Nodes with no predecessors in the same comp start at sub-row 0.
+  //  3. Nodes whose predecessors are in other comps (convergence) get centered between feeder rows.
+
+  // First pass: determine how many sub-rows each component needs per column
+  const allComps=[...new Set(sorted.map(a=>a.comp))];
+
+  // Assign a "lane" to each node — lane is a global row index
+  // We'll assign lanes greedily: same comp → same lane unless collision in same col
+  const lane={}; // seq -> lane index
+  const laneCount={}; // lane -> count (to detect collisions)
+
+  // Assign initial lane per component (components get sequential base lanes)
+  // But first detect which components are "sibling" (parallel) vs "convergence"
+  const compDepsFrom={};
+  allComps.forEach(cp=>{compDepsFrom[cp]=new Set();});
+  sorted.forEach(a=>{
+    (a.dep||[]).forEach(d=>{
+      const dA=active.find(x=>x.seq===d);
+      if(dA&&dA.comp!==a.comp) compDepsFrom[a.comp].add(dA.comp);
+    });
+  });
+
+  // Components that receive from multiple other comps = convergence
+  // Components that are not convergence = parallel (or simple sequential)
+  const isConvComp=cp=>compDepsFrom[cp].size>0;
+  const parallelComps=allComps.filter(cp=>!isConvComp(cp));
+  const convComps=allComps.filter(cp=>isConvComp(cp));
+
+  // Base lane per parallel comp
+  const compBaseLane={};
+  // We need to account for branching WITHIN a comp:
+  // count max nodes sharing a column in each comp to know how many lanes that comp needs
+  const compLaneCount={};
+  parallelComps.forEach(cp=>{
+    const cpActs=sorted.filter(a=>a.comp===cp);
+    const byCol={};
+    cpActs.forEach(a=>{byCol[col[a.seq]]=(byCol[col[a.seq]]||0)+1;});
+    compLaneCount[cp]=Math.max(...Object.values(byCol),1);
+  });
+
+  // Stack parallel comps with enough lanes each
+  let laneOffset=0;
+  parallelComps.forEach(cp=>{
+    compBaseLane[cp]=laneOffset;
+    laneOffset+=compLaneCount[cp];
+  });
+  const totalParallelLanes=laneOffset;
+
+  // Assign lane within each parallel comp
+  // Nodes in same comp+col get sequential sub-lanes starting at compBaseLane[cp]
+  const colSubLane={}; // "comp:col" -> next available sub-lane
+  sorted.forEach(a=>{
+    if(isConvComp(a.comp))return;
+    const key=a.comp+':'+col[a.seq];
+    if(colSubLane[key]===undefined)colSubLane[key]=compBaseLane[a.comp];
+    lane[a.seq]=colSubLane[key]++;
+  });
+
+  // Convergence comps: center between the feeder lanes
+  convComps.forEach(cp=>{
+    const cpActs=sorted.filter(a=>a.comp===cp);
+    // Find feeder lanes
+    const feederLanes=[];
+    cpActs.forEach(a=>{
+      (a.dep||[]).forEach(d=>{
+        const dA=active.find(x=>x.seq===d);
+        if(dA&&dA.comp!==cp&&lane[d]!==undefined)feederLanes.push(lane[d]);
+      });
+    });
+    const centerLane=feederLanes.length>0
+      ?(Math.min(...feederLanes)+Math.max(...feederLanes))/2
+      :totalParallelLanes/2-0.5;
+
+    // Nodes in same col of conv comp also get sub-lanes, centered around centerLane
+    const byCol={};
+    cpActs.forEach(a=>{byCol[col[a.seq]]=(byCol[col[a.seq]]||[]).concat(a.seq);});
+    Object.values(byCol).forEach(seqs=>{
+      const n=seqs.length;
+      seqs.forEach((seq,i)=>{
+        lane[seq]=centerLane-(n-1)/2+i;
+      });
+    });
+  });
+
+  // ── Step 3: compute Y from lane ───────────────────────
+  // laneYs and laneShift defined below after lane assignments
+  const nodeMidY=seq=>laneYs(lane[seq])+nodeH/2;
+  const nodeX=seq=>padX+col[seq]*(nodeW+hgap);
+  const rightX=seq=>nodeX(seq)+nodeW;
+  const leftX=seq=>nodeX(seq);
+
+  const maxCol=Math.max(...sorted.map(a=>col[a.seq]));
+  const allLanes=sorted.map(a=>lane[a.seq]);
+  const maxLane=Math.max(...allLanes);
+  const minLane=Math.min(...allLanes);
+  const laneShift=minLane; // shift so top lane starts at 0
+  const laneYs=l=>padY+(l-laneShift)*rowH; // Y position accounting for shift
+  const svgW=(maxCol+1)*(nodeW+hgap)+padX*2;
+  const svgH=laneYs(maxLane)+nodeH+padY;
+
+  // ── Step 4: Lane background bands per component ───────
+  // For each comp, find min and max lane it occupies
+  let laneLabels='';
+  allComps.forEach(cp=>{
+    const cpActs=sorted.filter(a=>a.comp===cp);
+    if(!cpActs.length)return;
+    const cpLanes=cpActs.map(a=>lane[a.seq]);
+    const minL=Math.min(...cpLanes), maxL=Math.max(...cpLanes);
+    const bandTop=laneYs(minL)-rowGap/2;
+    const bandH=(maxL-minL+1)*rowH;
+    const cc=compColor(cp);
+    laneLabels+=`<rect x="0" y="${bandTop}" width="${svgW}" height="${bandH}" fill="${cc}" fill-opacity="0.06"/>`;
+    if(minL>minLane)laneLabels+=`<line x1="0" y1="${bandTop}" x2="${svgW}" y2="${bandTop}" stroke="${cc}" stroke-width="0.7" opacity=".28"/>`;
+    // Label above first node of this comp
+    const firstCol=Math.min(...cpActs.map(a=>col[a.seq]));
+    const labelX=padX+firstCol*(nodeW+hgap);
+    const labelY=laneYs(minL)-7;
+    laneLabels+=`<text x="${labelX}" y="${labelY}" font-size="9" font-weight="700" fill="${cc}" letter-spacing="0.6">${cp.toUpperCase()}</text>`;
+  });
+
+  // ── Step 5: Nodes and edges ───────────────────────────
+  let edges='',nodes='';
+  sorted.forEach(a=>{
+    const wcO=wcById(a.wc);
+    const s=sched[a.seq]||0;
+    const end=s+ph(a.co)+ph(a.setup)+ph(a.prod);
+    const cx=nodeX(a.seq), cy=laneYs(lane[a.seq]);
+    const cc=compColor(a.comp);
+
+    nodes+=`<g transform="translate(${cx},${cy})" onclick="alert('Seq.${a.seq} — ${a.comp}\n${a.wc}\nInício: ${fmtHTime(s)}\nFim: ${fmtHTime(end)}\nProdutiv: ${a.prodRate||'—'} ${a.unit}/h')" style="cursor:pointer;">
+      <rect width="${nodeW}" height="${nodeH}" rx="10" fill="${wcO.bg}" stroke="${wcO.col}" stroke-width="1.5"/>
+      <rect x="0" y="0" width="${nodeW}" height="20" rx="10" fill="${wcO.col}" opacity=".18"/>
+      <text x="${nodeW/2}" y="14" text-anchor="middle" font-size="9" font-weight="700" fill="${wcO.col}">${wcO.n.substring(0,17)}</text>
+      <text x="${nodeW/2}" y="36" text-anchor="middle" font-size="22">${wcO.ic}</text>
+      <text x="${nodeW/2}" y="54" text-anchor="middle" font-size="8" fill="#555">${a.desc.substring(0,18)}${a.desc.length>18?'…':''}</text>
+      ${showFlowDates?`<text x="${nodeW/2}" y="67" text-anchor="middle" font-size="8" fill="#888">▶ ${fmtHTime(s)}</text><text x="${nodeW/2}" y="77" text-anchor="middle" font-size="8" fill="#888">⏹ ${fmtHTime(end)}</text>`:''}
+      <rect x="8" y="${nodeH-16}" width="${nodeW-16}" height="12" rx="5" fill="${cc}" opacity=".2"/>
+      <text x="${nodeW/2}" y="${nodeH-7}" text-anchor="middle" font-size="8" font-weight="700" fill="${cc}">${a.comp.substring(0,16)}</text>
+    </g>`;
+
+    (a.dep||[]).forEach(d=>{
+      const depA=active.find(x=>x.seq===d);if(!depA)return;
+      const isInter=depA.comp!==a.comp;
+      const edgeCol=isInter?compColor(a.comp):wcO.col;
+      const x1=rightX(d), y1=nodeMidY(d);
+      const x2=leftX(a.seq), y2=nodeMidY(a.seq);
+      const R=14;
+
+      if(Math.abs(y1-y2)<4){
+        // Same row: straight dashed line
+        edges+=`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${edgeCol}" stroke-width="${isInter?2:1.5}" ${isInter?'':'stroke-dasharray="5 3"'} marker-end="url(#${isInter?'arr2':'arr1'})" opacity="${isInter?.88:.65}"/>`;
+      } else {
+        // Different rows: orthogonal path with rounded corners
+        const goDown=y2>y1;
+        // Bend X: offset slightly per target node to avoid overlap when branching/merging
+        const tgtLane=lane[a.seq];
+        const depLane=lane[d];
+        const laneOffset2=(tgtLane-depLane)*4; // slight horizontal offset per lane diff
+        const bendX=x1+Math.max(24,(x2-x1)*0.4)+laneOffset2;
+        const vy1=goDown?y1+R:y1-R;
+        const vy2=goDown?y2-R:y2+R;
+        edges+=`<path d="M${x1},${y1} H${bendX-R} Q${bendX},${y1} ${bendX},${vy1} V${vy2} Q${bendX},${y2} ${bendX+R},${y2} H${x2}"
+          fill="none" stroke="${edgeCol}" stroke-width="${isInter?2:1.5}" ${isInter?'':'stroke-dasharray="5 3"'} marker-end="url(#${isInter?'arr2':'arr1'})" opacity="${isInter?.88:.65}"/>`;
+        if(a.depDelay){
+          const mx=(bendX+R+x2)/2, my=y2-8;
+          edges+=`<rect x="${mx-14}" y="${my-9}" width="28" height="11" rx="4" fill="white" opacity=".85"/><text x="${mx}" y="${my}" text-anchor="middle" font-size="8" fill="#888">+${a.depDelay}</text>`;
+        }
+      }
+    });
+  });
+
+  const defs=`<defs>
+    <marker id="arr1" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="#aaa"/></marker>
+    <marker id="arr2" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#534ab7"/></marker>
+  </defs>`;
+
+  document.getElementById('flow-area').innerHTML=`<div class="flow-outer" style="background:white;"><svg width="${svgW}" height="${svgH}" xmlns="http://www.w3.org/2000/svg" style="display:block;background:white;color-scheme:light;"><rect width="${svgW}" height="${svgH}" fill="white"/>${defs}${laneLabels}${edges}${nodes}</svg></div>`;
+}
+
+function compColor(c){
+  const keys=Object.keys(COMP_COLORS);
+  const exact=COMP_COLORS[c];if(exact)return exact;
+  const partial=keys.find(k=>c&&c.includes(k));
+  return partial?COMP_COLORS[partial]:'#666';
+}
+function toggleFlowDates(){showFlowDates=!showFlowDates;document.getElementById('btn-fdates').innerHTML=showFlowDates?'<i class="ti ti-eye"></i> Datas':'<i class="ti ti-eye-off"></i> Datas';if(ganttDone){const active=acts.filter(a=>!a._del);renderFlow(active,ganttScheduled,ganttUsedWcs);}}
+
+// ══════════════════════════════════════════════════════════
+// UI UTILS
+// ══════════════════════════════════════════════════════════
+function showStaleBanner(){
+  // Show if user has simulated at least once (everSimulated tracks this)
+  if(!everSimulated)return;
+  const b1=document.getElementById('stale-banner');
+  const b2=document.getElementById('stale-banner-flow');
+  const b3=document.getElementById('stale-inline');
+  if(b1)b1.style.display='flex';
+  if(b2)b2.style.display='flex';
+  if(b3)b3.style.display='inline-flex';
+}
+function hideStaleBanner(){
+  const b1=document.getElementById('stale-banner');
+  const b2=document.getElementById('stale-banner-flow');
+  const b3=document.getElementById('stale-inline');
+  if(b1)b1.style.display='none';
+  if(b2)b2.style.display='none';
+  if(b3)b3.style.display='none';
+}
+function showScreen(name){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById('screen-'+name).classList.add('active');const tp=document.getElementById('tab-prog');if(name==='prog'){tp.style.opacity='1';tp.style.cursor='pointer';tp.classList.add('active');document.getElementById('tab-list').classList.remove('active');}else{tp.style.opacity='.4';tp.style.cursor='not-allowed';tp.classList.remove('active');document.getElementById('tab-list').classList.add('active');}}
+function toggleSec(bodyId,chevId){const b=document.getElementById(bodyId),c=document.getElementById(chevId);const open=b.style.maxHeight!=='0px'&&b.style.maxHeight!=='';b.style.maxHeight=open?'0px':'400px';c.style.transform=open?'rotate(-90deg)':'rotate(0deg)';}
+
+init();
+</script>
+</body>
+</html>
