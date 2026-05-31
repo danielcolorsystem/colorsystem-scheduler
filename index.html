@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Colorsystem Scheduler</title>
+<title>NewScheduler</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
@@ -24,29 +24,39 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .card-footer{display:flex;align-items:center;justify-content:space-between;}
 .card-status{font-size:10px;font-weight:700;padding:3px 10px;border-radius:100px;background:#eaf3de;color:#3b6d11;}
 .card-arrow{color:#185fa5;font-size:16px;}
+.card-status.doc{background:#e6f1fb;color:#185fa5;}
 .proto-note{background:#fff;border:1px solid #d0d0c8;border-radius:12px;padding:16px 20px;margin-bottom:32px;display:flex;align-items:flex-start;gap:12px;font-size:13px;color:#555;line-height:1.6;}
 .proto-note i{color:#854f0b;font-size:18px;flex-shrink:0;margin-top:1px;}
 </style>
 </head>
 <body>
 <div class="header">
-  <div class="logo">Color<span>system</span></div>
-  <div class="subtitle">Scheduler</div>
+  <div class="logo">New<span>Scheduler</span></div>
+  <div class="subtitle">Sistema de Programação de Produção</div>
   <div class="proto-badge">⚙ Protótipo</div>
 </div>
 <div class="main">
   <div class="proto-note">
     <i class="ti ti-info-circle"></i>
-    <span>Este ambiente contém <strong>protótipos de interface</strong> desenvolvidos para demonstrar o conceito e fluxo das telas do Scheduler. Os dados são fictícios e as funcionalidades são simuladas — não se trata de um sistema em produção.</span>
+    <span>Este ambiente contém <strong>protótipos de interface</strong> para demonstração de conceito. Os dados são fictícios e as funcionalidades são simuladas — não se trata de um sistema em produção.</span>
   </div>
   <div class="section-title">Módulos disponíveis</div>
   <div class="cards">
     <a class="card" href="programacao-op/">
       <div class="card-icon">📋</div>
       <div class="card-title">Programação de OP</div>
-      <div class="card-desc">Programação manual de Ordens de Produção. Inclui tabela de atividades, Gantt interativo, fluxo de produção e simulação de alocação.</div>
+      <div class="card-desc">Programação manual de Ordens de Produção. Tabela de atividades, Gantt interativo, fluxo de produção e simulação de alocação.</div>
       <div class="card-footer">
         <span class="card-status">Disponível</span>
+        <i class="ti ti-arrow-right card-arrow"></i>
+      </div>
+    </a>
+    <a class="card" href="manual/">
+      <div class="card-icon">📖</div>
+      <div class="card-title">Manual de Demonstração</div>
+      <div class="card-desc">Documentação interativa do protótipo — funcionalidades, workcenters, fluxos e roteiro de teste.</div>
+      <div class="card-footer">
+        <span class="card-status doc">Documentação</span>
         <i class="ti ti-arrow-right card-arrow"></i>
       </div>
     </a>
