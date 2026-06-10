@@ -145,6 +145,10 @@ code{font-family:'DM Mono',monospace;font-size:13px;background:var(--blue-light)
 .url{font-family:'DM Mono',monospace;font-size:13px;color:var(--blue);}
 
 /* ── RESPONSIVE ── */
+html[data-lang="en"] .L-pt{display:none!important;}
+html:not([data-lang="en"]) .L-en{display:none!important;}
+.lang-btn{display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--gray-mid);background:var(--bg);border-radius:7px;padding:4px 12px;font-size:12px;font-weight:700;cursor:pointer;color:var(--text2);transition:all .15s;font-family:inherit;}
+.lang-btn:hover{border-color:var(--blue-mid);color:var(--blue);}
 @media(max-width:700px){
   .sidebar{display:none;}
   .main{padding:24px 20px;}
@@ -160,29 +164,30 @@ code{font-family:'DM Mono',monospace;font-size:13px;background:var(--blue-light)
 <aside class="sidebar">
   <div class="sidebar-brand">
     <div class="brand-logo">New<span>Scheduler</span></div>
-    <div class="brand-sub">NewScheduler — Manual</div>
-    <span class="proto-tag">Protótipo v1.0</span>
+    <div class="brand-sub"><span class="L-pt">Manual de Demonstração</span><span class="L-en">Demonstration Manual</span></div>
+    <span class="proto-tag"><span class="L-pt">Protótipo v1.0</span><span class="L-en">Prototype v1.0</span></span>
+    <button class="lang-btn" id="btn-lang" onclick="toggleLang()" style="float:right;margin-top:-22px;">EN</button>
   </div>
   <nav class="nav">
-    <div class="nav-section">Introdução</div>
-    <a class="nav-item active" onclick="showSection('cover')"><i class="ti ti-home"></i>Início</a>
-    <a class="nav-item" onclick="showSection('s1')"><i class="ti ti-info-circle"></i>Contexto e objetivo</a>
-    <a class="nav-item" onclick="showSection('s2')"><i class="ti ti-layout"></i>Estrutura geral</a>
-    <div class="nav-section">Funcionalidades</div>
-    <a class="nav-item" onclick="showSection('s3')"><i class="ti ti-list-search"></i>Seleção de OP</a>
-    <a class="nav-item" onclick="showSection('s4')"><i class="ti ti-table"></i>Tabela de atividades</a>
+    <div class="nav-section"><span class="L-pt">Introdução</span><span class="L-en">Introduction</span></div>
+    <a class="nav-item active" onclick="showSection('cover')"><i class="ti ti-home"></i><span class="L-pt">Início</span><span class="L-en">Home</span></a>
+    <a class="nav-item" onclick="showSection('s1')"><i class="ti ti-info-circle"></i><span class="L-pt">Contexto e objetivo</span><span class="L-en">Context and purpose</span></a>
+    <a class="nav-item" onclick="showSection('s2')"><i class="ti ti-layout"></i><span class="L-pt">Estrutura geral</span><span class="L-en">Screen structure</span></a>
+    <div class="nav-section"><span class="L-pt">Funcionalidades</span><span class="L-en">Features</span></div>
+    <a class="nav-item" onclick="showSection('s3')"><i class="ti ti-list-search"></i><span class="L-pt">Seleção de OP</span><span class="L-en">Order selection</span></a>
+    <a class="nav-item" onclick="showSection('s4')"><i class="ti ti-table"></i><span class="L-pt">Tabela de atividades</span><span class="L-en">Activity table</span></a>
     <a class="nav-item" onclick="showSection('s5')"><i class="ti ti-calendar-stats"></i>Gantt</a>
-    <a class="nav-item" onclick="showSection('s6')"><i class="ti ti-arrows-right"></i>Fluxo de produção</a>
-    <a class="nav-item" onclick="showSection('s6b')"><i class="ti ti-stack-2"></i>Agrupamentos</a>
-    <a class="nav-item" onclick="showSection('s6c')"><i class="ti ti-message-2"></i>Observações</a>
-    <a class="nav-item" onclick="showSection('s6d')"><i class="ti ti-moon"></i>Tema e idioma</a>
-    <div class="nav-section">Referência</div>
+    <a class="nav-item" onclick="showSection('s6')"><i class="ti ti-arrows-right"></i><span class="L-pt">Fluxo de produção</span><span class="L-en">Production flow</span></a>
+    <a class="nav-item" onclick="showSection('s6b')"><i class="ti ti-stack-2"></i><span class="L-pt">Agrupamentos</span><span class="L-en">Grouping</span></a>
+    <a class="nav-item" onclick="showSection('s6c')"><i class="ti ti-message-2"></i><span class="L-pt">Observações</span><span class="L-en">Shopfloor notes</span></a>
+    <a class="nav-item" onclick="showSection('s6d')"><i class="ti ti-moon"></i><span class="L-pt">Tema e idioma</span><span class="L-en">Theme and language</span></a>
+    <div class="nav-section"><span class="L-pt">Referência</span><span class="L-en">Reference</span></div>
     <a class="nav-item" onclick="showSection('s7')"><i class="ti ti-tool"></i>Workcenters</a>
-    <a class="nav-item" onclick="showSection('s8')"><i class="ti ti-help-circle"></i>Questões em aberto</a>
-    <a class="nav-item" onclick="showSection('s9')"><i class="ti ti-road"></i>Próximos passos</a>
+    <a class="nav-item" onclick="showSection('s8')"><i class="ti ti-help-circle"></i><span class="L-pt">Questões em aberto</span><span class="L-en">Open questions</span></a>
+    <a class="nav-item" onclick="showSection('s9')"><i class="ti ti-road"></i><span class="L-pt">Próximos passos</span><span class="L-en">Next steps</span></a>
   </nav>
   <div class="sidebar-footer">
-    <a href="../programacao-op/" target="_blank"><i class="ti ti-external-link"></i> Abrir tela de programação</a>
+    <a href="../programacao-op/" target="_blank"><i class="ti ti-external-link"></i> <span class="L-pt">Abrir tela de programação</span><span class="L-en">Open scheduling screen</span></a>
   </div>
 </aside>
 
@@ -191,6 +196,7 @@ code{font-family:'DM Mono',monospace;font-size:13px;background:var(--blue-light)
 
   <!-- COVER -->
   <div id="cover" class="section active">
+<div class="L-pt">
     <div class="cover">
       <div class="cover-logo">New<span>Scheduler</span></div>
       <div class="cover-divider"></div>
@@ -208,13 +214,34 @@ code{font-family:'DM Mono',monospace;font-size:13px;background:var(--blue-light)
       <p style="color:var(--text3);font-size:13px;margin-bottom:8px;">Acesse a tela diretamente em:</p>
       <div class="cover-url">danielcolorsystem.github.io/NewScheduler/programacao-op/ <span style="font-size:11px;color:#888;">(via GitHub Pages)</span></div>
     </div>
+</div>
+<div class="L-en">
+    <div class="cover">
+      <div class="cover-logo">New<span>Scheduler</span></div>
+      <div class="cover-divider"></div>
+      <div class="cover-title">Proof of Concept Manual</div>
+      <div class="cover-module">Production Order Scheduling Screen</div>
+      <div class="cover-meta">
+        <span class="cover-badge">Version 1.0</span>
+        <span class="cover-badge">June 2026</span>
+        <span class="cover-badge warn">⚠ Prototype — fictional data</span>
+      </div>
+      <div class="callout warn" style="max-width:560px;margin:0 auto 24px;text-align:left;">
+        <i class="ti ti-alert-triangle"></i>
+        <p>This document describes an <strong>interface prototype</strong> built to demonstrate the concept and flow of the Production Order (PO) Scheduling screen. All data is fictional and features are simulated — there is no connection to any real ERP or database.</p>
+      </div>
+      <p style="color:var(--text3);font-size:13px;margin-bottom:8px;">Access the screen directly at:</p>
+      <div class="cover-url">danielcolorsystem.github.io/NewScheduler/programacao-op/</div>
+    </div>
+</div>
   </div>
 
   <!-- S1 CONTEXTO -->
   <div id="s1" class="section">
+<div class="L-pt">
     <h1><span class="sec-num">01</span>Contexto e objetivo</h1>
     <p class="subtitle">Por que essa tela existe e o que ela representa no projeto</p>
-    <p>O Scheduler da NewScheduler é um sistema de programação de produção com motor de scheduling automático, voltado para gráficas com produção de livros (digital e offset) e embalagens em papel cartão (cartuchos).</p>
+    <p>O NewScheduler é um sistema de programação de produção com motor de scheduling automático, voltado para gráficas com produção de livros (digital e offset) e embalagens em papel cartão (cartuchos).</p>
     <p>A maioria das OPs será programada automaticamente pelo motor. Esta tela — <strong>Programação de OP</strong> — é o módulo de intervenção manual, para trabalhos complexos onde o programador precisa refinar, ajustar ou supervisionar a alocação.</p>
     <h2>O que o programador pode fazer aqui</h2>
     <ul style="list-style:none;display:flex;flex-direction:column;gap:8px;margin-bottom:16px;">
@@ -226,12 +253,32 @@ code{font-family:'DM Mono',monospace;font-size:13px;background:var(--blue-light)
     </ul>
     <div class="callout info">
       <i class="ti ti-info-circle"></i>
-      <p>Este protótipo é o primeiro passo para substituir o <strong>M3 Planner</strong>, sistema atualmente em uso pela NewScheduler, e iniciar as vendas do Scheduler para outras gráficas.</p>
+      <p>Este protótipo é o primeiro passo para substituir o <strong>M3 Planner</strong>, sistema atualmente em uso pela Colorsystem (empresa vitrine do projeto), e iniciar as vendas para outras gráficas.</p>
     </div>
+</div>
+<div class="L-en">
+    <h1><span class="sec-num">01</span>Context and purpose</h1>
+    <p class="subtitle">Why this screen exists and what it represents in the project</p>
+    <p>NewScheduler is a production scheduling system with an automatic scheduling engine, aimed at printing companies producing books (digital and offset) and folding cartons.</p>
+    <p>Most production orders will be scheduled automatically by the engine. This screen — <strong>PO Scheduling</strong> — is the manual intervention module, for complex jobs where the scheduler needs to refine, adjust or supervise the allocation.</p>
+    <h2>What the scheduler can do here</h2>
+    <ul style="list-style:none;display:flex;flex-direction:column;gap:8px;margin-bottom:16px;">
+      <li style="display:flex;gap:10px;"><i class="ti ti-check" style="color:var(--green);margin-top:3px;flex-shrink:0;"></i><span>View the activities planned by the ERP (iQuote)</span></li>
+      <li style="display:flex;gap:10px;"><i class="ti ti-check" style="color:var(--green);margin-top:3px;flex-shrink:0;"></i><span>Edit, add, delete and reorder activities</span></li>
+      <li style="display:flex;gap:10px;"><i class="ti ti-check" style="color:var(--green);margin-top:3px;flex-shrink:0;"></i><span>Simulate workcenter allocation with a Gantt view</span></li>
+      <li style="display:flex;gap:10px;"><i class="ti ti-check" style="color:var(--green);margin-top:3px;flex-shrink:0;"></i><span>View the production flow with parallelism, convergence and branching</span></li>
+      <li style="display:flex;gap:10px;"><i class="ti ti-check" style="color:var(--green);margin-top:3px;flex-shrink:0;"></i><span>Resolve conflicts and adjust the schedule manually</span></li>
+    </ul>
+    <div class="callout info">
+      <i class="ti ti-info-circle"></i>
+      <p>This prototype is the first step towards replacing the <strong>M3 Planner</strong>, the system currently in use at Colorsystem (the project's showcase company), and starting sales to other printing companies.</p>
+    </div>
+</div>
   </div>
 
   <!-- S2 ESTRUTURA -->
   <div id="s2" class="section">
+<div class="L-pt">
     <h1><span class="sec-num">02</span>Estrutura geral</h1>
     <p class="subtitle">As cinco seções da tela, acessadas em sequência na mesma página</p>
     <div class="tbl-wrap">
@@ -246,10 +293,28 @@ code{font-family:'DM Mono',monospace;font-size:13px;background:var(--blue-light)
         </tbody>
       </table>
     </div>
+</div>
+<div class="L-en">
+    <h1><span class="sec-num">02</span>Screen structure</h1>
+    <p class="subtitle">The five sections of the screen, accessed in sequence on the same page</p>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>#</th><th>Section</th><th>Purpose</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>Order selection</td><td>Filter and list of POs pending scheduling</td></tr>
+          <tr><td>2</td><td>PO header</td><td>General information: customer, product, quantity, due date</td></tr>
+          <tr><td>3</td><td>Activities</td><td>Editable activity list with times, dependencies and workcenters</td></tr>
+          <tr><td>4</td><td>Gantt</td><td>Workcenter allocation simulation with draggable blocks</td></tr>
+          <tr><td>5</td><td>Production flow</td><td>Visual flow diagram with parallelism, convergence and branching</td></tr>
+        </tbody>
+      </table>
+    </div>
+</div>
   </div>
 
   <!-- S3 SELEÇÃO -->
   <div id="s3" class="section">
+<div class="L-pt">
     <h1><span class="sec-num">03</span>Seleção de OP</h1>
     <p class="subtitle">Filtro e lista de OPs pendentes de programação</p>
     <p>A tela inicia com uma lista de OPs filtráveis. O programador pode combinar os filtros livremente:</p>
@@ -272,10 +337,36 @@ code{font-family:'DM Mono',monospace;font-size:13px;background:var(--blue-light)
       </table>
     </div>
     <div class="callout info"><i class="ti ti-info-circle"></i><p>Ao selecionar uma OP, a tela avança para as seções de programação. O botão de retorno sempre está disponível para voltar à lista sem perder dados.</p></div>
+</div>
+<div class="L-en">
+    <h1><span class="sec-num">03</span>Order selection</h1>
+    <p class="subtitle">Filter and list of POs pending scheduling</p>
+    <p>The screen starts with a filterable list of POs. Filters can be freely combined:</p>
+    <div class="field-grid" style="grid-template-columns:repeat(3,1fr);">
+      <div class="field-card"><div class="field-name">Order number</div><div class="field-desc">Direct search by order code</div></div>
+      <div class="field-card"><div class="field-name">Customer</div><div class="field-desc">Partial or full customer name</div></div>
+      <div class="field-card"><div class="field-name">Job</div><div class="field-desc">Title or words from the job name</div></div>
+      <div class="field-card"><div class="field-name">Type</div><div class="field-desc">Digital Book, Offset Book or Folding Carton</div></div>
+      <div class="field-card"><div class="field-name">Status</div><div class="field-desc">Urgent, Partial or Pending</div></div>
+    </div>
+    <h2>PO statuses</h2>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Status</th><th>Meaning</th></tr></thead>
+        <tbody>
+          <tr><td><span class="tbl-label lbl-red">Urgent</span></td><td>Critical due date — shown in red in the list</td></tr>
+          <tr><td><span class="tbl-label lbl-blue">Partial</span></td><td>Some activities are already scheduled</td></tr>
+          <tr><td><span class="tbl-label lbl-amber">Pending</span></td><td>No activity scheduled yet</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout info"><i class="ti ti-info-circle"></i><p>Selecting a PO moves to the scheduling sections. The back button is always available to return to the list without losing data.</p></div>
+</div>
   </div>
 
   <!-- S4 ATIVIDADES -->
   <div id="s4" class="section">
+<div class="L-pt">
     <h1><span class="sec-num">04</span>Tabela de atividades</h1>
     <p class="subtitle">Lista editável carregada do iQuote, com todos os controles de programação</p>
     <h2>Campos por atividade</h2>
@@ -334,10 +425,72 @@ code{font-family:'DM Mono',monospace;font-size:13px;background:var(--blue-light)
     <p>As linhas podem ser reordenadas arrastando pelo ícone de alça <strong>⠿</strong> à esquerda. As sequências são renumeradas automaticamente.</p>
     <p>Clicando no chip de dependência abre um popup com checkboxes para selecionar predecessoras (múltipla seleção entre componentes), tipo e intervalo de espera.</p>
     <div class="callout info"><i class="ti ti-info-circle"></i><p>Uma atividade pode depender de atividades de <strong>componentes diferentes</strong> — por exemplo, a Lombada PUR depende tanto do último processo da Capa quanto do último do Miolo.</p></div>
+</div>
+<div class="L-en">
+    <h1><span class="sec-num">04</span>Activity table</h1>
+    <p class="subtitle">Editable list loaded from iQuote, with all scheduling controls</p>
+    <h2>Fields per activity</h2>
+    <div class="field-grid">
+      <div class="field-card"><div class="field-name">Component</div><div class="field-desc">Groups activities by product part (Cover, Body, Book, Assembly, Gluing...)</div></div>
+      <div class="field-card"><div class="field-name">Description</div><div class="field-desc">Technical details: colors, paper, format, die cavities, spine measurements</div></div>
+      <div class="field-card"><div class="field-name">Workcenter</div><div class="field-desc">Equipment or team responsible for the activity</div></div>
+      <div class="field-card"><div class="field-name">Quantity</div><div class="field-desc">Volume to produce, shown with thousands separator</div></div>
+      <div class="field-card"><div class="field-name">Productivity</div><div class="field-desc">Speed in units/hour. Automatically updates the run time</div></div>
+      <div class="field-card"><div class="field-name">Changeover</div><div class="field-desc">Cleaning/switch time before setup (e.g. offset washup). Default: 0</div></div>
+      <div class="field-card"><div class="field-name">Setup</div><div class="field-desc">Equipment preparation time</div></div>
+      <div class="field-card"><div class="field-name">Run</div><div class="field-desc">Production time. Automatically updates productivity if changed</div></div>
+      <div class="field-card"><div class="field-name">Dependency</div><div class="field-desc">Predecessors, type (finish/partial/simultaneous) and waiting interval</div></div>
+    </div>
+    <div class="callout info"><i class="ti ti-info-circle"></i><p>Time fields use <strong>HH:MM</strong> format. The Tab key navigates automatically between hour and minute.</p></div>
+
+    <h2>State markers</h2>
+    <div class="badge-row">
+      <span class="badge bdg-new"><i class="ti ti-circle-filled" style="font-size:8px;"></i>new</span>
+      <span class="badge bdg-edit">edited ↗</span>
+      <span class="badge bdg-split">split</span>
+      <span class="badge bdg-del">deleted</span>
+    </div>
+    <div class="tbl-wrap" style="margin-top:12px;">
+      <table>
+        <thead><tr><th>Marker</th><th>Meaning</th></tr></thead>
+        <tbody>
+          <tr><td><span class="tbl-label lbl-green">new</span></td><td>Added manually by the scheduler</td></tr>
+          <tr><td><span class="tbl-label lbl-amber">edited ↗</span></td><td>Modified original. Clicking shows a log: field, previous value, current value, date and user</td></tr>
+          <tr><td><span class="tbl-label lbl-purple">split</span></td><td>Created by splitting another activity</td></tr>
+          <tr><td><span class="tbl-label lbl-gray" style="text-decoration:line-through;">struck</span></td><td>Deleted original — kept in history, can be restored</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>Actions per activity</h2>
+    <div style="margin-bottom:12px;">
+      <span class="btn-demo btn-del"><i class="ti ti-trash"></i> Delete</span>
+      <span class="btn-demo btn-split"><i class="ti ti-scissors"></i> Split</span>
+      <span class="btn-demo btn-dup"><i class="ti ti-copy"></i> Duplicate</span>
+      <span class="btn-demo btn-rev"><i class="ti ti-arrow-back-up"></i> Revert</span>
+    </div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Action</th><th>Behavior</th></tr></thead>
+        <tbody>
+          <tr><td>Delete</td><td>Originals get hatched (restorable). New/duplicated rows are removed. Splits are removed and the original block automatically reverted</td></tr>
+          <tr><td>Split</td><td>Divides into two halves with the same predecessor dependency — ideal for running two workcenters in parallel</td></tr>
+          <tr><td>Duplicate</td><td>Creates a copy of the activity below the original</td></tr>
+          <tr><td>Revert</td><td>Shown only on edited activities. Restores the original system values</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>Reordering and dependencies</h2>
+    <p>Rows can be reordered by dragging the handle icon <strong>⠿</strong> on the left. Sequences are renumbered automatically.</p>
+    <p>Clicking the dependency chip opens a popup with checkboxes for selecting predecessors (multiple selection across components), type and waiting interval.</p>
+    <div class="callout info"><i class="ti ti-info-circle"></i><p>An activity can depend on activities from <strong>different components</strong> — for example, the PUR binding depends on both the last Cover process and the last Body process.</p></div>
+</div>
   </div>
 
   <!-- S5 GANTT -->
   <div id="s5" class="section">
+<div class="L-pt">
     <h1><span class="sec-num">05</span>Gantt — Simulação de alocação</h1>
     <p class="subtitle">Visualização e ajuste da programação nos workcenters</p>
     <p>Ao clicar em <strong>Simular</strong>, o motor calcula a alocação respeitando dependências, tempos e outros trabalhos já programados. O resultado é exibido como Gantt horizontal.</p>
@@ -376,10 +529,52 @@ code{font-family:'DM Mono',monospace;font-size:13px;background:var(--blue-light)
 
     <h2>Alerta de desatualização</h2>
     <div class="callout warn"><i class="ti ti-refresh-alert"></i><p>Sempre que uma atividade é editada após uma simulação, um aviso amarelo aparece ao lado do botão <strong>Simular</strong> informando que o Gantt e o Fluxo estão desatualizados.</p></div>
+</div>
+<div class="L-en">
+    <h1><span class="sec-num">05</span>Gantt — Allocation simulation</h1>
+    <p class="subtitle">Viewing and adjusting the schedule across workcenters</p>
+    <p>Clicking <strong>Simulate</strong> makes the engine compute the allocation, respecting dependencies, times and other jobs already scheduled. The result is shown as a horizontal Gantt.</p>
+    <div class="callout info"><i class="ti ti-info-circle"></i><p>The Gantt shows <strong>only the workcenters</strong> used by the current PO's activities — no visual clutter from unused equipment.</p></div>
+
+    <h2>Reading the blocks</h2>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Element</th><th>Meaning</th></tr></thead>
+        <tbody>
+          <tr><td>Strong colored block</td><td>Activity of the PO being scheduled</td></tr>
+          <tr><td>Light gray block</td><td>Other jobs already scheduled on the same workcenter</td></tr>
+          <tr><td>Hatched strip at the start</td><td>Changeover (cleaning/switch before setup)</td></tr>
+          <tr><td>Dark strip at the start</td><td>Setup (equipment preparation)</td></tr>
+          <tr><td>Dashed line with arrow</td><td>Dependency between activities</td></tr>
+          <tr><td>Red outline</td><td>Dependency conflict detected</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>Interactions</h2>
+    <ul style="list-style:none;display:flex;flex-direction:column;gap:8px;margin-bottom:16px;">
+      <li style="display:flex;gap:10px;"><i class="ti ti-mouse" style="color:var(--blue);margin-top:3px;flex-shrink:0;"></i><span><strong>Click a block</strong> — highlights the block and its dependency arrows; the rest is dimmed</span></li>
+      <li style="display:flex;gap:10px;"><i class="ti ti-drag-drop" style="color:var(--blue);margin-top:3px;flex-shrink:0;"></i><span><strong>Drag a block</strong> — repositions it in time with a 30-minute snap</span></li>
+      <li style="display:flex;gap:10px;"><i class="ti ti-zoom-in" style="color:var(--blue);margin-top:3px;flex-shrink:0;"></i><span><strong>Zoom ±</strong> — adjusts the scale. On the first Simulate, zoom is calculated automatically so the whole period fits the screen</span></li>
+    </ul>
+
+    <h2>Delivery indicator</h2>
+    <div class="callout success"><i class="ti ti-circle-check"></i><p><strong>Green:</strong> on time, with days of slack</p></div>
+    <div class="callout" style="background:var(--red-light);color:var(--red);border:1px solid #f09595;"><i class="ti ti-alert-triangle"></i><p><strong>Red:</strong> delay relative to the due date — shows how many days</p></div>
+    <p>The indicator updates automatically when blocks are dragged or after editing and re-simulating.</p>
+
+    <h2>Conflicts and free mode</h2>
+    <p>When dependency conflicts are detected, an alert banner appears with the <strong>Resolve conflicts</strong> button — the engine readjusts automatically.</p>
+    <p>The <strong>Ignore rules</strong> button enables free mode: the scheduler positions blocks without restrictions, for exceptional situations.</p>
+
+    <h2>Outdated alert</h2>
+    <div class="callout warn"><i class="ti ti-refresh-alert"></i><p>Whenever an activity is edited after a simulation, a yellow notice appears next to the <strong>Simulate</strong> button, indicating that the Gantt and Flow are out of date.</p></div>
+</div>
   </div>
 
   <!-- S6 FLUXO -->
   <div id="s6" class="section">
+<div class="L-pt">
     <h1><span class="sec-num">06</span>Fluxo de produção</h1>
     <p class="subtitle">Diagrama visual automático com paralelismo, convergência e ramificação</p>
     <p>Gerado automaticamente após a simulação. Representa a sequência, o paralelismo e a convergência/ramificação dos processos da OP em faixas horizontais por componente.</p>
@@ -426,10 +621,60 @@ code{font-family:'DM Mono',monospace;font-size:13px;background:var(--blue-light)
       <div class="field-card"><div class="field-name">Progresso</div><div class="field-desc">Barra percentual via integração de apontamento</div></div>
       <div class="field-card"><div class="field-name">Componente</div><div class="field-desc">Label de componente no rodapé do nó</div></div>
     </div>
+</div>
+<div class="L-en">
+    <h1><span class="sec-num">06</span>Production flow</h1>
+    <p class="subtitle">Automatic visual diagram with parallelism, convergence and branching</p>
+    <p>Generated automatically after simulation. It represents the sequence, parallelism and convergence/branching of the PO's processes, in horizontal lanes per component.</p>
+
+    <h2>Components by PO type</h2>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>PO type</th><th>Parallel components</th><th>Convergence</th></tr></thead>
+        <tbody>
+          <tr><td>Digital Book</td><td>Cover / Body</td><td>Book (from Binding onwards)</td></tr>
+          <tr><td>Offset Book</td><td>Cover / Body</td><td>Book (from Binding onwards)</td></tr>
+          <tr><td>Carton (1 SKU)</td><td>Production (linear)</td><td>—</td></tr>
+          <tr><td>Carton (N SKUs)</td><td>Production (branching after Stripping)</td><td>— (each SKU follows its own flow)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>Flow patterns</h2>
+    <div class="flow-legend">
+      <div class="flow-item">
+        <div class="flow-line-demo"><svg width="36" height="20"><line x1="0" y1="10" x2="28" y2="10" stroke="#aaa" stroke-width="1.5" stroke-dasharray="4 3"/><polygon points="28,6 36,10 28,14" fill="#aaa"/></svg></div>
+        <div class="flow-item-text"><strong>Sequential</strong> — processes in series within the same component</div>
+      </div>
+      <div class="flow-item">
+        <div class="flow-line-demo"><svg width="36" height="20"><line x1="0" y1="10" x2="28" y2="10" stroke="#534ab7" stroke-width="2"/><polygon points="28,6 36,10 28,14" fill="#534ab7"/></svg></div>
+        <div class="flow-item-text"><strong>Convergence</strong> — two components merge (e.g. Cover + Body → Binding)</div>
+      </div>
+      <div class="flow-item">
+        <div class="flow-line-demo"><svg width="36" height="20"><line x1="0" y1="10" x2="28" y2="10" stroke="#3b6d11" stroke-width="2"/><polygon points="28,6 36,10 28,14" fill="#3b6d11"/></svg></div>
+        <div class="flow-item-text"><strong>Branching</strong> — one process splits into N (e.g. Stripping → N gluings per SKU)</div>
+      </div>
+      <div class="flow-item">
+        <div class="flow-line-demo"><svg width="36" height="20"><rect x="4" y="4" width="28" height="12" rx="4" fill="#e6f1fb" stroke="#85b7eb" stroke-width="1.5"/></svg></div>
+        <div class="flow-item-text"><strong>Node</strong> — clickable, shows a popup with full activity details</div>
+      </div>
+    </div>
+
+    <h2>Information per node</h2>
+    <div class="field-grid" style="grid-template-columns:repeat(3,1fr);">
+      <div class="field-card"><div class="field-name">Workcenter</div><div class="field-desc">Equipment name and icon</div></div>
+      <div class="field-card"><div class="field-name">Description</div><div class="field-desc">Activity summary</div></div>
+      <div class="field-card"><div class="field-name">Dates</div><div class="field-desc">Start and end (hideable via the Dates button)</div></div>
+      <div class="field-card"><div class="field-name">Status</div><div class="field-desc">Waiting / In progress / Finished</div></div>
+      <div class="field-card"><div class="field-name">Progress</div><div class="field-desc">Percentage bar via shopfloor integration</div></div>
+      <div class="field-card"><div class="field-name">Component</div><div class="field-desc">Component label at the node footer</div></div>
+    </div>
+</div>
   </div>
 
   <!-- S6B AGRUPAMENTOS -->
   <div id="s6b" class="section">
+<div class="L-pt">
     <h1><span class="sec-num">07</span>Agrupamentos</h1>
     <p class="subtitle">Ferramentas para trabalhar com OPs de muitas atividades</p>
     <p>OPs complexas geram dezenas de atividades — um livro offset de 320 páginas tem 16 impressões (frente e verso de 8 cadernos) e 8 dobras. Trabalhar atividade por atividade é inviável, então a tela oferece duas formas de agrupamento, acionadas pela seleção via checkbox de cada linha.</p>
@@ -452,10 +697,36 @@ code{font-family:'DM Mono',monospace;font-size:13px;background:var(--blue-light)
       <li style="display:flex;gap:10px;"><i class="ti ti-check" style="color:var(--green);margin-top:3px;flex-shrink:0;"></i><span>Atividades posteriores que dependiam dos membros passam a depender do bloco agrupado</span></li>
       <li style="display:flex;gap:10px;"><i class="ti ti-check" style="color:var(--green);margin-top:3px;flex-shrink:0;"></i><span><strong>Desagrupar</strong> restaura as atividades originais com todas as dependências intactas</span></li>
     </ul>
+</div>
+<div class="L-en">
+    <h1><span class="sec-num">07</span>Grouping</h1>
+    <p class="subtitle">Tools for working with POs that have many activities</p>
+    <p>Complex POs generate dozens of activities — a 320-page offset book has 16 printing runs (front and back of 8 signatures) and 8 folding runs. Working activity by activity is impractical, so the screen offers two forms of grouping, triggered by the checkbox selection on each row.</p>
+
+    <div class="callout info"><i class="ti ti-info-circle"></i><p>The action bar stays <strong>pinned to the top</strong> when scrolling the list. The filter field narrows the list (searching description, workcenter, component and sequence) and the <strong>master checkbox</strong> in the table header selects all visible activities. Typical flow: filter "front" → tick the master checkbox → group. Three clicks, no scrolling.</p></div>
+
+    <h2>Group blocks — joint movement</h2>
+    <p>Links the selected activities into a movement group, without changing their data. Group rows get a tinted background and a colored bar on the left; in the Gantt, blocks get an outline in the group color.</p>
+    <ul style="list-style:none;display:flex;flex-direction:column;gap:8px;margin-bottom:16px;">
+      <li style="display:flex;gap:10px;"><i class="ti ti-check" style="color:var(--green);margin-top:3px;flex-shrink:0;"></i><span><strong>In the Gantt:</strong> dragging any block of the group moves all of them by the same offset</span></li>
+      <li style="display:flex;gap:10px;"><i class="ti ti-check" style="color:var(--green);margin-top:3px;flex-shrink:0;"></i><span><strong>In the list:</strong> dragging one row of the group moves the whole group as a contiguous block</span></li>
+      <li style="display:flex;gap:10px;"><i class="ti ti-check" style="color:var(--green);margin-top:3px;flex-shrink:0;"></i><span><strong>Reversible:</strong> selecting items of a group turns the button into "Ungroup blocks"</span></li>
+    </ul>
+    <div class="callout warn"><i class="ti ti-alert-triangle"></i><p><strong>Reordering does not redefine dependencies.</strong> When a group is moved in the list, logical dependencies are preserved — they follow the activities, not the sequence numbers. Changing a dependency is an explicit decision made by the scheduler through the dependency popup.</p></div>
+
+    <h2>Merge production — fusion for shopfloor reporting</h2>
+    <p>Replaces the selected activities with a single block that <strong>sums</strong> changeover, setup, run time and quantity, recalculating productivity. The use case is shopfloor reporting: many small activities on the same workcenter (8 signature foldings, for example) become a single reporting unit for the operator.</p>
+    <ul style="list-style:none;display:flex;flex-direction:column;gap:8px;margin-bottom:16px;">
+      <li style="display:flex;gap:10px;"><i class="ti ti-check" style="color:var(--green);margin-top:3px;flex-shrink:0;"></i><span>The merged block gets the <strong>merged (N)</strong> badge and inherits the set's external dependencies</span></li>
+      <li style="display:flex;gap:10px;"><i class="ti ti-check" style="color:var(--green);margin-top:3px;flex-shrink:0;"></i><span>Downstream activities that depended on the members now depend on the merged block</span></li>
+      <li style="display:flex;gap:10px;"><i class="ti ti-check" style="color:var(--green);margin-top:3px;flex-shrink:0;"></i><span><strong>Unmerge</strong> restores the original activities with all dependencies intact</span></li>
+    </ul>
+</div>
   </div>
 
   <!-- S6C OBSERVAÇÕES -->
   <div id="s6c" class="section">
+<div class="L-pt">
     <h1><span class="sec-num">08</span>Observações para apontamento</h1>
     <p class="subtitle">Comunicação entre programação e chão de fábrica</p>
     <p>As atividades programadas serão disponibilizadas em terminais de apontamento na produção. As observações são o canal de comunicação do programador com os operadores — instruções que precisam chegar ao terminal certo.</p>
@@ -468,10 +739,26 @@ code{font-family:'DM Mono',monospace;font-size:13px;background:var(--blue-light)
     </div>
     <div class="callout info"><i class="ti ti-info-circle"></i><p><strong>Exemplo real:</strong> "Caderno com costura" é uma informação relevante tanto para a dobradeira quanto para a lombada PUR — uma única observação associada aos dois workcenters aparece nos dois terminais.</p></div>
     <p>No Gantt, workcenters com observações exibem um <strong>ícone de mensagem</strong> ao lado do nome — prévia de como o operador será notificado no terminal. Clicar no ícone abre o painel destacando as observações daquele workcenter.</p>
+</div>
+<div class="L-en">
+    <h1><span class="sec-num">08</span>Shopfloor notes</h1>
+    <p class="subtitle">Communication between scheduling and the shopfloor</p>
+    <p>Scheduled activities will be made available on shopfloor reporting terminals. Notes are the scheduler's communication channel with the operators — instructions that need to reach the right terminal.</p>
+    <p>The <strong>Notes</strong> button in the PO header (with a counter) opens the registration panel. Each note contains:</p>
+    <div class="field-grid">
+      <div class="field-card"><div class="field-name">Title</div><div class="field-desc">Short summary of the instruction</div></div>
+      <div class="field-card"><div class="field-name">Text</div><div class="field-desc">Details — multi-line field</div></div>
+      <div class="field-card"><div class="field-name">Workcenters</div><div class="field-desc">One or more terminals that will see the note</div></div>
+      <div class="field-card"><div class="field-name">Record</div><div class="field-desc">Date, time and user saved automatically</div></div>
+    </div>
+    <div class="callout info"><i class="ti ti-info-circle"></i><p><strong>Real example:</strong> "Sewn signatures" is relevant both to the folding machine and to the PUR binding — a single note linked to both workcenters appears on both terminals.</p></div>
+    <p>In the Gantt, workcenters with notes show a <strong>message icon</strong> next to the name — a preview of how the operator will be notified at the terminal. Clicking the icon opens the panel highlighting that workcenter's notes.</p>
+</div>
   </div>
 
   <!-- S6D TEMA E IDIOMA -->
   <div id="s6d" class="section">
+<div class="L-pt">
     <h1><span class="sec-num">09</span>Tema e idioma</h1>
     <p class="subtitle">Preferências de interface</p>
     <h2>Tema claro / escuro</h2>
@@ -479,10 +766,21 @@ code{font-family:'DM Mono',monospace;font-size:13px;background:var(--blue-light)
     <h2>Português / English</h2>
     <p>O botão EN/PT na barra superior traduz toda a interface — menus, tabelas, botões, alertas e indicadores. Os dados das OPs (descrições, clientes) permanecem no idioma de origem, pois numa instalação real vêm do ERP do cliente.</p>
     <div class="callout success"><i class="ti ti-circle-check"></i><p>As duas preferências ficam salvas no navegador e são restauradas automaticamente na próxima visita.</p></div>
+</div>
+<div class="L-en">
+    <h1><span class="sec-num">09</span>Theme and language</h1>
+    <p class="subtitle">Interface preferences</p>
+    <h2>Light / dark theme</h2>
+    <p>The moon/sun button in the top bar switches themes. The dark theme was designed for production monitors — a dark background is easier on the eyes during prolonged use and gives more contrast to the Gantt and flow details.</p>
+    <h2>Português / English</h2>
+    <p>The EN/PT button in the top bar translates the whole interface — menus, tables, buttons, alerts and indicators. PO data (descriptions, customers) stays in its source language, since in a real installation it comes from the customer's ERP.</p>
+    <div class="callout success"><i class="ti ti-circle-check"></i><p>Both preferences are saved in the browser and restored automatically on the next visit.</p></div>
+</div>
   </div>
 
   <!-- S7 WORKCENTERS -->
   <div id="s7" class="section">
+<div class="L-pt">
     <h1><span class="sec-num">10</span>Workcenters</h1>
     <p class="subtitle">Equipamentos e equipes modelados no protótipo</p>
     <div class="wc-grid">
@@ -507,10 +805,38 @@ code{font-family:'DM Mono',monospace;font-size:13px;background:var(--blue-light)
       <div class="wc-card"><div class="wc-icon">👐</div><div class="wc-info"><div class="wc-name">Dobra Orelha</div><div class="wc-desc">Equipe para dobrar orelhas antes do trilateral</div></div></div>
       <div class="wc-card"><div class="wc-icon">🤲</div><div class="wc-info"><div class="wc-name">Manuseio (1/2/4p)</div><div class="wc-desc">Operação manual com 1, 2 ou 4 operadores</div></div></div>
     </div>
+</div>
+<div class="L-en">
+    <h1><span class="sec-num">10</span>Workcenters</h1>
+    <p class="subtitle">Equipment and teams modeled in the prototype</p>
+    <div class="wc-grid">
+      <div class="wc-card"><div class="wc-icon">🖨️</div><div class="wc-info"><div class="wc-name">Ricoh 9200 / 7200</div><div class="wc-desc">Toner digital — book covers (up to 1,000 copies)</div></div></div>
+      <div class="wc-card"><div class="wc-icon">🖨️</div><div class="wc-info"><div class="wc-name">Vegapress 440M</div><div class="wc-desc">Mono inkjet web press — digital book bodies</div></div></div>
+      <div class="wc-card"><div class="wc-icon">🖨️</div><div class="wc-info"><div class="wc-name">Phenix 440C</div><div class="wc-desc">CMYK inkjet web press — bodies or catalogs</div></div></div>
+      <div class="wc-card"><div class="wc-icon">🖨️</div><div class="wc-info"><div class="wc-name">Manroland 306PLV</div><div class="wc-desc">Half-sheet 6c+coater offset — covers and smaller cartons</div></div></div>
+      <div class="wc-card"><div class="wc-icon">🖨️</div><div class="wc-info"><div class="wc-name">Manroland 706PLV</div><div class="wc-desc">Full-sheet 6c+coater offset — cartons and high-run covers</div></div></div>
+      <div class="wc-card"><div class="wc-icon">🖨️</div><div class="wc-info"><div class="wc-name">Manroland 704P</div><div class="wc-desc">4c perfecting offset — offset book bodies</div></div></div>
+      <div class="wc-card"><div class="wc-icon">📄</div><div class="wc-info"><div class="wc-name">Stahl (Folder)</div><div class="wc-desc">Signature folding for offset books</div></div></div>
+      <div class="wc-card"><div class="wc-icon">📚</div><div class="wc-info"><div class="wc-name">Müller Martini</div><div class="wc-desc">Gathering of folded signatures</div></div></div>
+      <div class="wc-card"><div class="wc-icon">📎</div><div class="wc-info"><div class="wc-name">Stitcher MM1509</div><div class="wc-desc">Gathering, stitching and three-knife trimming</div></div></div>
+      <div class="wc-card"><div class="wc-icon">✂️</div><div class="wc-info"><div class="wc-name">Linear Guillotine</div><div class="wc-desc">White paper cutting and digital output trimming</div></div></div>
+      <div class="wc-card"><div class="wc-icon">✂️</div><div class="wc-info"><div class="wc-name">Three-knife Trimmer</div><div class="wc-desc">Final book trimming after PUR binding</div></div></div>
+      <div class="wc-card"><div class="wc-icon">📖</div><div class="wc-info"><div class="wc-name">Horizon BQ500 (PUR)</div><div class="wc-desc">PUR perfect binding — digital and offset books</div></div></div>
+      <div class="wc-card"><div class="wc-icon">🎞️</div><div class="wc-info"><div class="wc-name">Laminator</div><div class="wc-desc">BOPP lamination on covers and cartons</div></div></div>
+      <div class="wc-card"><div class="wc-icon">⚙️</div><div class="wc-info"><div class="wc-name">Die-cutter SBL / Manual</div><div class="wc-desc">Automatic and manual carton die-cutting</div></div></div>
+      <div class="wc-card"><div class="wc-icon">📦</div><div class="wc-info"><div class="wc-name">Autobox (Folder-gluer)</div><div class="wc-desc">Automatic carton gluing</div></div></div>
+      <div class="wc-card"><div class="wc-icon">📦</div><div class="wc-info"><div class="wc-name">Shrink</div><div class="wc-desc">Shrink-film packaging</div></div></div>
+      <div class="wc-card"><div class="wc-icon">👥</div><div class="wc-info"><div class="wc-name">Stripping</div><div class="wc-desc">Manual team for stripping cartons after die-cutting</div></div></div>
+      <div class="wc-card"><div class="wc-icon">👥</div><div class="wc-info"><div class="wc-name">Book Separation</div><div class="wc-desc">Team for separating trimmed digital bodies</div></div></div>
+      <div class="wc-card"><div class="wc-icon">👐</div><div class="wc-info"><div class="wc-name">Flap Folding</div><div class="wc-desc">Team for folding cover flaps before trimming</div></div></div>
+      <div class="wc-card"><div class="wc-icon">🤲</div><div class="wc-info"><div class="wc-name">Handwork (1/2/4p)</div><div class="wc-desc">Manual operation with 1, 2 or 4 operators</div></div></div>
+    </div>
+</div>
   </div>
 
   <!-- S8 QUESTÕES -->
   <div id="s8" class="section">
+<div class="L-pt">
     <h1><span class="sec-num">11</span>Questões em aberto</h1>
     <p class="subtitle">Decisões de arquitetura a discutir com o time técnico</p>
 
@@ -529,10 +855,32 @@ code{font-family:'DM Mono',monospace;font-size:13px;background:var(--blue-light)
     <p>No protótipo, o Changeover é preenchido manualmente (padrão 0). Na versão real, o sistema deveria detectar as características do processo anterior (ex: cor anterior na offset) e calcular automaticamente o changeover necessário — exige modelagem das regras por workcenter.</p>
 
     <div class="callout warn"><i class="ti ti-alert-triangle"></i><p>Esses três pontos não bloqueiam a demonstração — são decisões de implementação a tomar com Gregório, Flemming e Daniel.</p></div>
+</div>
+<div class="L-en">
+    <h1><span class="sec-num">11</span>Open questions</h1>
+    <p class="subtitle">Architecture decisions to discuss with the technical team</p>
+
+    <h2>1. Simulation environments (multi-user)</h2>
+    <p>How does the system behave when multiple schedulers access it simultaneously? Alternatives:</p>
+    <ul style="list-style:none;display:flex;flex-direction:column;gap:8px;margin-bottom:16px;">
+      <li style="display:flex;gap:10px;"><i class="ti ti-point" style="color:var(--blue);flex-shrink:0;margin-top:4px;"></i><span><strong>Single shared environment</strong> — everyone sees the same state, with per-activity locking</span></li>
+      <li style="display:flex;gap:10px;"><i class="ti ti-point" style="color:var(--blue);flex-shrink:0;margin-top:4px;"></i><span><strong>Per-user simulation environment</strong> — each user has a draft, with a Publish button to apply to the live environment</span></li>
+      <li style="display:flex;gap:10px;"><i class="ti ti-point" style="color:var(--blue);flex-shrink:0;margin-top:4px;"></i><span><strong>N simulation environments</strong> — more flexibility, more database and UI complexity</span></li>
+    </ul>
+
+    <h2>2. Preview before applying</h2>
+    <p>The prototype simulates and shows the result, but has no concept of <strong>Publish</strong> separate from <strong>Simulate</strong>. In the real version, no automatic operation should be applied without the scheduler's confirmation.</p>
+
+    <h2>3. Automatic changeover</h2>
+    <p>In the prototype, Changeover is filled in manually (default 0). In the real version, the system should detect the characteristics of the previous process (e.g. previous color on the offset press) and automatically compute the required changeover — this requires modeling rules per workcenter.</p>
+
+    <div class="callout warn"><i class="ti ti-alert-triangle"></i><p>These three points don't block the demonstration — they are implementation decisions to be made with Gregório, Flemming and Daniel.</p></div>
+</div>
   </div>
 
   <!-- S9 PRÓXIMOS PASSOS -->
   <div id="s9" class="section">
+<div class="L-pt">
     <h1><span class="sec-num">12</span>Próximos passos</h1>
     <p class="subtitle">Roadmap de módulos a desenvolver</p>
     <div class="roadmap">
@@ -566,19 +914,74 @@ code{font-family:'DM Mono',monospace;font-size:13px;background:var(--blue-light)
     <div style="display:flex;flex-direction:column;gap:10px;margin-top:8px;">
       <div style="background:var(--bg);border:1px solid var(--gray-mid);border-radius:var(--r);padding:14px 16px;">
         <div style="font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px;">Página inicial do projeto</div>
-        <a href="https://danielcolorsystem.github.io/NewScheduler/" target="_blank" class="url">→ Página inicialb.io/</a>
+        <a href="https://danielcolorsystem.github.io/NewScheduler/" target="_blank" class="url">danielcolorsystem.github.io/NewScheduler/</a>
       </div>
       <div style="background:var(--bg);border:1px solid var(--gray-mid);border-radius:var(--r);padding:14px 16px;">
         <div style="font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px;">Tela de Programação de OP</div>
-        <a href="https://danielcolorsystem.github.io/NewScheduler/programacao-op/" target="_blank" class="url">danielcolorsystem.github.io/NewScheduler/programacao-op/ <span style="font-size:11px;color:#888;">(via GitHub Pages)</span></a>
+        <a href="https://danielcolorsystem.github.io/NewScheduler/programacao-op/" target="_blank" class="url">danielcolorsystem.github.io/NewScheduler/programacao-op/</a>
       </div>
     </div>
+</div>
+<div class="L-en">
+    <h1><span class="sec-num">12</span>Next steps</h1>
+    <p class="subtitle">Module development roadmap</p>
+    <div class="roadmap">
+      <div class="roadmap-item">
+        <div class="roadmap-step step-done"><i class="ti ti-check"></i></div>
+        <div class="roadmap-content"><div class="roadmap-title">PO Scheduling <span style="font-size:11px;background:var(--green-light);color:var(--green);padding:2px 8px;border-radius:100px;margin-left:8px;">Done</span></div><div class="roadmap-desc">This screen — prototype published and available</div></div>
+      </div>
+      <div class="roadmap-item">
+        <div class="roadmap-step step-next">2</div>
+        <div class="roadmap-content"><div class="roadmap-title">Shopfloor reporting</div><div class="roadmap-desc">Interface for operators to start and finish activities on the shopfloor</div></div>
+      </div>
+      <div class="roadmap-item">
+        <div class="roadmap-step step-next">3</div>
+        <div class="roadmap-content"><div class="roadmap-title">Master Gantt</div><div class="roadmap-desc">Consolidated view of all scheduled production, every workcenter</div></div>
+      </div>
+      <div class="roadmap-item">
+        <div class="roadmap-step step-next">4</div>
+        <div class="roadmap-content"><div class="roadmap-title">Settings</div><div class="roadmap-desc">Workcenters, calendars, production groups and changeover rules</div></div>
+      </div>
+      <div class="roadmap-item">
+        <div class="roadmap-step step-next">5</div>
+        <div class="roadmap-content"><div class="roadmap-title">AI engine</div><div class="roadmap-desc">Automatic optimization learning from production history</div></div>
+      </div>
+      <div class="roadmap-item">
+        <div class="roadmap-step step-next">6</div>
+        <div class="roadmap-content"><div class="roadmap-title">Multi-plant</div><div class="roadmap-desc">Coordinated scheduling across production units</div></div>
+      </div>
+    </div>
+
+    <h2>Project links</h2>
+    <div style="display:flex;flex-direction:column;gap:10px;margin-top:8px;">
+      <div style="background:var(--bg);border:1px solid var(--gray-mid);border-radius:var(--r);padding:14px 16px;">
+        <div style="font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px;">Project home page</div>
+        <a href="https://danielcolorsystem.github.io/NewScheduler/" target="_blank" class="url">danielcolorsystem.github.io/NewScheduler/</a>
+      </div>
+      <div style="background:var(--bg);border:1px solid var(--gray-mid);border-radius:var(--r);padding:14px 16px;">
+        <div style="font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px;">PO Scheduling screen</div>
+        <a href="https://danielcolorsystem.github.io/NewScheduler/programacao-op/" target="_blank" class="url">danielcolorsystem.github.io/NewScheduler/programacao-op/</a>
+      </div>
+    </div>
+</div>
   </div>
 
 </main>
 </div>
 
 <script>
+function toggleLang(){
+  const en=document.documentElement.dataset.lang==='en';
+  document.documentElement.dataset.lang=en?'':'en';
+  document.getElementById('btn-lang').textContent=en?'EN':'PT';
+  try{localStorage.setItem('ns-lang',en?'pt':'en');}catch(e){}
+}
+try{
+  if(localStorage.getItem('ns-lang')==='en'){
+    document.documentElement.dataset.lang='en';
+    window.addEventListener('DOMContentLoaded',()=>{document.getElementById('btn-lang').textContent='PT';});
+  }
+}catch(e){}
 function showSection(id){
   document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
