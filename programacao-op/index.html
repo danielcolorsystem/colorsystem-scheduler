@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:13px;color:#1a1a1a;background:#f0efe9;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:13px;color:var(--tx);background:var(--bg2);transition:background .2s,color .2s;}
 :root{
   --bg:#fff;--bg2:#f0efe9;--bg3:#e8e7e1;
   --bgi:#e6f1fb;--bgs:#eaf3de;--bgw:#faeeda;--bgd:#fcebeb;--bgp:#eeedfe;
@@ -17,6 +17,29 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-siz
   --bdi:#85b7eb;--bds:#97c459;--bdw:#fac775;--bdd:#f09595;--bdp:#afa9ec;
   --r:8px;--rl:12px;
 }
+[data-theme="dark"]{
+  --bg:#1c1c21;--bg2:#141417;--bg3:#26262c;
+  --bgi:#16314d;--bgs:#1f3317;--bgw:#3d2c10;--bgd:#3d1717;--bgp:#262252;
+  --tx:#e8e8ea;--tx2:#b8b8bf;--tx3:#7d7d86;
+  --txi:#6aa9e9;--txs:#92c55e;--txw:#e0a850;--txd:#e07070;--txp:#9d94f0;
+  --bd:#36363e;--bd2:#52525c;
+  --bdi:#2d5a8c;--bds:#4a6e2a;--bdw:#8a6420;--bdd:#8c3a3a;--bdp:#4f47a0;
+}
+[data-theme="dark"] .gb.bg-gb{background:#2e2e35!important;border-color:#48484f!important;color:#777!important;}
+[data-theme="dark"] .act-tbl th.grp-co{background:#2b251c;border-left-color:#5a4a30;}
+[data-theme="dark"] .act-tbl th.grp-su{background:#232b1d;border-left-color:#44552f;}
+[data-theme="dark"] .act-tbl th.grp-pr{background:#1e2630;border-left-color:#2f4255;}
+[data-theme="dark"] .act-tbl td.grp-co{background:#231f18;}
+[data-theme="dark"] .act-tbl td.grp-su{background:#1d2318;}
+[data-theme="dark"] .act-tbl td.grp-pr{background:#191f26;}
+[data-theme="dark"] .act-tbl tr.highlighted{background:#2c2818;}
+[data-theme="dark"] .bdg-pending{background:#3d2c10;color:#e0a850;}
+[data-theme="dark"] .bdg-partial{background:#16314d;color:#6aa9e9;}
+[data-theme="dark"] .bdg-urgent{background:#3d1717;color:#e07070;}
+[data-theme="dark"] .bdg-new{background:#1f3317;color:#92c55e;}
+[data-theme="dark"] .bdg-edited{background:#3d2c10;color:#e0a850;}
+[data-theme="dark"] .bdg-split{background:#262252;color:#9d94f0;}
+[data-theme="dark"] .comp-row td{background:var(--bg3);}
 .topbar{background:var(--bg);border-bottom:1px solid var(--bd);padding:10px 20px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:200;box-shadow:0 1px 4px rgba(0,0,0,.07);}
 .logo{font-size:16px;font-weight:700;letter-spacing:-.4px;}.logo span{color:var(--txi);}
 .topbar-title{font-size:12px;color:var(--tx2);}
@@ -28,6 +51,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-siz
 .section{background:var(--bg);border-bottom:1px solid var(--bd);padding:12px 20px;}
 .slabel{font-size:10px;font-weight:700;color:var(--tx3);text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;}
 .section-actions{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
+#act-actions{position:sticky;top:54px;z-index:150;background:var(--bg);padding:8px 0;border-bottom:1px solid var(--bd);}
 .frow{display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
 .finput{height:34px;font-size:12px;padding:0 10px;border:1px solid var(--bd);border-radius:var(--r);background:var(--bg);color:var(--tx);font-family:inherit;}
 .finput:focus{border-color:var(--bdi);outline:none;box-shadow:0 0 0 3px rgba(24,95,165,.1);}
@@ -85,7 +109,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-siz
 .act-tbl td.grp-pr{background:#f0f5fa;border-left:2px solid #b5c8dd;}
 .act-tbl tr.deleted td{opacity:.35;}
 .act-tbl tr.deleted td *{text-decoration:line-through;}
-.act-tbl tr.highlighted{background:#fffbf0!important;}
+.act-tbl tr.highlighted{background:#fffbf0;}
 .act-tbl tr:hover td{filter:brightness(.97);}
 .act-tbl tr.deleted:hover td{filter:none;}
 .act-tbl tr.dragging{opacity:.3;}
@@ -142,9 +166,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-siz
 .ldot{width:12px;height:12px;border-radius:3px;display:inline-block;vertical-align:middle;margin-right:4px;}
 
 /* FLOW */
-.flow-outer{overflow:auto;padding:8px 0;background:#fff;}
-#flow-section{background:#fff!important;color-scheme:light;}
-#flow-area{background:#fff!important;color-scheme:light;}
+.flow-outer{overflow:auto;padding:8px 0;background:var(--bg);}
+#flow-section{background:var(--bg)!important;}
+#flow-area{background:var(--bg)!important;}
 
 /* POPUP */
 .pop-ov{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:600;display:flex;align-items:center;justify-content:center;}
@@ -172,9 +196,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-siz
 <div class="topbar">
   <div class="logo">New<span>Scheduler</span></div>
   <span style="color:var(--bd);font-size:18px;">|</span>
-  <div class="topbar-title">NewScheduler — Programação Manual</div>
+  <div class="topbar-title" id="topbar-sub">NewScheduler — Programação Manual</div>
   <a href="../manual/" target="_blank" style="display:inline-flex;align-items:center;gap:5px;font-size:12px;color:var(--tx2);text-decoration:none;padding:4px 10px;border:1px solid var(--bd);border-radius:var(--r);background:var(--bg2);transition:all .15s;" onmouseover="this.style.borderColor='var(--bdi)';this.style.color='var(--txi)'" onmouseout="this.style.borderColor='var(--bd)';this.style.color='var(--tx2)'"><i class="ti ti-book"></i> Manual</a>
-  <div class="tabs">
+  <div style="margin-left:auto;display:flex;gap:6px;align-items:center;">
+    <button class="btn sm" id="btn-theme" onclick="toggleTheme()" title="Claro / Escuro"><i class="ti ti-moon"></i></button>
+    <button class="btn sm" id="btn-lang" onclick="toggleLang()" style="font-weight:700;min-width:38px;">EN</button>
+  </div>
+  <div class="tabs" style="margin-left:0;">
     <div class="tab active" id="tab-list" onclick="showScreen('list')">Seleção de OP</div>
     <div class="tab" id="tab-prog" style="opacity:.4;cursor:not-allowed">Programação</div>
   </div>
@@ -183,7 +211,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-siz
 <!-- LIST -->
 <div id="screen-list" class="screen active">
   <div class="section">
-    <div class="slabel" style="cursor:default;">Filtrar ordens de produção</div>
+    <div class="slabel" style="cursor:default;" id="lbl-flt-ops">Filtrar ordens de produção</div>
     <div class="frow">
       <input class="finput" style="width:130px" placeholder="Número da OP" id="f-op" oninput="filterOPs()">
       <input class="finput" style="width:155px" placeholder="Cliente" id="f-cli" oninput="filterOPs()">
@@ -196,12 +224,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-siz
         <option value="">Todos os status</option>
         <option value="pending">Pendente</option><option value="partial">Parcial</option><option value="urgent">Urgente</option>
       </select>
-      <button class="btn" onclick="clearFilter()"><i class="ti ti-refresh"></i> Limpar</button>
+      <button class="btn" onclick="clearFilter()"><i class="ti ti-refresh"></i><span id="btn-clear-txt"> Limpar</span></button>
     </div>
   </div>
   <div class="op-list">
     <table class="op-table">
-      <thead><tr><th>OP</th><th>Tipo</th><th>Cliente</th><th>Trabalho</th><th>Produto</th><th>Qtd</th><th>Entrega</th><th>Vendedor</th><th>Status</th><th></th></tr></thead>
+      <thead id="op-thead"><tr><th>OP</th><th>Tipo</th><th>Cliente</th><th>Trabalho</th><th>Produto</th><th>Qtd</th><th>Entrega</th><th>Vendedor</th><th>Status</th><th></th></tr></thead>
       <tbody id="op-tbody"></tbody>
     </table>
   </div>
@@ -211,49 +239,50 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-siz
 <div id="screen-prog" class="screen">
   <div class="section">
     <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px;">
-      <span class="back-btn" onclick="goBack()"><i class="ti ti-arrow-left"></i> Voltar</span>
+      <span class="back-btn" onclick="goBack()"><i class="ti ti-arrow-left"></i> <span id="btn-back-txt">Voltar</span></span>
       <span style="color:var(--bd);">|</span>
       <span style="font-size:14px;font-weight:700;" id="prog-title"></span>
       <span id="prog-badge" class="badge"></span>
       <span id="prog-tipo" style="font-size:11px;color:var(--tx3);margin-left:4px;"></span>
+      <button class="btn sm warning" style="margin-left:auto;" id="btn-obs" onclick="openObsPop()"><i class="ti ti-message-2"></i> <span id="obs-label">Observações</span> <span id="obs-count" style="background:var(--txw);color:#fff;border-radius:100px;padding:1px 7px;font-size:10px;font-weight:700;">0</span></button>
     </div>
     <div class="op-hdr" id="op-hdr"></div>
   </div>
 
   <div class="section">
     <div class="slabel" onclick="toggleSec('add-body','add-chev')" style="cursor:pointer;">
-      <span><i class="ti ti-plus" style="margin-right:4px;font-size:12px;"></i>Incluir nova atividade</span>
+      <span><i class="ti ti-plus" style="margin-right:4px;font-size:12px;"></i><span id="lbl-add-act">Incluir nova atividade</span></span>
       <i class="ti ti-chevron-down" id="add-chev" style="font-size:14px;transition:transform .2s;"></i>
     </div>
     <div id="add-body" style="overflow:hidden;max-height:200px;transition:max-height .25s;">
       <div class="add-row">
-        <div class="add-field"><label>Posição</label>
+        <div class="add-field"><label id="lbl-pos">Posição</label>
           <select class="finput" id="new-pos" style="width:110px;height:32px;font-size:12px;"></select>
         </div>
-        <div class="add-field" style="width:130px;"><label>Componente</label>
+        <div class="add-field" style="width:130px;"><label id="lbl-comp">Componente</label>
           <select class="finput" id="new-comp" style="width:130px;height:32px;font-size:12px;"></select>
         </div>
-        <div class="add-field" style="flex:1;min-width:160px;"><label>Descrição *</label>
+        <div class="add-field" style="flex:1;min-width:160px;"><label id="lbl-desc">Descrição *</label>
           <input class="finput" id="new-desc" style="width:100%;height:32px;font-size:12px;" placeholder="Ex: Impressão 4×0, offset 90gr">
         </div>
-        <div class="add-field" style="min-width:165px;"><label>Workcenter *</label>
+        <div class="add-field" style="min-width:165px;"><label id="lbl-wc">Workcenter *</label>
           <select class="finput" id="new-wc" style="width:100%;height:32px;font-size:12px;"><option value="">— Selecione —</option></select>
         </div>
-        <div class="add-field" style="width:68px;"><label>Qtd</label>
+        <div class="add-field" style="width:68px;"><label id="lbl-nqty">Qtd</label>
           <input class="finput" type="number" id="new-qty" style="height:32px;font-size:12px;width:82px;"></div>
-        <div class="add-field" style="width:55px;"><label>Unid.</label>
+        <div class="add-field" style="width:55px;"><label id="lbl-nunit">Unid.</label>
           <select class="finput" id="new-unit" style="height:32px;font-size:12px;"><option>ex</option><option>fl</option><option>un</option><option>cad</option><option>m²</option></select>
         </div>
-        <div class="add-field" style="width:90px;"><label>Produtividade</label>
+        <div class="add-field" style="width:90px;"><label id="lbl-nrate">Produtividade</label>
           <input class="finput" type="number" id="new-prod-rate" style="height:32px;font-size:12px;" placeholder="ex/h" oninput="calcNewProd()">
         </div>
-        <div class="add-field" style="width:78px;"><label style="background:#f5f0e8;padding:1px 4px;border-radius:3px;">CO h:mm</label>
+        <div class="add-field" style="width:78px;"><label style="background:#f5f0e8;padding:1px 4px;border-radius:3px;" id="lbl-nco">CO h:mm</label>
           <div class="tw-box"><input class="th" type="number" id="new-co-h" min="0" max="999" placeholder="0" onkeydown="tnext(event,this)"><span class="tsep">:</span><input class="tm" type="number" id="new-co-m" min="0" max="59" placeholder="00"></div>
         </div>
-        <div class="add-field" style="width:78px;"><label style="background:#eef5e8;padding:1px 4px;border-radius:3px;">Acerto h:mm</label>
+        <div class="add-field" style="width:78px;"><label style="background:#eef5e8;padding:1px 4px;border-radius:3px;" id="lbl-nsu">Acerto h:mm</label>
           <div class="tw-box"><input class="th" type="number" id="new-su-h" min="0" max="999" placeholder="0" onkeydown="tnext(event,this)"><span class="tsep">:</span><input class="tm" type="number" id="new-su-m" min="0" max="59" placeholder="30"></div>
         </div>
-        <div class="add-field" style="width:78px;"><label style="background:#e8eef5;padding:1px 4px;border-radius:3px;">Produção h:mm</label>
+        <div class="add-field" style="width:78px;"><label style="background:#e8eef5;padding:1px 4px;border-radius:3px;" id="lbl-npr">Produção h:mm</label>
           <div class="tw-box"><input class="th" type="number" id="new-pr-h" min="0" max="999" placeholder="1" onkeydown="tnext(event,this)" oninput="calcNewRate()"><span class="tsep">:</span><input class="tm" type="number" id="new-pr-m" min="0" max="59" placeholder="00" oninput="calcNewRate()"></div>
         </div>
         <div class="add-field" style="padding-top:18px;">
@@ -264,16 +293,23 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-siz
   </div>
 
   <div class="section">
-    <div class="section-actions">
-      <div class="slabel" style="margin-bottom:0;">Atividades <span id="act-count" style="font-weight:400;color:var(--tx3);font-size:11px;"></span></div>
+    <div class="section-actions" id="act-actions">
+      <div class="slabel" style="margin-bottom:0;" id="lbl-acts">Atividades <span id="act-count" style="font-weight:400;color:var(--tx3);font-size:11px;"></span></div>
       <div class="toolbar">
-        <button class="btn sm success" onclick="saveActs()"><i class="ti ti-device-floppy"></i> Salvar</button>
+        <input class="finput" id="act-filter" placeholder="🔍 Filtrar atividades..." style="height:28px;font-size:11px;width:180px;" oninput="renderActs()">
+        <div class="tsep2"></div>
+        <span id="sel-info" style="display:none;font-size:11px;color:var(--tx3);font-weight:600;"></span>
+        <button class="btn sm primary" id="btn-group-move" style="display:none;" onclick="groupMove()"><i class="ti ti-link"></i> Agrupar blocos</button>
+        <button class="btn sm purple" id="btn-group-prod" style="display:none;" onclick="groupProd()"><i class="ti ti-stack-2"></i> Agrupar produção</button>
+        <div class="tsep2" id="sel-sep" style="display:none;"></div>
+        <button class="btn sm success" onclick="saveActs()"><i class="ti ti-device-floppy"></i><span id="btn-save-txt"> Salvar</span></button>
       </div>
     </div>
     <div id="save-banner" class="banner success" style="display:none;"><i class="ti ti-circle-check"></i><span id="save-msg"></span></div>
     <div class="act-wrap">
       <table class="act-tbl">
-        <thead><tr>
+        <thead id="act-thead"><tr>
+          <th style="width:26px;"><input type="checkbox" id="chk-all" onclick="selAllVisible(this.checked)" title="Selecionar todas as visíveis" style="width:14px;height:14px;cursor:pointer;accent-color:var(--txi);"></th>
           <th style="width:22px;"></th>
           <th style="width:28px;">#</th>
           <th style="width:100px;">Componente</th>
@@ -295,9 +331,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-siz
 
   <div class="section">
     <div class="section-actions">
-      <div class="slabel" style="margin-bottom:0;">Gantt — simulação de alocação</div>
+      <div class="slabel" style="margin-bottom:0;" id="lbl-gantt">Gantt — simulação de alocação</div>
       <div class="toolbar">
-        <button class="btn primary sm" onclick="simGantt()"><i class="ti ti-player-play"></i> Simular</button>
+        <button class="btn primary sm" onclick="simGantt()"><i class="ti ti-player-play"></i><span id="btn-sim-txt"> Simular</span></button>
         <span id="stale-inline" style="display:none;font-size:11px;color:var(--txw);font-weight:600;display:none;align-items:center;gap:4px;"><i class="ti ti-alert-triangle" style="font-size:13px;"></i> Desatualizado — simule para atualizar</span>
         <button class="btn warning sm" id="btn-fix" style="display:none;" onclick="fixConflicts()"><i class="ti ti-wand"></i> Resolver conflitos</button>
         <button class="btn sm" id="btn-free" onclick="toggleFree()"><i class="ti ti-lock-open"></i> Ignorar regras</button>
@@ -309,12 +345,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-siz
     </div>
     <div id="stale-banner" class="banner warning" style="display:none;">
       <i class="ti ti-refresh-alert"></i>
-      <strong>Atividades alteradas</strong> — o Gantt e o Fluxo ainda não refletem as últimas edições.
-      <button class="btn sm primary" style="margin-left:auto;" onclick="simGantt()"><i class="ti ti-player-play"></i> Simular agora</button>
+      <span><strong id="stale-t2">Atividades alteradas</strong> <span id="stale-t3">— o Gantt e o Fluxo ainda não refletem as últimas edições.</span></span>
+      <button class="btn sm primary" style="margin-left:auto;" onclick="simGantt()"><i class="ti ti-player-play"></i><span id="stale-t4"> Simular agora</span></button>
     </div>
     <div id="delivery-bar" style="display:none;"></div>
     <div id="conflict-banner" class="banner danger" style="display:none;"><i class="ti ti-alert-triangle"></i><span id="conflict-msg"></span><button class="btn sm danger" style="margin-left:auto;" onclick="fixConflicts()">Resolver</button></div>
-    <div id="free-banner" class="banner info" style="display:none;"><i class="ti ti-lock-open"></i><strong>Modo livre</strong> — dependências ignoradas.<button class="btn sm" style="margin-left:auto;" onclick="toggleFree()">Desativar</button></div>
+    <div id="free-banner" class="banner info" style="display:none;"><i class="ti ti-lock-open"></i><span><strong id="free-t1">Modo livre</strong> <span id="free-t2">— dependências ignoradas.</span></span><button class="btn sm" style="margin-left:auto;" onclick="toggleFree()" id="free-t3">Desativar</button></div>
     <div id="gantt-area"><div class="empty-state"><i class="ti ti-calendar-event"></i>Clique em "Simular" para visualizar o Gantt.</div></div>
     <div class="gantt-legend" id="gantt-legend" style="display:none;">
       <span><span class="ldot" style="background:#d0d0c8;opacity:.5;border:1px solid #b0b0a8;"></span>Outros trabalhos</span>
@@ -325,16 +361,16 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-siz
 
   <div class="section" id="flow-section" style="border-bottom:none;">
     <div class="section-actions">
-      <div class="slabel" style="margin-bottom:0;">Fluxo de produção</div>
+      <div class="slabel" style="margin-bottom:0;" id="lbl-flow">Fluxo de produção</div>
       <div class="toolbar">
         <button class="btn sm" onclick="toggleFlowDates()" id="btn-fdates"><i class="ti ti-eye"></i> Datas</button>
-        <button class="btn sm" onclick="window.print()"><i class="ti ti-printer"></i> Imprimir</button>
+        <button class="btn sm" onclick="window.print()"><i class="ti ti-printer"></i><span id="btn-print-txt"> Imprimir</span></button>
       </div>
     </div>
     <div id="stale-banner-flow" class="banner warning" style="display:none;">
       <i class="ti ti-refresh-alert"></i>
-      <strong>Fluxo desatualizado</strong> — clique em Simular para atualizar.
-      <button class="btn sm primary" style="margin-left:auto;" onclick="simGantt()"><i class="ti ti-player-play"></i> Simular agora</button>
+      <span><strong id="stale-f4">Fluxo desatualizado</strong> <span id="stale-f5">— clique em Simular para atualizar.</span></span>
+      <button class="btn sm primary" style="margin-left:auto;" onclick="simGantt()"><i class="ti ti-player-play"></i><span id="stale-f6"> Simular agora</span></button>
     </div>
     <div id="flow-area"><div class="empty-state"><i class="ti ti-arrows-right"></i>Fluxo disponível após simulação.</div></div>
   </div>
@@ -347,7 +383,159 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-siz
 // CONSTANTS & DATA
 // ══════════════════════════════════════════════════════════
 // PX (px per hour) is now dynamic via ganttPxPerHour, set in simGantt
-const DAYS=['Seg 09/06','Ter 10/06','Qua 11/06','Qui 12/06','Sex 13/06','Seg 16/06','Ter 17/06','Qua 18/06'];
+const DAYS_PT=['Seg 09/06','Ter 10/06','Qua 11/06','Qui 12/06','Sex 13/06','Seg 16/06','Ter 17/06','Qua 18/06'];
+const DAYS_EN=['Mon 09/06','Tue 10/06','Wed 11/06','Thu 12/06','Fri 13/06','Mon 16/06','Tue 17/06','Wed 18/06'];
+let DAYS=DAYS_PT;
+let lang='pt';
+let darkMode=false;
+function isDark(){return darkMode;}
+
+const I18N={
+pt:{
+  sub:'NewScheduler — Programação Manual',manual:'Manual',tab_sel:'Seleção de OP',tab_prog:'Programação',
+  flt_ops:'Filtrar ordens de produção',ph_op:'Número da OP',ph_cli:'Cliente',ph_job:'Trabalho',
+  all_types:'Todos os tipos',all_st:'Todos os status',st_p:'Pendente',st_pa:'Parcial',st_u:'Urgente',clear:'Limpar',
+  th:['OP','Tipo','Cliente','Trabalho','Produto','Qtd','Entrega','Vendedor','Status',''],
+  sched:'Programar',no_ops:'Nenhuma OP encontrada.',back:'Voltar',
+  f_cli:'Cliente',f_prod:'Produto',f_qty:'Quantidade',f_sel:'Vendedor',f_due:'Data de entrega',f_type:'Tipo',
+  add_act:'Incluir nova atividade',l_pos:'Posição',l_comp:'Componente',l_desc:'Descrição *',l_wc:'Workcenter *',
+  l_qty:'Qtd',l_unit:'Unid.',l_rate:'Produtividade',l_co:'CO h:mm',l_su:'Acerto h:mm',l_pr:'Produção h:mm',
+  pos_end:'No final',pos_after:'Após seq.',sel_one:'— Selecione —',add_req:'Informe descrição e workcenter.',
+  acts:'Atividades',flt_acts:'🔍 Filtrar atividades...',save:'Salvar',
+  ath:['','','#','Componente','Descrição / Detalhes','Workcenter','Qtd','Unid.','Produtiv.','CO h:mm','Acerto h:mm','Produção h:mm','Dependência','Ações'],
+  grp_b:'Agrupar blocos',ungrp_b:'Desagrupar blocos',grp_p:'Agrupar produção',ungrp_p:'Desagrupar',selected:'selecionada(s)',
+  no_dep:'sem dep.',after:'após',deps:'deps',b_new:'novo',b_edit:'editado ↗',b_split:'split',b_merged:'agrupada',
+  merged_desc:'Produção agrupada',
+  active:'ativas',deleted_k:'excluídas',flt_on:'filtro ativo',
+  gantt:'Gantt — simulação de alocação',sim:'Simular',resolve:'Resolver conflitos',ign:'Ignorar regras',ena:'Ativar regras',
+  stale1:'Desatualizado — simule para atualizar',stale2:'Atividades alteradas',
+  stale3:'— o Gantt e o Fluxo ainda não refletem as últimas edições.',sim_now:'Simular agora',
+  stale4:'Fluxo desatualizado',stale5:'— clique em Simular para atualizar.',
+  forecast:'Previsão',on_time:'dentro do prazo',slack:'dias de folga',delay:'ATRASO DE',days_w:'DIAS',due:'entrega',
+  conflict:'Conflito de dependência detectado.',free:'Modo livre',free2:'— dependências ignoradas.',disable:'Desativar',
+  lg_other:'Outros trabalhos',lg_co:'Changeover',lg_su:'Acerto',
+  flow:'Fluxo de produção',dates:'Datas',print:'Imprimir',
+  empty_g:'Clique em "Simular" para visualizar o Gantt.',empty_f:'Fluxo disponível após simulação.',
+  saved1:'ativas salvas',saved2:'editadas',saved3:'excluídas (mantidas no histórico)',
+  dep_t:'Dependências',dep_h:'Selecione as atividades predecessoras (pode ser múltipla entre componentes):',
+  type_l:'TIPO',interval:'INTERVALO',cancel:'Cancelar',apply:'Aplicar',
+  dt_fim:'fim',dt_par:'parcial',dt_sim:'simultâneo',
+  log_f:'CAMPO',log_b:'ANTES',log_a:'DEPOIS',log_h:'HISTÓRICO',no_chg:'Sem alterações registradas.',
+  start:'Início',end:'Fim',rate_t:'Produtiv',
+  obs:'Observações',obs_t:'Observações para apontamento',obs_new:'Nova observação',
+  obs_title:'Título',obs_text:'Texto (mín. 3 linhas)',obs_wcs:'Workcenters (terminais que verão esta observação)',
+  obs_save:'Salvar observação',obs_none:'Nenhuma observação registrada.',
+  obs_req:'Informe título, texto e ao menos um workcenter.',obs_wc_hint:'Há observações para este workcenter — clique para ver',
+  obs_del:'Excluir',obs_by:'por'
+},
+en:{
+  sub:'NewScheduler — Manual Scheduling',manual:'Manual',tab_sel:'Order Selection',tab_prog:'Scheduling',
+  flt_ops:'Filter production orders',ph_op:'Order number',ph_cli:'Customer',ph_job:'Job',
+  all_types:'All types',all_st:'All statuses',st_p:'Pending',st_pa:'Partial',st_u:'Urgent',clear:'Clear',
+  th:['Order','Type','Customer','Job','Product','Qty','Due date','Salesperson','Status',''],
+  sched:'Schedule',no_ops:'No orders found.',back:'Back',
+  f_cli:'Customer',f_prod:'Product',f_qty:'Quantity',f_sel:'Salesperson',f_due:'Due date',f_type:'Type',
+  add_act:'Add new activity',l_pos:'Position',l_comp:'Component',l_desc:'Description *',l_wc:'Workcenter *',
+  l_qty:'Qty',l_unit:'Unit',l_rate:'Productivity',l_co:'CO h:mm',l_su:'Setup h:mm',l_pr:'Run h:mm',
+  pos_end:'At the end',pos_after:'After seq.',sel_one:'— Select —',add_req:'Provide description and workcenter.',
+  acts:'Activities',flt_acts:'🔍 Filter activities...',save:'Save',
+  ath:['','','#','Component','Description / Details','Workcenter','Qty','Unit','Product.','CO h:mm','Setup h:mm','Run h:mm','Dependency','Actions'],
+  grp_b:'Group blocks',ungrp_b:'Ungroup blocks',grp_p:'Merge production',ungrp_p:'Unmerge',selected:'selected',
+  no_dep:'no dep.',after:'after',deps:'deps',b_new:'new',b_edit:'edited ↗',b_split:'split',b_merged:'merged',
+  merged_desc:'Merged production',
+  active:'active',deleted_k:'deleted',flt_on:'filter on',
+  gantt:'Gantt — allocation simulation',sim:'Simulate',resolve:'Resolve conflicts',ign:'Ignore rules',ena:'Enable rules',
+  stale1:'Outdated — simulate to refresh',stale2:'Activities changed',
+  stale3:'— Gantt and Flow do not reflect the latest edits yet.',sim_now:'Simulate now',
+  stale4:'Flow outdated',stale5:'— click Simulate to refresh.',
+  forecast:'Forecast',on_time:'on time',slack:'days of slack',delay:'DELAY OF',days_w:'DAYS',due:'due',
+  conflict:'Dependency conflict detected.',free:'Free mode',free2:'— dependencies ignored.',disable:'Disable',
+  lg_other:'Other jobs',lg_co:'Changeover',lg_su:'Setup',
+  flow:'Production flow',dates:'Dates',print:'Print',
+  empty_g:'Click "Simulate" to view the Gantt.',empty_f:'Flow available after simulation.',
+  saved1:'active saved',saved2:'edited',saved3:'deleted (kept in history)',
+  dep_t:'Dependencies',dep_h:'Select predecessor activities (multiple allowed across components):',
+  type_l:'TYPE',interval:'INTERVAL',cancel:'Cancel',apply:'Apply',
+  dt_fim:'finish',dt_par:'partial',dt_sim:'simultaneous',
+  log_f:'FIELD',log_b:'BEFORE',log_a:'AFTER',log_h:'HISTORY',no_chg:'No changes recorded.',
+  start:'Start',end:'End',rate_t:'Productivity',
+  obs:'Notes',obs_t:'Shopfloor notes',obs_new:'New note',
+  obs_title:'Title',obs_text:'Text (min. 3 lines)',obs_wcs:'Workcenters (terminals that will see this note)',
+  obs_save:'Save note',obs_none:'No notes recorded.',
+  obs_req:'Provide title, text and at least one workcenter.',obs_wc_hint:'There are notes for this workcenter — click to view',
+  obs_del:'Delete',obs_by:'by'
+}};
+function t(k){return (I18N[lang]&&I18N[lang][k])!==undefined?I18N[lang][k]:k;}
+function dtLabel(v){return v==='fim'?t('dt_fim'):v==='parcial'?t('dt_par'):v==='simultâneo'?t('dt_sim'):v;}
+
+function toggleTheme(){
+  darkMode=!darkMode;
+  document.documentElement.dataset.theme=darkMode?'dark':'';
+  document.getElementById('btn-theme').innerHTML=darkMode?'<i class="ti ti-sun"></i>':'<i class="ti ti-moon"></i>';
+  try{localStorage.setItem('ns-theme',darkMode?'dark':'light');}catch(e){}
+  // re-render flow (SVG background is theme-dependent)
+  if(ganttDone&&curOP){const active=acts.filter(a=>!a._del);renderFlow(active,ganttScheduled,ganttUsedWcs);}
+}
+function toggleLang(){
+  lang=lang==='pt'?'en':'pt';
+  DAYS=lang==='pt'?DAYS_PT:DAYS_EN;
+  document.getElementById('btn-lang').textContent=lang==='pt'?'EN':'PT';
+  try{localStorage.setItem('ns-lang',lang);}catch(e){}
+  applyLang();
+}
+function applyLang(){
+  const $=id=>document.getElementById(id);
+  document.title='NewScheduler';
+  $('topbar-sub').textContent=t('sub');
+  $('tab-list').textContent=t('tab_sel');
+  $('tab-prog').textContent=t('tab_prog');
+  $('lbl-flt-ops').textContent=t('flt_ops');
+  $('f-op').placeholder=t('ph_op');$('f-cli').placeholder=t('ph_cli');$('f-trab').placeholder=t('ph_job');
+  $('f-tipo').options[0].text=t('all_types');
+  const st=$('f-st');st.options[0].text=t('all_st');st.options[1].text=t('st_p');st.options[2].text=t('st_pa');st.options[3].text=t('st_u');
+  $('btn-clear-txt').textContent=' '+t('clear');
+  $('op-thead').innerHTML='<tr>'+t('th').map(h=>'<th>'+h+'</th>').join('')+'</tr>';
+  $('btn-back-txt').textContent=t('back');
+  $('lbl-add-act').textContent=t('add_act');
+  $('lbl-pos').textContent=t('l_pos');$('lbl-comp').textContent=t('l_comp');$('lbl-desc').textContent=t('l_desc');
+  $('lbl-wc').textContent=t('l_wc');$('lbl-nqty').textContent=t('l_qty');$('lbl-nunit').textContent=t('l_unit');
+  $('lbl-nrate').textContent=t('l_rate');$('lbl-nco').textContent=t('l_co');$('lbl-nsu').textContent=t('l_su');$('lbl-npr').textContent=t('l_pr');
+  $('lbl-acts').firstChild.textContent=t('acts')+' ';
+  $('act-filter').placeholder=t('flt_acts');
+  $('btn-save-txt').textContent=' '+t('save');
+  const ath=t('ath');const athW=['26px','22px','28px','100px','','155px','82px','48px','72px','76px','76px','76px','100px','152px'];
+  const athCls=['','','','','','','','','','grp-co','grp-su','grp-pr','',''];
+  $('act-thead').innerHTML='<tr>'+ath.map((h,i)=>{
+    if(i===0)return '<th style="width:26px;"><input type="checkbox" id="chk-all" onclick="selAllVisible(this.checked)" style="width:14px;height:14px;cursor:pointer;accent-color:var(--txi);"></th>';
+    return `<th${athCls[i]?' class="'+athCls[i]+'"':''} style="${athW[i]?'width:'+athW[i]+';':''}">${h}</th>`;
+  }).join('')+'</tr>';
+  $('lbl-gantt').textContent=t('gantt');
+  $('btn-sim-txt').textContent=' '+t('sim');
+  $('btn-fix').innerHTML='<i class="ti ti-wand"></i> '+t('resolve');
+  $('btn-free').innerHTML=freeMode?'<i class="ti ti-lock"></i> '+t('ena'):'<i class="ti ti-lock-open"></i> '+t('ign');
+  $('stale-inline').innerHTML='<i class="ti ti-alert-triangle" style="font-size:13px;"></i> '+t('stale1');
+  $('lbl-flow').textContent=t('flow');
+  $('btn-fdates').innerHTML=(showFlowDates?'<i class="ti ti-eye"></i> ':'<i class="ti ti-eye-off"></i> ')+t('dates');
+  $('btn-print-txt').textContent=' '+t('print');
+  $('obs-label').textContent=t('obs');
+  $('stale-t2').textContent=t('stale2');$('stale-t3').textContent=' '+t('stale3');$('stale-t4').textContent=' '+t('sim_now');
+  $('stale-f4').textContent=t('stale4');$('stale-f5').textContent=' '+t('stale5');$('stale-f6').textContent=' '+t('sim_now');
+  $('free-t1').textContent=t('free');$('free-t2').textContent=' '+t('free2');$('free-t3').textContent=t('disable');
+  $('gantt-legend').innerHTML=`
+      <span><span class="ldot" style="background:#d0d0c8;opacity:.5;border:1px solid #b0b0a8;"></span>${t('lg_other')}</span>
+      <span><span style="display:inline-block;width:12px;height:10px;background:repeating-linear-gradient(45deg,#999,#999 2px,transparent 2px,transparent 5px);border-radius:2px;vertical-align:middle;margin-right:4px;"></span>${t('lg_co')}</span>
+      <span><span style="display:inline-block;width:12px;height:10px;background:rgba(0,0,0,.18);border-radius:2px;vertical-align:middle;margin-right:4px;"></span>${t('lg_su')}</span>`;
+  // dynamic re-renders
+  filterOPs();
+  if(curOP){
+    renderOpHdr();updatePosSelect();renderActs();updateObsCount();
+    if(ganttDone)simGantt();
+    else{
+      const eg=document.querySelector('#gantt-area .empty-state');if(eg)eg.innerHTML='<i class="ti ti-calendar-event"></i>'+t('empty_g');
+      const ef=document.querySelector('#flow-area .empty-state');if(ef)ef.innerHTML='<i class="ti ti-arrows-right"></i>'+t('empty_f');
+    }
+  }
+}
 
 const WCS=[
   {id:'R9200',n:'Ricoh 9200',ic:'🖨️',col:'#185fa5',bg:'#ddeeff'},
@@ -418,13 +606,35 @@ const OPS=[
     {seq:1,comp:'Capa',desc:'Impressão capa 6×0+V — Couchê 300gr — 640×480mm',wc:'MR306',qty:8000,unit:'fl',prodRate:2286,co:'1h30',setup:'2h00',prod:'3h30',dep:[],depType:'fim',depDelay:''},
     {seq:2,comp:'Capa',desc:'Laminação BOPP brilho — capa offset',wc:'LAM',qty:8000,unit:'fl',prodRate:4000,co:'0min',setup:'20min',prod:'2h00',dep:[1],depType:'fim',depDelay:''},
     {seq:3,comp:'Capa',desc:'Corte capa + orelha — guilhotina',wc:'GUIL',qty:8000,unit:'fl',prodRate:5333,co:'0min',setup:'15min',prod:'1h30',dep:[2],depType:'fim',depDelay:''},
-    {seq:4,comp:'Miolo',desc:'Impressão miolo 1×1 — Offset 75gr — 8 cads 64pp',wc:'MR704',qty:64000,unit:'fl',prodRate:10667,co:'1h00',setup:'1h30',prod:'6h00',dep:[],depType:'fim',depDelay:''},
-    {seq:5,comp:'Miolo',desc:'Dobra cadernos — 8 cadernos Stahl',wc:'STAHL',qty:64000,unit:'cad',prodRate:16000,co:'0min',setup:'30min',prod:'4h00',dep:[4],depType:'fim',depDelay:''},
-    {seq:6,comp:'Miolo',desc:'Alceamento — cadernos dobrados',wc:'MM',qty:8000,unit:'ex',prodRate:3200,co:'0min',setup:'30min',prod:'2h30',dep:[5],depType:'fim',depDelay:''},
-    {seq:7,comp:'Livro',desc:'Lombada PUR — 160×230mm / 22mm / orelha 75mm',wc:'BQ500',qty:8000,unit:'ex',prodRate:2000,co:'0min',setup:'1h00',prod:'4h00',dep:[3,6],depType:'fim',depDelay:''},
-    {seq:8,comp:'Livro',desc:'Dobra orelhas — 2 operadores',wc:'DOROR',qty:8000,unit:'ex',prodRate:2667,co:'0min',setup:'15min',prod:'3h00',dep:[7],depType:'fim',depDelay:''},
-    {seq:9,comp:'Livro',desc:'Corte trilateral — 160×230mm final',wc:'TRIL',qty:8000,unit:'ex',prodRate:3200,co:'0min',setup:'15min',prod:'2h30',dep:[8],depType:'fim',depDelay:''},
-    {seq:10,comp:'Livro',desc:'Shrink — embalagem final',wc:'SHRINK',qty:8000,unit:'ex',prodRate:5333,co:'0min',setup:'10min',prod:'1h30',dep:[9],depType:'fim',depDelay:''},
+    {seq:4,comp:'Miolo',desc:'Impressão frente cad.1 — 1×0 — Offset 75gr',wc:'MR704',qty:8000,unit:'fl',prodRate:10667,co:'1h00',setup:'20min',prod:'45min',dep:[],depType:'fim',depDelay:''},
+    {seq:5,comp:'Miolo',desc:'Impressão frente cad.2 — 1×0 — Offset 75gr',wc:'MR704',qty:8000,unit:'fl',prodRate:10667,co:'0min',setup:'20min',prod:'45min',dep:[4],depType:'fim',depDelay:''},
+    {seq:6,comp:'Miolo',desc:'Impressão frente cad.3 — 1×0 — Offset 75gr',wc:'MR704',qty:8000,unit:'fl',prodRate:10667,co:'0min',setup:'20min',prod:'45min',dep:[5],depType:'fim',depDelay:''},
+    {seq:7,comp:'Miolo',desc:'Impressão frente cad.4 — 1×0 — Offset 75gr',wc:'MR704',qty:8000,unit:'fl',prodRate:10667,co:'0min',setup:'20min',prod:'45min',dep:[6],depType:'fim',depDelay:''},
+    {seq:8,comp:'Miolo',desc:'Impressão frente cad.5 — 1×0 — Offset 75gr',wc:'MR704',qty:8000,unit:'fl',prodRate:10667,co:'0min',setup:'20min',prod:'45min',dep:[7],depType:'fim',depDelay:''},
+    {seq:9,comp:'Miolo',desc:'Impressão frente cad.6 — 1×0 — Offset 75gr',wc:'MR704',qty:8000,unit:'fl',prodRate:10667,co:'0min',setup:'20min',prod:'45min',dep:[8],depType:'fim',depDelay:''},
+    {seq:10,comp:'Miolo',desc:'Impressão frente cad.7 — 1×0 — Offset 75gr',wc:'MR704',qty:8000,unit:'fl',prodRate:10667,co:'0min',setup:'20min',prod:'45min',dep:[9],depType:'fim',depDelay:''},
+    {seq:11,comp:'Miolo',desc:'Impressão frente cad.8 — 1×0 — Offset 75gr',wc:'MR704',qty:8000,unit:'fl',prodRate:10667,co:'0min',setup:'20min',prod:'45min',dep:[10],depType:'fim',depDelay:''},
+    {seq:12,comp:'Miolo',desc:'Impressão verso cad.1 — 1×0 — Offset 75gr',wc:'MR704',qty:8000,unit:'fl',prodRate:10667,co:'0min',setup:'20min',prod:'45min',dep:[11],depType:'fim',depDelay:''},
+    {seq:13,comp:'Miolo',desc:'Impressão verso cad.2 — 1×0 — Offset 75gr',wc:'MR704',qty:8000,unit:'fl',prodRate:10667,co:'0min',setup:'20min',prod:'45min',dep:[12],depType:'fim',depDelay:''},
+    {seq:14,comp:'Miolo',desc:'Impressão verso cad.3 — 1×0 — Offset 75gr',wc:'MR704',qty:8000,unit:'fl',prodRate:10667,co:'0min',setup:'20min',prod:'45min',dep:[13],depType:'fim',depDelay:''},
+    {seq:15,comp:'Miolo',desc:'Impressão verso cad.4 — 1×0 — Offset 75gr',wc:'MR704',qty:8000,unit:'fl',prodRate:10667,co:'0min',setup:'20min',prod:'45min',dep:[14],depType:'fim',depDelay:''},
+    {seq:16,comp:'Miolo',desc:'Impressão verso cad.5 — 1×0 — Offset 75gr',wc:'MR704',qty:8000,unit:'fl',prodRate:10667,co:'0min',setup:'20min',prod:'45min',dep:[15],depType:'fim',depDelay:''},
+    {seq:17,comp:'Miolo',desc:'Impressão verso cad.6 — 1×0 — Offset 75gr',wc:'MR704',qty:8000,unit:'fl',prodRate:10667,co:'0min',setup:'20min',prod:'45min',dep:[16],depType:'fim',depDelay:''},
+    {seq:18,comp:'Miolo',desc:'Impressão verso cad.7 — 1×0 — Offset 75gr',wc:'MR704',qty:8000,unit:'fl',prodRate:10667,co:'0min',setup:'20min',prod:'45min',dep:[17],depType:'fim',depDelay:''},
+    {seq:19,comp:'Miolo',desc:'Impressão verso cad.8 — 1×0 — Offset 75gr',wc:'MR704',qty:8000,unit:'fl',prodRate:10667,co:'0min',setup:'20min',prod:'45min',dep:[18],depType:'fim',depDelay:''},
+    {seq:20,comp:'Miolo',desc:'Dobra cad.1 — Stahl 3 dobras',wc:'STAHL',qty:8000,unit:'cad',prodRate:16000,co:'0min',setup:'10min',prod:'30min',dep:[12],depType:'fim',depDelay:''},
+    {seq:21,comp:'Miolo',desc:'Dobra cad.2 — Stahl 3 dobras',wc:'STAHL',qty:8000,unit:'cad',prodRate:16000,co:'0min',setup:'10min',prod:'30min',dep:[13],depType:'fim',depDelay:''},
+    {seq:22,comp:'Miolo',desc:'Dobra cad.3 — Stahl 3 dobras',wc:'STAHL',qty:8000,unit:'cad',prodRate:16000,co:'0min',setup:'10min',prod:'30min',dep:[14],depType:'fim',depDelay:''},
+    {seq:23,comp:'Miolo',desc:'Dobra cad.4 — Stahl 3 dobras',wc:'STAHL',qty:8000,unit:'cad',prodRate:16000,co:'0min',setup:'10min',prod:'30min',dep:[15],depType:'fim',depDelay:''},
+    {seq:24,comp:'Miolo',desc:'Dobra cad.5 — Stahl 3 dobras',wc:'STAHL',qty:8000,unit:'cad',prodRate:16000,co:'0min',setup:'10min',prod:'30min',dep:[16],depType:'fim',depDelay:''},
+    {seq:25,comp:'Miolo',desc:'Dobra cad.6 — Stahl 3 dobras',wc:'STAHL',qty:8000,unit:'cad',prodRate:16000,co:'0min',setup:'10min',prod:'30min',dep:[17],depType:'fim',depDelay:''},
+    {seq:26,comp:'Miolo',desc:'Dobra cad.7 — Stahl 3 dobras',wc:'STAHL',qty:8000,unit:'cad',prodRate:16000,co:'0min',setup:'10min',prod:'30min',dep:[18],depType:'fim',depDelay:''},
+    {seq:27,comp:'Miolo',desc:'Dobra cad.8 — Stahl 3 dobras',wc:'STAHL',qty:8000,unit:'cad',prodRate:16000,co:'0min',setup:'10min',prod:'30min',dep:[19],depType:'fim',depDelay:''},
+    {seq:28,comp:'Miolo',desc:'Alceamento — 8 cadernos dobrados',wc:'MM',qty:8000,unit:'ex',prodRate:3200,co:'0min',setup:'30min',prod:'2h30',dep:[20,21,22,23,24,25,26,27],depType:'fim',depDelay:''},
+    {seq:29,comp:'Livro',desc:'Lombada PUR — 160×230mm / 22mm / orelha 75mm',wc:'BQ500',qty:8000,unit:'ex',prodRate:2000,co:'0min',setup:'1h00',prod:'4h00',dep:[3,28],depType:'fim',depDelay:''},
+    {seq:30,comp:'Livro',desc:'Dobra orelhas — 2 operadores',wc:'DOROR',qty:8000,unit:'ex',prodRate:2667,co:'0min',setup:'15min',prod:'3h00',dep:[29],depType:'fim',depDelay:''},
+    {seq:31,comp:'Livro',desc:'Corte trilateral — 160×230mm final',wc:'TRIL',qty:8000,unit:'ex',prodRate:3200,co:'0min',setup:'15min',prod:'2h30',dep:[30],depType:'fim',depDelay:''},
+    {seq:32,comp:'Livro',desc:'Shrink — embalagem final',wc:'SHRINK',qty:8000,unit:'ex',prodRate:5333,co:'0min',setup:'10min',prod:'1h30',dep:[31],depType:'fim',depDelay:''}
   ]},
   {id:'OP-3020',tipo:'Cartucho',cliente:'NovaNutri Farmacêutica',trabalho:'Cartucho Omega-3 + D3 / 30 cáps',produto:'Cartucho 100×60×120mm fundo auto',qtd:50000,unit:'un',entrega:'2026-06-12',vendedor:'Carlos T.',status:'urgent',
    componentes:['Produção'],
@@ -451,6 +661,9 @@ const OPS=[
 // STATE
 // ══════════════════════════════════════════════════════════
 let curOP=null,acts=[],ganttDone=false,freeMode=false,showFlowDates=true,everSimulated=false;
+let selSeqs=new Set(),moveGroupCounter=0;
+const GROUP_COLORS=['#185fa5','#993c1d','#3b6d11','#534ab7','#a32d2d','#0f6e56'];
+function groupColor(g){const n=parseInt(String(g).replace(/\D/g,''))||0;return GROUP_COLORS[n%GROUP_COLORS.length];}
 let ganttPxPerHour=90; // dynamic zoom: pixels per hour
 let ganttScheduled={},ganttUsedWcs=[];
 let dragRowIdx=null;
@@ -494,9 +707,9 @@ function filterOPs(){
     <td>${o.qtd.toLocaleString('pt-BR')} ${o.unit}</td>
     <td style="font-weight:700;${o.status==='urgent'?'color:var(--txd)':''}">${fmtDate(o.entrega)}</td>
     <td>${o.vendedor}</td>
-    <td><span class="badge bdg-${o.status}">${{urgent:'Urgente',partial:'Parcial',pending:'Pendente'}[o.status]}</span></td>
-    <td><button class="btn primary sm" onclick="event.stopPropagation();openOP('${o.id}')">Programar <i class="ti ti-arrow-right"></i></button></td>
-  </tr>`).join(''):'<tr><td colspan="10" style="text-align:center;padding:24px;color:var(--tx3);">Nenhuma OP encontrada.</td></tr>';
+    <td><span class="badge bdg-${o.status}">${{urgent:t('st_u'),partial:t('st_pa'),pending:t('st_p')}[o.status]}</span></td>
+    <td><button class="btn primary sm" onclick="event.stopPropagation();openOP('${o.id}')">${t('sched')} <i class="ti ti-arrow-right"></i></button></td>
+  </tr>`).join(''):`<tr><td colspan="10" style="text-align:center;padding:24px;color:var(--tx3);">${t('no_ops')}</td></tr>`;
 }
 function clearFilter(){['f-op','f-cli','f-trab'].forEach(id=>document.getElementById(id).value='');['f-tipo','f-st'].forEach(id=>document.getElementById(id).value='');filterOPs();}
 
@@ -507,24 +720,30 @@ function openOP(id){
   curOP=OPS.find(o=>o.id===id);
   acts=curOP.atividades.map(a=>({...a,dep:[...(a.dep||[])],_del:false,_new:false,_edited:false,_snap:null,_log:[]}));
   ganttDone=false;freeMode=false;everSimulated=false;ganttPxPerHour=90;ganttScheduled={};ganttUsedWcs=[];
-  document.getElementById('prog-title').textContent=curOP.id+' — '+curOP.trabalho;
-  const sb=document.getElementById('prog-badge');sb.className='badge bdg-'+curOP.status;sb.textContent={urgent:'Urgente',partial:'Parcial',pending:'Pendente'}[curOP.status];
-  document.getElementById('prog-tipo').textContent=curOP.tipo;
-  document.getElementById('op-hdr').innerHTML=[
-    {l:'OP',v:curOP.id},{l:'Cliente',v:curOP.cliente},{l:'Produto',v:curOP.produto},
-    {l:'Quantidade',v:curOP.qtd.toLocaleString('pt-BR')+' '+curOP.unit},
-    {l:'Vendedor',v:curOP.vendedor},{l:'Data de entrega',v:fmtDate(curOP.entrega),d:curOP.status==='urgent'},{l:'Tipo',v:curOP.tipo},
-  ].map(f=>`<div class="op-fld"><div class="op-fld-l">${f.l}</div><div class="op-fld-v${f.d?' danger':''}">${f.v}</div></div>`).join('');
-  updatePosSelect();updateCompSelect();
+  selSeqs.clear();moveGroupCounter=0;
+  if(!curOP.observacoes)curOP.observacoes=[];
+  renderOpHdr();
+  updatePosSelect();updateCompSelect();updateObsCount();
   showScreen('prog');renderActs();resetGantt();
   ['conflict-banner','free-banner','delivery-bar','save-banner'].forEach(id=>document.getElementById(id).style.display='none');
   hideStaleBanner();
   document.getElementById('btn-fix').style.display='none';
   document.getElementById('gantt-legend').style.display='none';
 }
+function renderOpHdr(){
+  if(!curOP)return;
+  document.getElementById('prog-title').textContent=curOP.id+' — '+curOP.trabalho;
+  const sb=document.getElementById('prog-badge');sb.className='badge bdg-'+curOP.status;sb.textContent={urgent:t('st_u'),partial:t('st_pa'),pending:t('st_p')}[curOP.status];
+  document.getElementById('prog-tipo').textContent=curOP.tipo;
+  document.getElementById('op-hdr').innerHTML=[
+    {l:'OP',v:curOP.id},{l:t('f_cli'),v:curOP.cliente},{l:t('f_prod'),v:curOP.produto},
+    {l:t('f_qty'),v:curOP.qtd.toLocaleString('pt-BR')+' '+curOP.unit},
+    {l:t('f_sel'),v:curOP.vendedor},{l:t('f_due'),v:fmtDate(curOP.entrega),d:curOP.status==='urgent'},{l:t('f_type'),v:curOP.tipo},
+  ].map(f=>`<div class="op-fld"><div class="op-fld-l">${f.l}</div><div class="op-fld-v${f.d?' danger':''}">${f.v}</div></div>`).join('');
+}
 function updatePosSelect(){
-  const sel=document.getElementById('new-pos');sel.innerHTML='<option value="end">No final</option>';
-  acts.filter(a=>!a._del).forEach((a,i)=>{const o=document.createElement('option');o.value=i;o.textContent='Após seq. '+a.seq;sel.appendChild(o);});
+  const sel=document.getElementById('new-pos');sel.innerHTML=`<option value="end">${t('pos_end')}</option>`;
+  acts.filter(a=>!a._del).forEach((a,i)=>{const o=document.createElement('option');o.value=i;o.textContent=t('pos_after')+' '+a.seq;sel.appendChild(o);});
 }
 function updateCompSelect(){
   const sel=document.getElementById('new-comp');sel.innerHTML='';
@@ -532,8 +751,8 @@ function updateCompSelect(){
 }
 function goBack(){showScreen('list');curOP=null;}
 function resetGantt(){
-  document.getElementById('gantt-area').innerHTML='<div class="empty-state"><i class="ti ti-calendar-event"></i>Clique em "Simular" para visualizar o Gantt.</div>';
-  document.getElementById('flow-area').innerHTML='<div class="empty-state"><i class="ti ti-arrows-right"></i>Fluxo disponível após simulação.</div>';
+  document.getElementById('gantt-area').innerHTML=`<div class="empty-state"><i class="ti ti-calendar-event"></i>${t('empty_g')}</div>`;
+  document.getElementById('flow-area').innerHTML=`<div class="empty-state"><i class="ti ti-arrows-right"></i>${t('empty_f')}</div>`;
   document.getElementById('delivery-bar').style.display='none';document.getElementById('gantt-legend').style.display='none';
   ganttDone=false;
 }
@@ -544,30 +763,38 @@ function resetGantt(){
 function renderActs(){
   updatePosSelect();
   const active=acts.filter(a=>!a._del);
-  document.getElementById('act-count').textContent=`(${active.length} ativas${acts.filter(a=>a._del).length?' · '+acts.filter(a=>a._del).length+' excluídas':''})`;
+  const fltVal=(document.getElementById('act-filter')?.value||'').trim();
+  document.getElementById('act-count').textContent=`(${active.length} ${t('active')}${acts.filter(a=>a._del).length?' · '+acts.filter(a=>a._del).length+' '+t('deleted_k'):''}${fltVal?' · '+t('flt_on'):''})`;
+  const flt=(document.getElementById('act-filter')?.value||'').toLowerCase().trim();
   let html='';
   let lastComp=null;
+  let visCount=0;
   acts.forEach((a,i)=>{
+    if(flt&&!actMatch(a,flt))return; // filtro ativo: pula não correspondentes
+    if(!a._del)visCount++;
     if(a.comp!==lastComp&&!a._del){
       lastComp=a.comp;
       const col=COMP_COLORS[a.comp]||COMP_COLORS[Object.keys(COMP_COLORS).find(k=>a.comp.includes(k))]||'#888';
-      html+=`<tr class="comp-row"><td colspan="13"><span class="comp-dot" style="background:${col};"></span>${a.comp}</td></tr>`;
+      html+=`<tr class="comp-row"><td colspan="14"><span class="comp-dot" style="background:${col};"></span>${a.comp}</td></tr>`;
     }
     const dis=a._del?'disabled':'';
     const wcOpts=WCS.map(w=>`<option value="${w.id}"${a.wc===w.id?' selected':''}>${w.n}</option>`).join('');
     const unitOpts=['ex','fl','un','cad','m²'].map(u=>`<option${a.unit===u?' selected':''}>${u}</option>`).join('');
     const compOpts=(curOP.componentes||['Geral']).map(c=>`<option${a.comp===c?' selected':''}>${c}</option>`).join('');
     const depArr=a.dep||[];
-    const depLabel=depArr.length===0?'sem dep.':depArr.length===1?'após '+depArr[0]:depArr.length+' deps';
+    const depLabel=depArr.length===0?t('no_dep'):depArr.length===1?t('after')+' '+depArr[0]:depArr.length+' '+t('deps');
     const badges=[];
-    if(a._new)badges.push('<span class="badge bdg-new">novo</span>');
-    if(a._edited&&!a._new)badges.push(`<span class="badge bdg-edited" onclick="showLog(${i})">editado ↗</span>`);
-    if(a._splitOf)badges.push('<span class="badge bdg-split">split</span>');
+    if(a._new)badges.push(`<span class="badge bdg-new">${t('b_new')}</span>`);
+    if(a._edited&&!a._new)badges.push(`<span class="badge bdg-edited" onclick="showLog(${i})">${t('b_edit')}</span>`);
+    if(a._splitOf)badges.push(`<span class="badge bdg-split">${t('b_split')}</span>`);
+    if(a._merged)badges.push(`<span class="badge" style="background:var(--bgp);color:var(--txp);">${t('b_merged')} (${a._mergedFrom?.length||0})</span>`);
     const tw=(fld,val,idx)=>`<div class="tw"><input class="th" type="number" min="0" max="999" value="${phH(val)}" ${dis} onchange="editTime(${idx},'${fld}','h',this.value)" onkeydown="tnext(event,this)"><span class="tsep">:</span><input class="tm" type="number" min="0" max="59" value="${phM(val)}" ${dis} onchange="editTime(${idx},'${fld}','m',this.value)"></div>`;
-    html+=`<tr id="ar-${i}" class="${a._del?'deleted':a._edited||a._new?'highlighted':''}" draggable="${a._del?'false':'true'}"
+    const gStyle=a._moveGroup?`background:${groupColor(a._moveGroup)}18;box-shadow:inset 4px 0 0 ${groupColor(a._moveGroup)};`:'';
+    html+=`<tr id="ar-${i}" class="${a._del?'deleted':a._edited||a._new?'highlighted':''}" style="${gStyle}" draggable="${a._del?'false':'true'}"
       ondragstart="dS(event,${i})" ondragover="dO(event,${i})" ondrop="dD(event,${i})" ondragend="dE(event)">
+      <td><input type="checkbox" ${selSeqs.has(a.seq)?'checked':''} ${a._del?'disabled':''} onclick="event.stopPropagation();toggleSel(${a.seq})" style="width:15px;height:15px;cursor:pointer;accent-color:var(--txi);"/></td>
       <td><span class="drag-handle"><i class="ti ti-grip-vertical"></i></span></td>
-      <td><span class="seq-num${a._new?' ns':a._splitOf?' ss':''}">${a.seq}</span></td>
+      <td><span class="seq-num${a._new?' ns':a._splitOf?' ss':''}">${a.seq}</span>${a._moveGroup?`<i class="ti ti-link" title="Grupo de movimento ${a._moveGroup}" style="font-size:11px;color:${groupColor(a._moveGroup)};display:block;text-align:center;margin-top:1px;"></i>`:''}</td>
       <td><select ${dis} onchange="editA(${i},'comp',this.value)" style="font-size:10px;">${compOpts}</select></td>
       <td style="max-width:200px;"><input type="text" value="${a.desc.replace(/"/g,'&quot;')}" ${dis} onchange="editA(${i},'desc',this.value)" style="font-size:11px;"/>
         ${badges.length?`<div class="act-badges">${badges.join('')}</div>`:''}</td>
@@ -582,7 +809,7 @@ function renderActs(){
         <span class="dep-chip${depArr.length===0?' empty':''}" onclick="openDepPop(${i})">
           <i class="ti ti-git-branch" style="font-size:11px;"></i>${depLabel}
         </span>
-        ${depArr.length?`<div style="font-size:9px;color:var(--tx3);">${a.depType}${a.depDelay?' +'+a.depDelay:''}</div>`:''}
+        ${depArr.length?`<div style="font-size:9px;color:var(--tx3);">${dtLabel(a.depType)}${a.depDelay?' +'+a.depDelay:''}</div>`:''}
       </td>
       <td><div class="act-btns">
         ${a._del?`<button class="btn sm" onclick="restA(${i})"><i class="ti ti-restore"></i></button>`
@@ -590,16 +817,179 @@ function renderActs(){
         <button class="btn sm purple" onclick="splitA(${i})" ${a._del?'disabled':''}><i class="ti ti-scissors"></i></button>
         <button class="btn sm success" onclick="dupA(${i})" ${a._del?'disabled':''}><i class="ti ti-copy"></i></button>
         ${(a._edited&&!a._new)?`<button class="btn sm warning" onclick="revertA(${i})"><i class="ti ti-arrow-back-up"></i></button>`:''}
+        ${a._merged?`<button class="btn sm purple" onclick="ungroupProd(${i})" title="${t('ungrp_p')}"><i class="ti ti-stack-pop"></i> ${t('ungrp_p')}</button>`:''}
       </div></td>
     </tr>`;
   });
   document.getElementById('act-tbody').innerHTML=html;
+  // prune selection of seqs that no longer exist or are deleted
+  const validSeqs=new Set(acts.filter(a=>!a._del).map(a=>a.seq));
+  selSeqs=new Set([...selSeqs].filter(s=>validSeqs.has(s)));
+  updateSelToolbar();
+}
+function toggleSel(seq){
+  if(selSeqs.has(seq))selSeqs.delete(seq);else selSeqs.add(seq);
+  updateSelToolbar();
+}
+function actMatch(a,flt){
+  if(!flt)return true;
+  return a.desc.toLowerCase().includes(flt)
+    ||wcById(a.wc).n.toLowerCase().includes(flt)
+    ||(a.comp||'').toLowerCase().includes(flt)
+    ||String(a.seq)===flt;
+}
+function selAllVisible(checked){
+  const flt=(document.getElementById('act-filter')?.value||'').toLowerCase().trim();
+  acts.forEach(a=>{
+    if(a._del)return;
+    if(flt&&!actMatch(a,flt))return;
+    if(checked)selSeqs.add(a.seq);else selSeqs.delete(a.seq);
+  });
+  renderActs();
+}
+function updateSelToolbar(){
+  const info=document.getElementById('sel-info');
+  const bm=document.getElementById('btn-group-move');
+  const bp=document.getElementById('btn-group-prod');
+  const sep=document.getElementById('sel-sep');
+  if(!info||!bm||!bp)return;
+  const sel=acts.filter(a=>selSeqs.has(a.seq)&&!a._del);
+  if(sel.length===0){
+    info.style.display='none';bm.style.display='none';bp.style.display='none';if(sep)sep.style.display='none';
+    return;
+  }
+  info.style.display='inline';
+  info.textContent=sel.length+' '+t('selected');
+  if(sep)sep.style.display='block';
+  // Group move button: if ALL selected share the same move group → Desagrupar
+  const allSameGroup=sel.every(a=>a._moveGroup)&&sel.every(a=>a._moveGroup===sel[0]._moveGroup);
+  bm.style.display='inline-flex';
+  if(allSameGroup){
+    bm.innerHTML='<i class="ti ti-unlink"></i> '+t('ungrp_b');
+    bm.disabled=false;
+  }else{
+    bm.innerHTML='<i class="ti ti-link"></i> '+t('grp_b');
+    bm.disabled=sel.length<2;
+  }
+  bp.style.display=sel.length>=2?'inline-flex':'none';
 }
 
 // ══════════════════════════════════════════════════════════
 // EDITS
 // ══════════════════════════════════════════════════════════
 function deepClone(a){return JSON.parse(JSON.stringify(a));}
+
+// ── Renumber with dependency remapping ──────────────────────
+function renumberRemap(){
+  const map={};
+  acts.forEach((a,k)=>{map[a.seq]=k+1;});
+  acts.forEach(a=>{
+    a.dep=[...new Set((a.dep||[]).map(d=>map[d]!==undefined?map[d]:d))];
+  });
+  acts.forEach((a,k)=>{a.seq=k+1;});
+}
+
+// ── AGRUPAR BLOCOS (movement group — blocks drag together) ──
+function groupMove(){
+  const sel=acts.filter(a=>selSeqs.has(a.seq)&&!a._del);
+  if(sel.length===0)return;
+  const allSameGroup=sel.every(a=>a._moveGroup)&&sel.every(a=>a._moveGroup===sel[0]._moveGroup);
+  if(allSameGroup){
+    // Desagrupar: remove the group from ALL members (even unselected ones)
+    const g=sel[0]._moveGroup;
+    acts.forEach(a=>{if(a._moveGroup===g)delete a._moveGroup;});
+  }else{
+    if(sel.length<2)return;
+    const g='G'+(++moveGroupCounter);
+    sel.forEach(a=>{a._moveGroup=g;});
+  }
+  selSeqs.clear();
+  renderActs();
+  if(ganttDone)simGantt(); // refresh group outlines in gantt
+}
+
+// ── AGRUPAR PRODUÇÃO (merge into single block, reversible) ──
+function groupProd(){
+  const selIdx=[];
+  acts.forEach((a,i)=>{if(selSeqs.has(a.seq)&&!a._del)selIdx.push(i);});
+  if(selIdx.length<2)return;
+  const members=selIdx.map(i=>acts[i]);
+  const memberSeqs=new Set(members.map(m=>m.seq));
+  // External deps = deps pointing outside the merged set
+  const extDeps=[...new Set(members.flatMap(m=>(m.dep||[]).filter(d=>!memberSeqs.has(d))))];
+  // Record which deps of each member were external (for restore)
+  const extMask=members.map(m=>(m.dep||[]).map(d=>!memberSeqs.has(d)));
+  const sumH=fld=>members.reduce((s,m)=>s+ph(m[fld]),0);
+  const toT=h=>fmtT(Math.floor(h),Math.round((h%1)*60));
+  const totQty=members.reduce((s,m)=>s+(+m.qty||0),0);
+  const prodH=sumH('prod');
+  const merged={
+    seq:members[0].seq,
+    comp:members[0].comp,
+    desc:t('merged_desc')+' ('+members.length+') — '+members[0].desc.split('—')[0].trim(),
+    wc:members[0].wc,
+    qty:totQty,unit:members[0].unit,
+    prodRate:prodH>0?Math.round(totQty/prodH):0,
+    co:toT(sumH('co')),setup:toT(sumH('setup')),prod:toT(prodH),
+    dep:extDeps,depType:members[0].depType||'fim',depDelay:'',
+    _del:false,_new:false,_edited:false,_snap:null,_log:[],_splitOf:null,
+    _merged:true,_mergedFrom:deepClone(members),_extMask:extMask
+  };
+  const placeholder=members[0].seq;
+  // Remap downstream deps BEFORE removal: member seq → placeholder
+  acts.forEach(x=>{
+    if(memberSeqs.has(x.seq))return;
+    x.dep=[...new Set((x.dep||[]).map(d=>memberSeqs.has(d)?placeholder:d))];
+  });
+  // Remove members (reverse order), insert merged at first position
+  const firstIdx=selIdx[0];
+  for(let k=selIdx.length-1;k>=0;k--)acts.splice(selIdx[k],1);
+  acts.splice(firstIdx,0,merged);
+  renumberRemap();
+  selSeqs.clear();
+  ganttDone=false;showStaleBanner();renderActs();
+}
+
+// ── DESAGRUPAR PRODUÇÃO (restore original activities) ───────
+function ungroupProd(i){
+  const m=acts[i];
+  if(!m||!m._merged||!m._mergedFrom)return;
+  const mergedSeq=m.seq;
+  const clones=m._mergedFrom.map(x=>deepClone(x));
+  // Temp seqs to avoid collisions until renumber (fractional offsets)
+  const old2tmp={};
+  clones.forEach((cl,k)=>{
+    old2tmp[cl.seq]=mergedSeq+(k+1)/100;
+  });
+  clones.forEach((cl,k)=>{
+    const mask=m._extMask?m._extMask[k]:null;
+    const newDeps=[];
+    (cl.dep||[]).forEach((d,j)=>{
+      const isExt=mask?!!mask[j]:(old2tmp[d]===undefined);
+      if(isExt){
+        // external dep at merge time → use merged's CURRENT deps (kept valid by renumberRemap)
+        (m.dep||[]).forEach(md=>newDeps.push(md));
+      }else if(old2tmp[d]!==undefined){
+        newDeps.push(old2tmp[d]);
+      }
+    });
+    cl.dep=[...new Set(newDeps)];
+    cl.seq=mergedSeq+(k+1)/100;
+    cl._merged=false;delete cl._mergedFrom;delete cl._extMask;
+  });
+  // Downstream acts depending on merged → depend on ALL restored members
+  const cloneSeqs=clones.map(cl=>cl.seq);
+  acts.forEach(x=>{
+    if(x===m)return;
+    if((x.dep||[]).includes(mergedSeq)){
+      x.dep=[...new Set(x.dep.filter(d=>d!==mergedSeq).concat(cloneSeqs))];
+    }
+  });
+  acts.splice(i,1,...clones);
+  renumberRemap();
+  ganttDone=false;showStaleBanner();renderActs();
+}
+
 function snapIt(i){if(!acts[i]._new&&!acts[i]._edited)acts[i]._snap=deepClone(acts[i]);} 
 function addLog(i,f,ov,nv){if(String(ov)===String(nv))return;if(!acts[i]._log)acts[i]._log=[];acts[i]._log.push({field:f,oldVal:ov,newVal:nv,ts:new Date().toLocaleString('pt-BR'),user:'Programador'});}
 function editA(i,f,v){snapIt(i);addLog(i,f,acts[i][f],v);acts[i][f]=v;acts[i]._edited=true;ganttDone=false;showStaleBanner();renderActs();}
@@ -634,12 +1024,14 @@ function delA(i){
       // Find the original split source and revert it to its snapshot
       const srcIdx=acts.findIndex(x=>x.seq===a._splitOf&&!x._splitOf);
       if(srcIdx>=0&&acts[srcIdx]._snap){
-        // Revert source block to pre-split state
+        // Revert source block to pre-split state, preserving CURRENT seq (avoids collisions)
+        const curSeq=acts[srcIdx].seq;
         Object.assign(acts[srcIdx],acts[srcIdx]._snap,{_snap:null,_edited:false});
+        acts[srcIdx].seq=curSeq;
       }
     }
     acts.splice(i,1);
-    acts.forEach((a,k)=>a.seq=k+1);
+    renumberRemap();
   } else {
     // Original activity: keep in list, mark deleted (grey strikethrough)
     a._del=true;
@@ -647,7 +1039,7 @@ function delA(i){
   ganttDone=false;showStaleBanner();renderActs();
 }
 function restA(i){acts[i]._del=false;renderActs();}
-function revertA(i){if(!acts[i]._snap)return;Object.assign(acts[i],acts[i]._snap,{_snap:null,_edited:false,_log:[]});ganttDone=false;showStaleBanner();renderActs();}
+function revertA(i){if(!acts[i]._snap)return;const curSeq=acts[i].seq;Object.assign(acts[i],acts[i]._snap,{_snap:null,_edited:false,_log:[]});acts[i].seq=curSeq;ganttDone=false;showStaleBanner();renderActs();}
 function splitA(i){
   const a=acts[i];if(a._del)return;
   const ph2=ph(a.prod)/2;const hH=Math.floor(ph2),hM=Math.round((ph2%1)*60);const halfProd=fmtT(hH,hM);
@@ -656,17 +1048,19 @@ function splitA(i){
   const s1={...a,dep:origDep,qty:halfQty,prod:halfProd,_edited:true,_snap:{...a,dep:[...(a.dep||[])]}};
   // s2 gets same deps as original — both halves depend on the same predecessor
   const s2={...a,dep:[...origDep],depType:a.depType,depDelay:a.depDelay,qty:Math.floor(a.qty/2),prod:halfProd,_new:true,_edited:false,_snap:null,_log:[],_splitOf:a.seq,comp:a.comp};
-  acts.splice(i,1,s1,s2);acts.forEach((a,k)=>a.seq=k+1);
+  s2.seq=a.seq+0.5; // temp unique seq — renumberRemap maps deps to s1 correctly
+  acts.splice(i,1,s1,s2);renumberRemap();
   renderActs();ganttDone=false;showStaleBanner();
 }
 function dupA(i){
   const a={...acts[i],dep:[...(acts[i].dep||[])],_new:true,_edited:false,_del:false,_snap:null,_log:[],_splitOf:null};
-  acts.splice(i+1,0,a);acts.forEach((a,k)=>a.seq=k+1);renderActs();ganttDone=false;showStaleBanner();
+  a.seq=acts[i].seq+0.5; // temp unique seq
+  acts.splice(i+1,0,a);renumberRemap();renderActs();ganttDone=false;showStaleBanner();
 }
 function addAct(){
   const desc=document.getElementById('new-desc').value.trim();
   const wcv=document.getElementById('new-wc').value;
-  if(!desc||!wcv){alert('Informe descrição e workcenter.');return;}
+  if(!desc||!wcv){alert(t('add_req'));return;}
   const qty=+document.getElementById('new-qty').value||0;
   const unit=document.getElementById('new-unit').value;
   const comp=document.getElementById('new-comp').value||'Geral';
@@ -679,14 +1073,16 @@ function addAct(){
   const finalRate=rate>0?rate:(qty>0&&(prH||prM)?calcRate(qty,prH+prM/60):0);
   const posVal=document.getElementById('new-pos').value;
   const na={seq:0,comp,desc,wc:wcv,qty,unit,prodRate:finalRate,co,setup,prod,dep:[],depType:'fim',depDelay:'',_del:false,_new:true,_edited:false,_snap:null,_log:[],_splitOf:null};
+  const maxSeq=Math.max(0,...acts.map(x=>x.seq));
+  na.seq=maxSeq+0.5; // temp unique
   if(posVal==='end')acts.push(na);else acts.splice(+posVal+1,0,na);
-  acts.forEach((a,k)=>a.seq=k+1);
+  renumberRemap();
   ['new-desc','new-qty','new-prod-rate','new-co-h','new-co-m','new-su-h','new-su-m','new-pr-h','new-pr-m'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
   renderActs();ganttDone=false;showStaleBanner();
 }
 function saveActs(){
   const n=acts.filter(a=>!a._del).length,d=acts.filter(a=>a._del).length,e=acts.filter(a=>a._edited&&!a._del).length;
-  document.getElementById('save-msg').textContent=`${n} ativas salvas · ${e} editadas · ${d} excluídas (mantidas no histórico)`;
+  document.getElementById('save-msg').textContent=`${n} ${t('saved1')} · ${e} ${t('saved2')} · ${d} ${t('saved3')}`;
   const b=document.getElementById('save-banner');b.style.display='flex';setTimeout(()=>b.style.display='none',4000);
 }
 // New row produtividade <-> produção sync
@@ -704,9 +1100,44 @@ function calcNewRate(){
 // ══════════════════════════════════════════════════════════
 // DRAG REORDER (rows)
 // ══════════════════════════════════════════════════════════
-function dS(e,i){dragRowIdx=i;e.currentTarget.classList.add('dragging');}
-function dO(e,i){e.preventDefault();if(i!==dragRowIdx){document.querySelectorAll('.act-tbl tr').forEach(r=>r.classList.remove('drag-over'));e.currentTarget.classList.add('drag-over');}}
-function dD(e,i){e.preventDefault();if(dragRowIdx===null||dragRowIdx===i)return;const m=acts.splice(dragRowIdx,1)[0];acts.splice(i,0,m);acts.forEach((a,k)=>a.seq=k+1);dragRowIdx=null;renderActs();ganttDone=false;showStaleBanner();}
+function dS(e,i){
+  dragRowIdx=i;
+  const a=acts[i];
+  if(a._moveGroup){
+    // Mark ALL group members as dragging — they move together
+    acts.forEach((o,k)=>{if(o._moveGroup===a._moveGroup)document.getElementById('ar-'+k)?.classList.add('dragging');});
+  }else{
+    e.currentTarget.classList.add('dragging');
+  }
+}
+function dO(e,i){
+  e.preventDefault();
+  if(i===dragRowIdx)return;
+  const dragged=acts[dragRowIdx];
+  // Don't show drop indicator on rows of the same group being dragged
+  if(dragged&&dragged._moveGroup&&acts[i]&&acts[i]._moveGroup===dragged._moveGroup)return;
+  document.querySelectorAll('.act-tbl tr').forEach(r=>r.classList.remove('drag-over'));
+  document.getElementById('ar-'+i)?.classList.add('drag-over');
+}
+function dD(e,i){
+  e.preventDefault();
+  if(dragRowIdx===null||dragRowIdx===i)return;
+  const dragged=acts[dragRowIdx];
+  const target=acts[i];
+  // The moving unit: whole group if dragged row belongs to one, else single row
+  const moving=dragged._moveGroup
+    ?acts.filter(a=>a._moveGroup===dragged._moveGroup)
+    :[dragged];
+  const movingSet=new Set(moving);
+  if(movingSet.has(target)){dragRowIdx=null;renderActs();return;} // dropped onto own group
+  // Remove moving rows, then insert contiguously at target position
+  acts=acts.filter(a=>!movingSet.has(a));
+  const ti=acts.indexOf(target);
+  const insertAt=dragRowIdx<i?ti+1:ti; // dragging down → after target; up → before
+  acts.splice(insertAt,0,...moving);
+  renumberRemap(); // CRITICAL: remap deps so they keep pointing to the same activities
+  dragRowIdx=null;renderActs();ganttDone=false;showStaleBanner();
+}
 function dE(e){e.currentTarget.classList.remove('dragging');document.querySelectorAll('.act-tbl tr').forEach(r=>r.classList.remove('drag-over'));dragRowIdx=null;}
 function tnext(e,el){if(e.key==='Tab'&&!e.shiftKey){e.preventDefault();const nx=el.nextElementSibling?.nextElementSibling;if(nx&&nx.tagName==='INPUT'){nx.focus();nx.select();}else{const ntd=el.closest('td')?.nextElementSibling;const ni=ntd?.querySelector('input,select');if(ni){ni.focus();if(ni.tagName==='INPUT')ni.select();}}}}
 
@@ -718,7 +1149,7 @@ function openDepPop(i){
   depPopIdx=i;const a=acts[i];
   const depArr=a.dep||[];
   const others=acts.filter((_,j)=>j!==i&&!acts[j]._del);
-  const depTypeOpts=['fim','parcial','simultâneo'].map(t=>`<option${a.depType===t?' selected':''}>${t}</option>`).join('');
+  const depTypeOpts=['fim','parcial','simultâneo'].map(v=>`<option value="${v}"${a.depType===v?' selected':''}>${dtLabel(v)}</option>`).join('');
   let rows=others.map(o=>`<div class="dep-radio-row" onclick="toggleDepChk(${o.seq})">
     <input type="checkbox" id="dchk-${o.seq}" ${depArr.includes(o.seq)?'checked':''} onclick="event.stopPropagation();toggleDepChk(${o.seq})">
     <span class="dep-seq">${o.seq}</span>
@@ -727,18 +1158,18 @@ function openDepPop(i){
   </div>`).join('');
   document.getElementById('pop-root').innerHTML=`<div class="pop-ov" id="dep-pop" onclick="closeDepPop(event)">
     <div class="pop-box" onclick="event.stopPropagation()" style="width:500px;">
-      <div class="pop-title">Dependências — seq.${a.seq} [${a.comp}]<button class="btn sm" onclick="closeDepPop()"><i class="ti ti-x"></i></button></div>
-      <div style="font-size:11px;color:var(--tx3);margin-bottom:8px;">Selecione as atividades predecessoras (pode ser múltipla entre componentes):</div>
+      <div class="pop-title">${t('dep_t')} — seq.${a.seq} [${a.comp}]<button class="btn sm" onclick="closeDepPop()"><i class="ti ti-x"></i></button></div>
+      <div style="font-size:11px;color:var(--tx3);margin-bottom:8px;">${t('dep_h')}</div>
       ${rows}
       <div style="border-top:1px solid var(--bd);margin-top:12px;padding-top:12px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
-        <label style="font-size:11px;font-weight:700;color:var(--tx3);">TIPO</label>
+        <label style="font-size:11px;font-weight:700;color:var(--tx3);">${t('type_l')}</label>
         <select id="dep-type" class="finput" style="height:28px;font-size:11px;width:120px;">${depTypeOpts}</select>
-        <label style="font-size:11px;font-weight:700;color:var(--tx3);margin-left:8px;">INTERVALO</label>
+        <label style="font-size:11px;font-weight:700;color:var(--tx3);margin-left:8px;">${t('interval')}</label>
         <div class="tw-box"><input class="th" type="number" id="dep-int-h" min="0" max="999" value="${phH(a.depDelay)}" onkeydown="tnext(event,this)"><span class="tsep">:</span><input class="tm" type="number" id="dep-int-m" min="0" max="59" value="${phM(a.depDelay)}"></div>
       </div>
       <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:14px;">
-        <button class="btn sm" onclick="closeDepPop()">Cancelar</button>
-        <button class="btn sm primary" onclick="saveDepPop()"><i class="ti ti-check"></i> Aplicar</button>
+        <button class="btn sm" onclick="closeDepPop()">${t('cancel')}</button>
+        <button class="btn sm primary" onclick="saveDepPop()"><i class="ti ti-check"></i> ${t('apply')}</button>
       </div>
     </div>
   </div>`;
@@ -765,7 +1196,7 @@ function showLog(i){
   const fLbl={desc:'Descrição',wc:'Workcenter',qty:'Quantidade',unit:'Unidade',co:'Changeover',setup:'Acerto',prod:'Produção',prodRate:'Produtividade',dep:'Dependência',depType:'Tipo dep.',depDelay:'Intervalo',comp:'Componente'};
   let html='';
   if(a._snap){
-    html+=`<div style="display:grid;grid-template-columns:100px 1fr 1fr;gap:6px;padding:4px 0 6px;border-bottom:1px solid var(--bd);margin-bottom:6px;font-size:10px;font-weight:700;color:var(--tx3);"><span>CAMPO</span><span style="color:var(--txd);">ANTES</span><span style="color:var(--txs);">DEPOIS</span></div>`;
+    html+=`<div style="display:grid;grid-template-columns:100px 1fr 1fr;gap:6px;padding:4px 0 6px;border-bottom:1px solid var(--bd);margin-bottom:6px;font-size:10px;font-weight:700;color:var(--tx3);"><span>${t('log_f')}</span><span style="color:var(--txd);">${t('log_b')}</span><span style="color:var(--txs);">${t('log_a')}</span></div>`;
     ['desc','wc','qty','unit','co','setup','prod','prodRate','dep','depType','depDelay','comp'].forEach(f=>{
       const ov=a._snap[f],nv=a[f];if(String(ov)===String(nv))return;
       const olvL=f==='wc'?wcById(ov).n:(ov===null||ov===undefined?'—':String(ov));
@@ -777,11 +1208,95 @@ function showLog(i){
     html+=`<div style="margin-top:14px;font-size:10px;font-weight:700;color:var(--tx3);padding-bottom:6px;border-bottom:1px solid var(--bd);">HISTÓRICO</div>`;
     html+=log.slice().reverse().map(l=>`<div style="padding:5px 0;border-bottom:1px solid var(--bd);display:grid;grid-template-columns:100px 1fr 1fr;gap:6px;font-size:11px;"><span style="font-weight:700;color:var(--tx3);">${fLbl[l.field]||l.field}</span><span class="log-orig">${l.oldVal===null?'—':l.oldVal}</span><span class="log-curr">${l.newVal===null?'—':l.newVal}</span></div><div style="font-size:10px;color:var(--tx3);padding:2px 0 5px;">${l.ts} · ${l.user}</div>`).join('');
   }
-  if(!html){html='<p style="color:var(--tx3);font-size:12px;">Sem alterações registradas.</p>';}
+  if(!html){html=`<p style="color:var(--tx3);font-size:12px;">${t('no_chg')}</p>`;}
   openPop(`Log — Seq.${a.seq}: ${a.desc.substring(0,30)}`,html);
 }
 function openPop(title,body){document.getElementById('pop-root').innerHTML=`<div class="pop-ov" id="main-pop" onclick="closePop(event)"><div class="pop-box" onclick="event.stopPropagation()"><div class="pop-title">${title}<button class="btn sm" onclick="closePop()"><i class="ti ti-x"></i></button></div>${body}</div></div>`;}
 function closePop(e){if(!e||e.target===document.getElementById('main-pop'))document.getElementById('pop-root').innerHTML='';}
+
+// ══════════════════════════════════════════════════════════
+// OBSERVAÇÕES PARA APONTAMENTO
+// ══════════════════════════════════════════════════════════
+function updateObsCount(){
+  const el=document.getElementById('obs-count');
+  if(el&&curOP)el.textContent=(curOP.observacoes||[]).length;
+}
+function opWcs(){
+  // Workcenters usados pelas atividades da OP atual (únicos, ordem de uso)
+  const seen=new Set();const out=[];
+  acts.filter(a=>!a._del).forEach(a=>{if(!seen.has(a.wc)){seen.add(a.wc);out.push(a.wc);}});
+  return out;
+}
+function openObsPop(focusWc){
+  if(!curOP)return;
+  if(!curOP.observacoes)curOP.observacoes=[];
+  const obsList=curOP.observacoes;
+  const wcs=opWcs();
+  const listHtml=obsList.length===0
+    ?`<div style="text-align:center;color:var(--tx3);font-size:12px;padding:16px 0;">${t('obs_none')}</div>`
+    :[...obsList].reverse().map(o=>`
+      <div style="border:1px solid ${focusWc&&o.wcs.includes(focusWc)?'var(--txw)':'var(--bd)'};border-radius:var(--r);padding:10px 12px;margin-bottom:8px;background:var(--bg);">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+          <i class="ti ti-message-2" style="color:var(--txw);font-size:14px;"></i>
+          <strong style="font-size:12px;flex:1;">${o.title}</strong>
+          <span style="font-size:10px;color:var(--tx3);">${o.ts} · ${t('obs_by')} ${o.user}</span>
+          <button class="btn sm danger" onclick="delObs(${o.id})" title="${t('obs_del')}"><i class="ti ti-trash" style="font-size:11px;"></i></button>
+        </div>
+        <div style="font-size:11.5px;color:var(--tx2);white-space:pre-wrap;line-height:1.5;margin-bottom:6px;">${o.text}</div>
+        <div style="display:flex;gap:4px;flex-wrap:wrap;">
+          ${o.wcs.map(w=>`<span style="font-size:10px;background:var(--bgi);color:var(--txi);border-radius:100px;padding:2px 8px;font-weight:600;">${wcById(w).ic||''} ${wcById(w).n}</span>`).join('')}
+        </div>
+      </div>`).join('');
+  const wcChecks=wcs.map(w=>`
+    <label style="display:inline-flex;align-items:center;gap:5px;font-size:11px;border:1px solid var(--bd);border-radius:var(--r);padding:5px 10px;cursor:pointer;background:var(--bg);">
+      <input type="checkbox" class="obs-wc-chk" value="${w}" ${focusWc===w?'checked':''} style="accent-color:var(--txi);width:13px;height:13px;cursor:pointer;">
+      ${wcById(w).ic||''} ${wcById(w).n}
+    </label>`).join('');
+  openPop(`<i class="ti ti-message-2" style="margin-right:6px;color:var(--txw);"></i>${t('obs_t')} — ${curOP.id}`,`
+    <div style="padding-bottom:12px;">
+      <div style="font-size:11px;font-weight:700;color:var(--tx2);text-transform:uppercase;letter-spacing:.4px;margin-bottom:8px;">${t('obs_new')}</div>
+      <div style="margin-bottom:8px;">
+        <label style="font-size:10px;font-weight:600;color:var(--tx3);display:block;margin-bottom:3px;">${t('obs_title')}</label>
+        <input type="text" id="obs-title" class="finput" style="width:100%;" maxlength="80">
+      </div>
+      <div style="margin-bottom:8px;">
+        <label style="font-size:10px;font-weight:600;color:var(--tx3);display:block;margin-bottom:3px;">${t('obs_text')}</label>
+        <textarea id="obs-text" rows="4" style="width:100%;border:1px solid var(--bd);border-radius:var(--r);padding:8px;font-size:12px;font-family:inherit;background:var(--bg);color:var(--tx);resize:vertical;min-height:72px;"></textarea>
+      </div>
+      <div style="margin-bottom:10px;">
+        <label style="font-size:10px;font-weight:600;color:var(--tx3);display:block;margin-bottom:5px;">${t('obs_wcs')}</label>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;">${wcChecks}</div>
+      </div>
+      <div id="obs-err" style="display:none;color:var(--txd);font-size:11px;margin-bottom:8px;"><i class="ti ti-alert-circle"></i> ${t('obs_req')}</div>
+      <div style="display:flex;justify-content:flex-end;gap:8px;">
+        <button class="btn sm" onclick="closePop()">${t('cancel')}</button>
+        <button class="btn sm warning" onclick="saveObs()"><i class="ti ti-device-floppy"></i> ${t('obs_save')}</button>
+      </div>
+    </div>
+    <div style="border-top:2px solid var(--bd);padding-top:10px;" id="obs-list">${listHtml}</div>`);
+}
+function saveObs(){
+  const title=document.getElementById('obs-title').value.trim();
+  const text=document.getElementById('obs-text').value.trim();
+  const wcsSel=[...document.querySelectorAll('.obs-wc-chk:checked')].map(x=>x.value);
+  if(!title||!text||wcsSel.length===0){
+    document.getElementById('obs-err').style.display='block';return;
+  }
+  curOP.observacoes.push({
+    id:Date.now(),title,text,wcs:wcsSel,
+    user:'Programador',
+    ts:new Date().toLocaleString(lang==='pt'?'pt-BR':'en-GB',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'})
+  });
+  updateObsCount();
+  if(ganttDone)simGantt(); // atualizar ícones de observação no Gantt
+  openObsPop(); // re-render popup com a nova observação
+}
+function delObs(id){
+  curOP.observacoes=curOP.observacoes.filter(o=>o.id!==id);
+  updateObsCount();
+  if(ganttDone)simGantt();
+  openObsPop();
+}
 
 // ══════════════════════════════════════════════════════════
 // SCHEDULE ENGINE
@@ -852,14 +1367,14 @@ function simGantt(){
   const onTime=simEnd<=delivDate;const diff=Math.round((simEnd-delivDate)/864e5);
   const db=document.getElementById('delivery-bar');db.style.display='flex';
   db.style.cssText=`display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:var(--r);font-size:12px;margin-bottom:8px;border:1px solid;background:${onTime?'var(--bgs)':'var(--bgd)'};border-color:${onTime?'var(--bds)':'var(--bdd)'};color:${onTime?'var(--txs)':'var(--txd)'};`;
-  db.innerHTML=onTime?`<i class="ti ti-circle-check"></i><strong>Previsão: ${fmtHTime(maxEnd)}</strong> — dentro do prazo (${Math.abs(diff)} dias de folga)`:
-    `<i class="ti ti-alert-triangle"></i><strong>Previsão: ${fmtHTime(maxEnd)}</strong> — <strong>ATRASO DE ${Math.abs(diff)} DIAS</strong> (entrega: ${fmtDate(curOP.entrega)})`;
+  db.innerHTML=onTime?`<i class="ti ti-circle-check"></i><strong>${t('forecast')}: ${fmtHTime(maxEnd)}</strong> — ${t('on_time')} (${Math.abs(diff)} ${t('slack')})`:
+    `<i class="ti ti-alert-triangle"></i><strong>${t('forecast')}: ${fmtHTime(maxEnd)}</strong> — <strong>${t('delay')} ${Math.abs(diff)} ${t('days_w')}</strong> (${t('due')}: ${fmtDate(curOP.entrega)})`;
 
   // Conflict
   let conflict=false;
   active.forEach(a=>{if(!a.dep||!a.dep.length||freeMode)return;a.dep.forEach(d=>{const depA=active.find(x=>x.seq===d);if(!depA)return;const depEnd=(sched[d]||0)+ph(depA.co)+ph(depA.setup)+ph(depA.prod);if(a.depType!=='simultâneo'&&(sched[a.seq]||0)<depEnd)conflict=true;});});
   document.getElementById('conflict-banner').style.display=conflict?'flex':'none';
-  document.getElementById('conflict-msg').textContent='Conflito de dependência detectado.';
+  document.getElementById('conflict-msg').textContent=t('conflict');
   document.getElementById('btn-fix').style.display=conflict?'inline-flex':'none';
 
   // Build HTML
@@ -881,7 +1396,7 @@ function simGantt(){
     const wcActs=active.filter(a=>a.wc===wcId);
     const bgActs=BG[wcId]||[];
     html+=`<div class="gantt-row" style="height:${rowH}px;" id="grow-${wcId}">
-      <div class="gantt-wc-col" style="height:${rowH}px;"><span style="font-size:17px;">${wcO.ic}</span><span>${wcO.n}</span></div>
+      <div class="gantt-wc-col" style="height:${rowH}px;"><span style="font-size:17px;">${wcO.ic}</span><span>${wcO.n}</span>${(curOP.observacoes||[]).some(o=>o.wcs.includes(wcId))?`<i class="ti ti-message-2" style="color:var(--txw);font-size:13px;cursor:pointer;margin-left:auto;" title="${t('obs_wc_hint')}" onclick="openObsPop('${wcId}')"></i>`:''}</div>
       <div class="gantt-canvas" id="gcanvas-${wcId}" style="position:relative;flex:1;height:${rowH}px;width:${totalPx}px;">
         <div id="dropline-${wcId}" style="position:absolute;top:0;width:2px;height:${rowH}px;background:var(--txi);display:none;z-index:50;pointer-events:none;"></div>`;
     bgActs.forEach(b=>{const lx=Math.round(b.s*PX);const bw=Math.max(Math.round(b.d*PX),20);
@@ -891,10 +1406,13 @@ function simGantt(){
       const coPx=Math.round(ph(a.co)*PX);const suPx=Math.round(ph(a.setup)*PX);const prPx=Math.max(Math.round(ph(a.prod)*PX),20);
       const totalPxA=coPx+suPx+prPx;const lx=Math.round(s*PX);
       const isConfl=!freeMode&&(a.dep||[]).some(d=>{const depA=active.find(x=>x.seq===d);if(!depA)return false;return a.depType!=='simultâneo'&&(sched[a.seq]||0)<(sched[d]||0)+ph(depA.co)+ph(depA.setup)+ph(depA.prod);});
+      const gShadow=a._moveGroup?`box-shadow:0 0 0 2.5px ${groupColor(a._moveGroup)};`:'';
+      const gTip=a._moveGroup?`&#10;Grupo de movimento: ${a._moveGroup} (arraste — movem juntos)`:'';
+      const mTip=a._merged?`&#10;Produção agrupada — ${a._mergedFrom?.length||0} atividades`:'';
       html+=`<div class="gb${isConfl?' conflict-gb':''}" id="gb-${a.seq}"
         data-seq="${a.seq}" data-wcid="${wcId}"
-        style="left:${lx}px;width:${totalPxA}px;height:${rowH-12}px;top:6px;background:${wcO.bg};border-color:${wcO.col};color:${wcO.col};"
-        title="Seq.${a.seq} [${a.comp}] — ${a.desc}&#10;Início: ${fmtHTime(s)} | Fim: ${fmtHTime(s+ph(a.co)+ph(a.setup)+ph(a.prod))}&#10;CO: ${a.co} | Acerto: ${a.setup} | Prod: ${a.prod}">`;
+        style="left:${lx}px;width:${totalPxA}px;height:${rowH-12}px;top:6px;background:${wcO.bg};border-color:${wcO.col};color:${wcO.col};${gShadow}"
+        title="Seq.${a.seq} [${a.comp}] — ${a.desc}&#10;${t('start')}: ${fmtHTime(s)} | ${t('end')}: ${fmtHTime(s+ph(a.co)+ph(a.setup)+ph(a.prod))}&#10;CO: ${a.co} | Acerto: ${a.setup} | Prod: ${a.prod}${gTip}${mTip}">`;
       if(coPx>2)html+=`<div class="gb-co" style="width:${coPx}px;height:${rowH-18}px;" title="CO"></div>`;
       if(suPx>2)html+=`<div class="gb-su" style="width:${suPx}px;height:${rowH-18}px;" title="Acerto"></div>`;
       html+=`<span style="overflow:hidden;white-space:nowrap;min-width:0;"><strong>${a.seq}</strong> ${a.desc.split('—')[0].trim().substring(0,20)}</span></div>`;
@@ -933,6 +1451,13 @@ function gbMouseDown(e){
   const rect=el.getBoundingClientRect();
   gbDrag={active:true,seq,wcId,el,startX:e.clientX,origLeft:parseInt(el.style.left)||0,offX:e.clientX-rect.left};
   el.classList.add('dragging-gb');
+  // Highlight all members of the same movement group
+  const a=acts.find(x=>x.seq===seq);
+  if(a&&a._moveGroup){
+    acts.filter(o=>!o._del&&o._moveGroup===a._moveGroup&&o.seq!==seq).forEach(o=>{
+      document.getElementById('gb-'+o.seq)?.classList.add('hi-gb');
+    });
+  }
   e.preventDefault();
 }
 
@@ -960,12 +1485,30 @@ function gbMouseUp(e){
     const snapped=Math.max(0,Math.round(rawX/(_PX2*0.5))*_PX2*0.5);
     const newStart=snapped/_PX2;
     const a=acts.find(x=>x.seq===gbDrag.seq);
-    if(a){snapIt(acts.indexOf(a));a._manualStart=newStart;a._edited=true;ganttDone=false;}
+    if(a){
+      const oldStart=ganttScheduled[a.seq]||0;
+      const delta=newStart-oldStart;
+      if(a._moveGroup){
+        // Move ALL group members by the same delta
+        acts.filter(o=>!o._del&&o._moveGroup===a._moveGroup).forEach(o=>{
+          snapIt(acts.indexOf(o));
+          const oStart=o.seq===a.seq?newStart:Math.max(0,(ganttScheduled[o.seq]||0)+delta);
+          o._manualStart=oStart;
+          o._edited=true;
+        });
+      }else{
+        snapIt(acts.indexOf(a));
+        a._manualStart=newStart;
+        a._edited=true;
+      }
+      ganttDone=false;
+    }
   }
   gbDrag.el?.classList.remove('dragging-gb');
   const dl=document.getElementById('dropline-'+gbDrag.wcId);
   if(dl)dl.style.display='none';
   gbDrag={active:false,seq:null,wcId:null,el:null,startX:0,origLeft:0,offX:0};
+  renderActs(); // atualiza badges "editado" de TODOS os membros do grupo
   simGantt();
 }
 
@@ -1024,7 +1567,7 @@ function updateZoomLabel(){
   el.textContent=pct+'%';
 }
 function fixConflicts(){document.getElementById('conflict-banner').style.display='none';document.getElementById('btn-fix').style.display='none';freeMode=false;simGantt();}
-function toggleFree(){freeMode=!freeMode;document.getElementById('free-banner').style.display=freeMode?'flex':'none';document.getElementById('btn-free').innerHTML=freeMode?'<i class="ti ti-lock"></i> Ativar regras':'<i class="ti ti-lock-open"></i> Ignorar regras';if(ganttDone)simGantt();}
+function toggleFree(){freeMode=!freeMode;document.getElementById('free-banner').style.display=freeMode?'flex':'none';document.getElementById('btn-free').innerHTML=freeMode?'<i class="ti ti-lock"></i> '+t('ena'):'<i class="ti ti-lock-open"></i> '+t('ign');if(ganttDone)simGantt();}
 
 // ══════════════════════════════════════════════════════════
 // FLOW — parallel component lanes (SVG)
@@ -1191,7 +1734,7 @@ function renderFlow(active,sched,usedIds){
     const cx=nodeX(a.seq), cy=laneYs(lane[a.seq]);
     const cc=compColor(a.comp);
 
-    nodes+=`<g transform="translate(${cx},${cy})" onclick="alert('Seq.${a.seq} — ${a.comp}\n${a.wc}\nInício: ${fmtHTime(s)}\nFim: ${fmtHTime(end)}\nProdutiv: ${a.prodRate||'—'} ${a.unit}/h')" style="cursor:pointer;">
+    nodes+=`<g transform="translate(${cx},${cy})" onclick="alert('Seq.${a.seq} — ${a.comp}\n${a.wc}\n${t('start')}: ${fmtHTime(s)}\n${t('end')}: ${fmtHTime(end)}\n${t('rate_t')}: ${a.prodRate||'—'} ${a.unit}/h')" style="cursor:pointer;">
       <rect width="${nodeW}" height="${nodeH}" rx="10" fill="${wcO.bg}" stroke="${wcO.col}" stroke-width="1.5"/>
       <rect x="0" y="0" width="${nodeW}" height="20" rx="10" fill="${wcO.col}" opacity=".18"/>
       <text x="${nodeW/2}" y="14" text-anchor="middle" font-size="9" font-weight="700" fill="${wcO.col}">${wcO.n.substring(0,17)}</text>
@@ -1238,7 +1781,7 @@ function renderFlow(active,sched,usedIds){
     <marker id="arr2" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#534ab7"/></marker>
   </defs>`;
 
-  document.getElementById('flow-area').innerHTML=`<div class="flow-outer" style="background:white;"><svg width="${svgW}" height="${svgH}" xmlns="http://www.w3.org/2000/svg" style="display:block;background:white;color-scheme:light;"><rect width="${svgW}" height="${svgH}" fill="white"/>${defs}${laneLabels}${edges}${nodes}</svg></div>`;
+  document.getElementById('flow-area').innerHTML=`<div class="flow-outer"><svg width="${svgW}" height="${svgH}" xmlns="http://www.w3.org/2000/svg" style="display:block;"><rect width="${svgW}" height="${svgH}" fill="${isDark()?'#1c1c21':'#ffffff'}"/>${defs}${laneLabels}${edges}${nodes}</svg></div>`;
 }
 
 function compColor(c){
@@ -1247,7 +1790,7 @@ function compColor(c){
   const partial=keys.find(k=>c&&c.includes(k));
   return partial?COMP_COLORS[partial]:'#666';
 }
-function toggleFlowDates(){showFlowDates=!showFlowDates;document.getElementById('btn-fdates').innerHTML=showFlowDates?'<i class="ti ti-eye"></i> Datas':'<i class="ti ti-eye-off"></i> Datas';if(ganttDone){const active=acts.filter(a=>!a._del);renderFlow(active,ganttScheduled,ganttUsedWcs);}}
+function toggleFlowDates(){showFlowDates=!showFlowDates;document.getElementById('btn-fdates').innerHTML=(showFlowDates?'<i class="ti ti-eye"></i> ':'<i class="ti ti-eye-off"></i> ')+t('dates');if(ganttDone){const active=acts.filter(a=>!a._del);renderFlow(active,ganttScheduled,ganttUsedWcs);}}
 
 // ══════════════════════════════════════════════════════════
 // UI UTILS
@@ -1274,6 +1817,12 @@ function showScreen(name){document.querySelectorAll('.screen').forEach(s=>s.clas
 function toggleSec(bodyId,chevId){const b=document.getElementById(bodyId),c=document.getElementById(chevId);const open=b.style.maxHeight!=='0px'&&b.style.maxHeight!=='';b.style.maxHeight=open?'0px':'400px';c.style.transform=open?'rotate(-90deg)':'rotate(0deg)';}
 
 init();
+// Restaurar preferências de tema e idioma
+try{
+  if(localStorage.getItem('ns-theme')==='dark'){darkMode=true;document.documentElement.dataset.theme='dark';document.getElementById('btn-theme').innerHTML='<i class="ti ti-sun"></i>';}
+  const _sl=localStorage.getItem('ns-lang');
+  if(_sl&&_sl!=='pt'){lang=_sl;DAYS=lang==='pt'?DAYS_PT:DAYS_EN;document.getElementById('btn-lang').textContent=lang==='pt'?'EN':'PT';applyLang();}
+}catch(e){}
 </script>
 </body>
 </html>
