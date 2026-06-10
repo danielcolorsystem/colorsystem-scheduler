@@ -173,6 +173,9 @@ code{font-family:'DM Mono',monospace;font-size:13px;background:var(--blue-light)
     <a class="nav-item" onclick="showSection('s4')"><i class="ti ti-table"></i>Tabela de atividades</a>
     <a class="nav-item" onclick="showSection('s5')"><i class="ti ti-calendar-stats"></i>Gantt</a>
     <a class="nav-item" onclick="showSection('s6')"><i class="ti ti-arrows-right"></i>Fluxo de produção</a>
+    <a class="nav-item" onclick="showSection('s6b')"><i class="ti ti-stack-2"></i>Agrupamentos</a>
+    <a class="nav-item" onclick="showSection('s6c')"><i class="ti ti-message-2"></i>Observações</a>
+    <a class="nav-item" onclick="showSection('s6d')"><i class="ti ti-moon"></i>Tema e idioma</a>
     <div class="nav-section">Referência</div>
     <a class="nav-item" onclick="showSection('s7')"><i class="ti ti-tool"></i>Workcenters</a>
     <a class="nav-item" onclick="showSection('s8')"><i class="ti ti-help-circle"></i>Questões em aberto</a>
@@ -203,7 +206,7 @@ code{font-family:'DM Mono',monospace;font-size:13px;background:var(--blue-light)
         <p>Este documento descreve um <strong>protótipo de interface</strong> desenvolvido para demonstrar o conceito e fluxo da tela de Programação de OP. Os dados são fictícios e as funcionalidades são simuladas — não há conexão com ERP ou banco de dados real.</p>
       </div>
       <p style="color:var(--text3);font-size:13px;margin-bottom:8px;">Acesse a tela diretamente em:</p>
-      <div class="cover-url">newscheduler.app/programacao-op/ <span style="font-size:11px;color:#888;">(via GitHub Pages)</span></div>
+      <div class="cover-url">danielcolorsystem.github.io/NewScheduler/programacao-op/ <span style="font-size:11px;color:#888;">(via GitHub Pages)</span></div>
     </div>
   </div>
 
@@ -425,9 +428,62 @@ code{font-family:'DM Mono',monospace;font-size:13px;background:var(--blue-light)
     </div>
   </div>
 
+  <!-- S6B AGRUPAMENTOS -->
+  <div id="s6b" class="section">
+    <h1><span class="sec-num">07</span>Agrupamentos</h1>
+    <p class="subtitle">Ferramentas para trabalhar com OPs de muitas atividades</p>
+    <p>OPs complexas geram dezenas de atividades — um livro offset de 320 páginas tem 16 impressões (frente e verso de 8 cadernos) e 8 dobras. Trabalhar atividade por atividade é inviável, então a tela oferece duas formas de agrupamento, acionadas pela seleção via checkbox de cada linha.</p>
+
+    <div class="callout info"><i class="ti ti-info-circle"></i><p>A barra de ações fica <strong>fixa no topo</strong> ao rolar a lista. O campo de filtro reduz a lista (busca em descrição, workcenter, componente e sequência) e o <strong>checkbox mestre</strong> no cabeçalho seleciona todas as atividades visíveis. Fluxo típico: filtrar "frente" → marcar o checkbox mestre → agrupar. Três cliques, sem rolagem.</p></div>
+
+    <h2>Agrupar blocos — movimento conjunto</h2>
+    <p>Vincula as atividades selecionadas a um grupo de movimento, sem alterar seus dados. As linhas do grupo ganham fundo tingido e barra colorida à esquerda; no Gantt, os blocos recebem contorno na cor do grupo.</p>
+    <ul style="list-style:none;display:flex;flex-direction:column;gap:8px;margin-bottom:16px;">
+      <li style="display:flex;gap:10px;"><i class="ti ti-check" style="color:var(--green);margin-top:3px;flex-shrink:0;"></i><span><strong>No Gantt:</strong> arrastar qualquer bloco do grupo move todos pelo mesmo deslocamento</span></li>
+      <li style="display:flex;gap:10px;"><i class="ti ti-check" style="color:var(--green);margin-top:3px;flex-shrink:0;"></i><span><strong>Na lista:</strong> arrastar uma linha do grupo move o grupo inteiro como bloco contíguo</span></li>
+      <li style="display:flex;gap:10px;"><i class="ti ti-check" style="color:var(--green);margin-top:3px;flex-shrink:0;"></i><span><strong>Reversível:</strong> selecionando itens de um grupo, o botão vira "Desagrupar blocos"</span></li>
+    </ul>
+    <div class="callout warn"><i class="ti ti-alert-triangle"></i><p><strong>Reordenar não redefine dependências.</strong> Ao mover um grupo na lista, as dependências lógicas são preservadas — seguem as atividades, não os números de sequência. Alterar uma dependência é decisão explícita do programador, pelo popup de dependências.</p></div>
+
+    <h2>Agrupar produção — fusão para apontamento</h2>
+    <p>Substitui as atividades selecionadas por um único bloco que <strong>soma</strong> changeover, acerto, produção e quantidade, recalculando a produtividade. O caso de uso é o apontamento: muitas atividades pequenas no mesmo workcenter (8 dobras de cadernos, por exemplo) viram um único apontamento para o operador.</p>
+    <ul style="list-style:none;display:flex;flex-direction:column;gap:8px;margin-bottom:16px;">
+      <li style="display:flex;gap:10px;"><i class="ti ti-check" style="color:var(--green);margin-top:3px;flex-shrink:0;"></i><span>O bloco agrupado recebe o badge <strong>agrupada (N)</strong> e herda as dependências externas do conjunto</span></li>
+      <li style="display:flex;gap:10px;"><i class="ti ti-check" style="color:var(--green);margin-top:3px;flex-shrink:0;"></i><span>Atividades posteriores que dependiam dos membros passam a depender do bloco agrupado</span></li>
+      <li style="display:flex;gap:10px;"><i class="ti ti-check" style="color:var(--green);margin-top:3px;flex-shrink:0;"></i><span><strong>Desagrupar</strong> restaura as atividades originais com todas as dependências intactas</span></li>
+    </ul>
+  </div>
+
+  <!-- S6C OBSERVAÇÕES -->
+  <div id="s6c" class="section">
+    <h1><span class="sec-num">08</span>Observações para apontamento</h1>
+    <p class="subtitle">Comunicação entre programação e chão de fábrica</p>
+    <p>As atividades programadas serão disponibilizadas em terminais de apontamento na produção. As observações são o canal de comunicação do programador com os operadores — instruções que precisam chegar ao terminal certo.</p>
+    <p>O botão <strong>Observações</strong> no cabeçalho da OP (com contador) abre o painel de registro. Cada observação contém:</p>
+    <div class="field-grid">
+      <div class="field-card"><div class="field-name">Título</div><div class="field-desc">Resumo curto da instrução</div></div>
+      <div class="field-card"><div class="field-name">Texto</div><div class="field-desc">Detalhamento — campo com múltiplas linhas</div></div>
+      <div class="field-card"><div class="field-name">Workcenters</div><div class="field-desc">Um ou mais terminais que verão a observação</div></div>
+      <div class="field-card"><div class="field-name">Registro</div><div class="field-desc">Data, hora e usuário gravados automaticamente</div></div>
+    </div>
+    <div class="callout info"><i class="ti ti-info-circle"></i><p><strong>Exemplo real:</strong> "Caderno com costura" é uma informação relevante tanto para a dobradeira quanto para a lombada PUR — uma única observação associada aos dois workcenters aparece nos dois terminais.</p></div>
+    <p>No Gantt, workcenters com observações exibem um <strong>ícone de mensagem</strong> ao lado do nome — prévia de como o operador será notificado no terminal. Clicar no ícone abre o painel destacando as observações daquele workcenter.</p>
+  </div>
+
+  <!-- S6D TEMA E IDIOMA -->
+  <div id="s6d" class="section">
+    <h1><span class="sec-num">09</span>Tema e idioma</h1>
+    <p class="subtitle">Preferências de interface</p>
+    <h2>Tema claro / escuro</h2>
+    <p>O botão de lua/sol na barra superior alterna entre os temas. O tema escuro foi pensado para os monitores da produção — fundo escuro cansa menos a visão em uso prolongado e dá mais contraste aos detalhes do Gantt e do fluxo.</p>
+    <h2>Português / English</h2>
+    <p>O botão EN/PT na barra superior traduz toda a interface — menus, tabelas, botões, alertas e indicadores. Os dados das OPs (descrições, clientes) permanecem no idioma de origem, pois numa instalação real vêm do ERP do cliente.</p>
+    <div class="callout success"><i class="ti ti-circle-check"></i><p>As duas preferências ficam salvas no navegador e são restauradas automaticamente na próxima visita.</p></div>
+  </div>
+
   <!-- S7 WORKCENTERS -->
   <div id="s7" class="section">
-    <h1><span class="sec-num">07</span>Workcenters</h1>
+    <h1><span class="sec-num">10</span>Workcenters</h1>
     <p class="subtitle">Equipamentos e equipes modelados no protótipo</p>
     <div class="wc-grid">
       <div class="wc-card"><div class="wc-icon">🖨️</div><div class="wc-info"><div class="wc-name">Ricoh 9200 / 7200</div><div class="wc-desc">Digital toner — capas de livros (até 1.000 ex)</div></div></div>
@@ -455,7 +511,7 @@ code{font-family:'DM Mono',monospace;font-size:13px;background:var(--blue-light)
 
   <!-- S8 QUESTÕES -->
   <div id="s8" class="section">
-    <h1><span class="sec-num">08</span>Questões em aberto</h1>
+    <h1><span class="sec-num">11</span>Questões em aberto</h1>
     <p class="subtitle">Decisões de arquitetura a discutir com o time técnico</p>
 
     <h2>1. Ambientes de simulação (multi-usuário)</h2>
@@ -477,7 +533,7 @@ code{font-family:'DM Mono',monospace;font-size:13px;background:var(--blue-light)
 
   <!-- S9 PRÓXIMOS PASSOS -->
   <div id="s9" class="section">
-    <h1><span class="sec-num">09</span>Próximos passos</h1>
+    <h1><span class="sec-num">12</span>Próximos passos</h1>
     <p class="subtitle">Roadmap de módulos a desenvolver</p>
     <div class="roadmap">
       <div class="roadmap-item">
@@ -510,11 +566,11 @@ code{font-family:'DM Mono',monospace;font-size:13px;background:var(--blue-light)
     <div style="display:flex;flex-direction:column;gap:10px;margin-top:8px;">
       <div style="background:var(--bg);border:1px solid var(--gray-mid);border-radius:var(--r);padding:14px 16px;">
         <div style="font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px;">Página inicial do projeto</div>
-        <a href="https://danielcolorsystem.github.io/colorsystem-scheduler/" target="_blank" class="url">→ Página inicialb.io/</a>
+        <a href="https://danielcolorsystem.github.io/NewScheduler/" target="_blank" class="url">→ Página inicialb.io/</a>
       </div>
       <div style="background:var(--bg);border:1px solid var(--gray-mid);border-radius:var(--r);padding:14px 16px;">
         <div style="font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px;">Tela de Programação de OP</div>
-        <a href="https://newscheduler.app/programacao-op/" target="_blank" class="url">newscheduler.app/programacao-op/ <span style="font-size:11px;color:#888;">(via GitHub Pages)</span></a>
+        <a href="https://danielcolorsystem.github.io/NewScheduler/programacao-op/" target="_blank" class="url">danielcolorsystem.github.io/NewScheduler/programacao-op/ <span style="font-size:11px;color:#888;">(via GitHub Pages)</span></a>
       </div>
     </div>
   </div>
